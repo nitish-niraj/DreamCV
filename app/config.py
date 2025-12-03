@@ -1,5 +1,6 @@
 """
 Configuration settings for DREAM CV Generator
+Production-ready configuration for Render deployment
 """
 import os
 from dotenv import load_dotenv
@@ -11,12 +12,16 @@ load_dotenv()
 class Config:
     """Base configuration class"""
     
-    # Flask settings
-    SECRET_KEY = os.getenv('SECRET_KEY', 'dream-cv-secret-key-2024')
+    # Flask settings - SECRET_KEY is required in production
+    SECRET_KEY = os.getenv('SECRET_KEY')
+    if not SECRET_KEY:
+        if os.getenv('FLASK_ENV') == 'production':
+            raise ValueError("SECRET_KEY environment variable must be set in production!")
+        SECRET_KEY = 'dev-secret-key-change-in-production'
     
     # File upload settings
-    UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'uploads')
-    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file size
+    UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', os.path.join(os.path.dirname(os.path.dirname(__file__)), 'uploads'))
+    MAX_CONTENT_LENGTH = int(os.getenv('MAX_CONTENT_LENGTH', 16 * 1024 * 1024))  # 16MB max
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
     RESUME_EXTENSIONS = {'pdf', 'doc', 'docx', 'txt'}
     
