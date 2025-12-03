@@ -1,0 +1,213 @@
+/**
+ * DREAM CV Generator - Responsive Styles
+ * Media queries for mobile and tablet devices
+ */
+
+/* ===== TABLET STYLES (max-width: 992px) ===== */
+@media (max-width: 992px) {
+    .hero-section {
+        padding: 30px 0;
+    }
+    
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+    
+    .preview-panel {
+        position: relative;
+        top: 0;
+        margin-top: 30px;
+    }
+    
+    .form-section {
+        padding: 20px;
+    }
+    
+    .section-header {
+        font-size: 1.1rem;
+    }
+}
+
+/* ===== MOBILE STYLES (max-width: 768px) ===== */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 20px 0;
+    }
+    
+    .hero-section h1 {
+        font-size: 1.5rem;
+    }
+    
+    .hero-section p {
+        font-size: 0.9rem;
+    }
+    
+    .form-container {
+        padding: 15px;
+    }
+    
+    .form-section {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .section-header {
+        font-size: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .resume-drop-zone {
+        padding: 25px;
+    }
+    
+    .resume-drop-zone i {
+        font-size: 2rem;
+    }
+    
+    .btn-dream {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+    
+    .photo-preview-wrapper {
+        width: 120px;
+        height: 150px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .action-buttons .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    /* Modal adjustments */
+    .modal-dialog {
+        margin: 10px;
+    }
+    
+    .modal-content {
+        border-radius: 15px;
+    }
+    
+    /* Suggestions card */
+    .suggestions-card {
+        padding: 15px;
+    }
+    
+    .suggestion-item {
+        padding: 10px;
+    }
+}
+
+/* ===== SMALL MOBILE STYLES (max-width: 576px) ===== */
+@media (max-width: 576px) {
+    .hero-section h1 {
+        font-size: 1.3rem;
+    }
+    
+    .form-section {
+        padding: 12px;
+    }
+    
+    .section-header {
+        font-size: 0.95rem;
+        gap: 5px;
+    }
+    
+    .section-header .badge {
+        display: none;
+    }
+    
+    .form-label {
+        font-size: 0.9rem;
+    }
+    
+    .form-control, .form-select {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .bullet-inputs .input-group-text {
+        padding: 4px 8px;
+        font-size: 0.9rem;
+    }
+    
+    .photo-preview-wrapper {
+        width: 100px;
+        height: 125px;
+    }
+    
+    .photo-overlay {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .preview-cv {
+        font-size: 10px;
+        padding: 15px;
+    }
+    
+    .completeness-meter label {
+        font-size: 0.85rem;
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    .hero-section,
+    .form-container,
+    .action-buttons,
+    .suggestions-card,
+    .completeness-meter,
+    header,
+    footer {
+        display: none !important;
+    }
+    
+    .preview-panel {
+        position: static;
+        box-shadow: none;
+        border: none;
+    }
+    
+    .preview-cv {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+    }
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+    .form-section {
+        border-width: 2px;
+    }
+    
+    .form-control, .form-select {
+        border-width: 2px;
+    }
+    
+    .btn-dream {
+        border: 2px solid var(--dark-color);
+    }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .form-section:hover,
+    .suggestion-item:hover,
+    .btn:hover {
+        transform: none;
+    }
+}

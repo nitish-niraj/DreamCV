@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DREAM CV - {{ data.full_name }}</title>
+    <style>
+    {{ cv_styles | safe }}
+    </style>
+</head>
+<body>
+    <div class="cv-container">
+        
+        <!-- ========== HEADER SECTION ========== -->
+        <table class="header-table" width="100%">
+            <tr>
+                <!-- Left side: Name, Title, Contact -->
+                <td valign="top" class="header-left">
+                    <div class="name">{{ data.full_name }}</div>
+                    {% if data.target_role or data.cohort %}
+                    <div class="professional-title">
+                        Aspiring {{ data.target_role or 'Professional' }}
+                        {% if data.cohort %} | {{ data.cohort }}{% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Contact Details - Clean line format -->
+                    <div class="contact-section">
+                        {% if data.phone %}<div class="contact-item">Phone: {{ data.phone }}</div>{% endif %}
+                        {% if data.email %}<div class="contact-item">Email: {{ data.email }}</div>{% endif %}
+                        {% if data.linkedin %}<div class="contact-item">LinkedIn: {{ data.linkedin }}</div>{% endif %}
+                        {% if data.github %}<div class="contact-item">GitHub: {{ data.github }}</div>{% endif %}
+                        {% if data.portfolio %}<div class="contact-item">Portfolio: {{ data.portfolio }}</div>{% endif %}
+                        {% if data.address %}<div class="contact-item">Address: {{ data.address }}</div>{% endif %}
+                    </div>
+                </td>
+                
+                <!-- Right side: Photo -->
+                {% if data.photo_data %}
+                <td width="3cm" valign="top" class="photo-cell">
+                    <img src="{{ data.photo_data }}" class="profile-photo" alt="Photo">
+                </td>
+                {% endif %}
+            </tr>
+        </table>
+
+        <!-- ========== DREAM COMPANY SECTION (Mandatory) ========== -->
+        {% if data.dream_company or data.target_role or data.cohort %}
+        <div class="section dream-section">
+            <div class="section-header">DREAM COMPANY TARGET</div>
+            <div class="section-content">
+                <table class="dream-table" width="100%">
+                    <tr>
+                        {% if data.dream_company %}
+                        <td width="50%"><span class="dream-label">Dream Company:</span> <span class="dream-value">{{ data.dream_company }}</span></td>
+                        {% endif %}
+                        {% if data.cohort %}
+                        <td width="50%"><span class="dream-label">Target Cohort:</span> <span class="dream-value">{{ data.cohort }}</span></td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        {% if data.target_role %}
+                        <td><span class="dream-label">Target Role:</span> <span class="dream-value">{{ data.target_role }}</span></td>
+                        {% endif %}
+                        {% if data.target_technology %}
+                        <td><span class="dream-label">Target Technology:</span> <span class="dream-value">{{ data.target_technology }}</span></td>
+                        {% endif %}
+                    </tr>
+                    {% if data.expected_package %}
+                    <tr>
+                        <td colspan="2"><span class="dream-label">Expected Package:</span> <span class="dream-value">{{ data.expected_package }}</span></td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ========== CAREER OBJECTIVE ========== -->
+        {% if data.professional_summary or data.dream_company or data.target_role %}
+        <div class="section">
+            <div class="section-header">CAREER OBJECTIVE</div>
+            <div class="section-content">
+                <div class="summary-text">
+                    {% if data.professional_summary %}
+                        {{ data.professional_summary }}
+                    {% else %}
+                        Aspiring {{ data.target_role or 'professional' }}{% if data.cohort %} under the {{ data.cohort }} cohort{% endif %}{% if data.dream_company %}, targeting a role at {{ data.dream_company }}{% endif %}. Motivated to specialize in {{ data.target_technology or 'modern technologies' }} while building scalable applications aligned with industry standards. Eager to contribute technical skills and innovative thinking to achieve organizational goals.
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ========== EDUCATION ========== -->
+        {% if data.qualifications and data.qualifications|length > 0 %}
+        <div class="section">
+            <div class="section-header">EDUCATION</div>
+            <div class="section-content">
+                {% for qual in data.qualifications %}
+                {% if qual.degree %}
+                <div class="education-entry">
+                    <table class="edu-table" width="100%">
+                        <tr>
+                            <td class="edu-degree">{{ qual.degree }}</td>
+                            <td class="edu-duration">[{{ qual.duration or qual.year }}]</td>
+                        </tr>
+                    </table>
+                    <div class="edu-institution">{{ qual.institution }}{% if qual.board %} | Board: {{ qual.board }}{% endif %}{% if qual.score %} | {{ qual.score }}{% endif %}</div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ========== TECHNICAL SKILLS ========== -->
+        {% if data.prog_languages or data.web_tech or data.databases or data.mobile_tech or data.other_tools or data.planned_skills %}
+        <div class="section">
+            <div class="section-header">TECHNICAL SKILLS</div>
+            <div class="section-content">
+                <table class="skills-table" width="100%">
+                    {% if data.prog_languages %}
+                    <tr>
+                        <td class="skill-label-cell" width="35%">{{ data.skill_labels.cat1 if data.skill_labels else 'Programming Languages' }}:</td>
+                        <td class="skill-value-cell">{{ data.prog_languages }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if data.web_tech %}
+                    <tr>
+                        <td class="skill-label-cell">{{ data.skill_labels.cat2 if data.skill_labels else 'Web Technologies' }}:</td>
+                        <td class="skill-value-cell">{{ data.web_tech }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if data.databases %}
+                    <tr>
+                        <td class="skill-label-cell">{{ data.skill_labels.cat3 if data.skill_labels else 'Databases' }}:</td>
+                        <td class="skill-value-cell">{{ data.databases }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if data.mobile_tech %}
+                    <tr>
+                        <td class="skill-label-cell">{{ data.skill_labels.cat4 if data.skill_labels else 'Cloud/Mobile Technologies' }}:</td>
+                        <td class="skill-value-cell">{{ data.mobile_tech }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if data.other_tools %}
+                    <tr>
+                        <td class="skill-label-cell">{{ data.skill_labels.cat5 if data.skill_labels else 'Tools and Platforms' }}:</td>
+                        <td class="skill-value-cell">{{ data.other_tools }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if data.planned_skills %}
+                    <tr>
+                        <td class="skill-label-cell">Planned Skills:</td>
+                        <td class="skill-value-cell planned">{{ data.planned_skills }}</td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ========== WORK EXPERIENCE ========== -->
+        {% if data.experiences and data.experiences|length > 0 %}
+        <div class="section">
+            <div class="section-header">WORK EXPERIENCE</div>
+            <div class="section-content">
+                {% for exp in data.experiences %}
+                {% if exp.company %}
+                <div class="entry experience-entry">
+                    <table class="entry-header-table" width="100%">
+                        <tr>
+                            <td><span class="entry-title">{{ exp.role }}</span> | <span class="entry-company">{{ exp.company }}</span></td>
+                            <td class="entry-duration">[{{ exp.duration }}]</td>
+                        </tr>
+                    </table>
+                    {% if exp.bullets and exp.bullets|length > 0 %}
+                    <div class="bullet-list">
+                        {% for bullet in exp.bullets %}
+                        {% if bullet %}<div class="bullet-item">• {{ bullet }}</div>{% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ========== INTERNSHIPS ========== -->
+        {% if data.internships and data.internships|length > 0 %}
+        <div class="section">
+            <div class="section-header">INTERNSHIPS</div>
+            <div class="section-content">
+                {% for intern in data.internships %}
+                {% if intern.company %}
+                <div class="entry internship-entry">
+                    <table class="entry-header-table" width="100%">
+                        <tr>
+                            <td><span class="entry-title">{{ intern.role or 'Intern' }}</span> | <span class="entry-company">{{ intern.company }}</span>{% if intern.mode %} <span class="entry-mode">({{ intern.mode }})</span>{% endif %}</td>
+                            <td class="entry-duration">[{{ intern.duration }}]</td>
+                        </tr>
+                    </table>
+                    {% if intern.bullets and intern.bullets|length > 0 %}
+                    <div class="bullet-list">
+                        {% for bullet in intern.bullets %}
+                        {% if bullet %}<div class="bullet-item">• {{ bullet }}</div>{% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ========== PROJECTS ========== -->
+        {% if data.projects and data.projects|length > 0 %}
+        <div class="section">
+            <div class="section-header">PROJECTS / APPLICATIONS DEVELOPED</div>
+            <div class="section-content">
+                {% for proj in data.projects %}
+                {% if proj.name %}
+                <div class="entry project-entry">
+                    <table class="entry-header-table" width="100%">
+                        <tr>
+                            <td>
+                                <span class="entry-title">{{ proj.name }}</span>
+                                {% if proj.role %} | <span class="entry-role">{{ proj.role }}</span>{% endif %}
+                            </td>
+                            <td class="entry-duration">{% if proj.duration %}[{{ proj.duration }}]{% endif %}</td>
+                        </tr>
+                    </table>
+                    {% if proj.tech %}
+                    <div class="tech-stack"><strong>Tech Stack:</strong> {{ proj.tech }}</div>
+                    {% endif %}
+                    {% if proj.bullets and proj.bullets|length > 0 %}
+                    <div class="bullet-list">
+                        {% for bullet in proj.bullets %}
+                        {% if bullet %}<div class="bullet-item">• {{ bullet }}</div>{% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% if proj.link %}
+                    <div class="project-link">Link: {{ proj.link }}</div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ========== CERTIFICATIONS ========== -->
+        {% if data.certifications and data.certifications|length > 0 %}
+        <div class="section">
+            <div class="section-header">CERTIFICATIONS AND COURSES</div>
+            <div class="section-content">
+                {% for cert in data.certifications %}
+                {% if cert.title and not cert.is_planned %}
+                <div class="cert-entry">
+                    <span class="cert-title">{{ cert.title }}</span> - <span class="cert-source">{{ cert.source }}</span>
+                    {% if cert.date %} [{{ cert.date }}]{% endif %}
+                    {% if cert.credential_id %} | ID: {{ cert.credential_id }}{% endif %}
+                </div>
+                {% endif %}
+                {% endfor %}
+                
+                <!-- Planned Certifications -->
+                {% if data.planned_certifications %}
+                <div class="planned-section">
+                    <div class="planned-header">Planned Certifications (Dream Company Aligned):</div>
+                    <div class="cert-entry planned">{{ data.planned_certifications }}</div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ========== POSITIONS OF RESPONSIBILITY ========== -->
+        {% if data.responsibilities and data.responsibilities|length > 0 %}
+        <div class="section">
+            <div class="section-header">POSITIONS OF RESPONSIBILITY</div>
+            <div class="section-content">
+                {% for resp in data.responsibilities %}
+                {% if resp.role %}
+                <div class="entry">
+                    <table class="entry-header-table" width="100%">
+                        <tr>
+                            <td><span class="entry-title">{{ resp.role }}</span>{% if resp.organization %} | <span class="entry-company">{{ resp.organization }}</span>{% endif %}</td>
+                            <td class="entry-duration">{% if resp.duration %}[{{ resp.duration }}]{% endif %}</td>
+                        </tr>
+                    </table>
+                    {% if resp.bullets and resp.bullets|length > 0 %}
+                    <div class="bullet-list">
+                        {% for bullet in resp.bullets %}
+                        {% if bullet %}<div class="bullet-item">• {{ bullet }}</div>{% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ========== DIGITAL EXISTENCE ========== -->
+        {% set has_platforms = data.leetcode or data.gfg or data.interviewbit or data.codeforces or data.codechef or data.atcoder or data.hackerrank or data.hackerearth or data.codility or data.codesignal or data.kaggle or data.huggingface or data.github or (data.other_platforms and data.other_platforms|length > 0) %}
+        {% set has_events = data.tech_events and data.tech_events|length > 0 %}
+        {% set has_communities = data.community_associations %}
+        
+        {% if has_platforms or has_events or has_communities %}
+        <div class="section">
+            <div class="section-header">DIGITAL EXISTENCE</div>
+            <div class="section-content">
+                {# Coding Platforms Table #}
+                {% if has_platforms %}
+                <table class="digital-table" width="100%">
+                    {% if data.leetcode %}
+                    <tr>
+                        <td class="digital-label" width="25%">LeetCode:</td>
+                        <td class="digital-value">{{ data.leetcode }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if data.gfg %}
+                    <tr>
+                        <td class="digital-label">GeeksforGeeks:</td>
+                        <td class="digital-value">{{ data.gfg }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if data.interviewbit %}
+                    <tr>
+                        <td class="digital-label">InterviewBit:</td>
+                        <td class="digital-value">{{ data.interviewbit }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if data.codeforces %}
+                    <tr>
+                        <td class="digital-label">Codeforces:</td>
+                        <td class="digital-value">{{ data.codeforces }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if data.codechef %}
+                    <tr>
+                        <td class="digital-label">CodeChef:</td>
+                        <td class="digital-value">{{ data.codechef }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if data.atcoder %}
+                    <tr>
+                        <td class="digital-label">AtCoder:</td>
+                        <td class="digital-value">{{ data.atcoder }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if data.hackerrank %}
+                    <tr>
+                        <td class="digital-label">HackerRank:</td>
+                        <td class="digital-value">{{ data.hackerrank }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if data.hackerearth %}
+                    <tr>
+                        <td class="digital-label">HackerEarth:</td>
+                        <td class="digital-value">{{ data.hackerearth }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if data.codility %}
+                    <tr>
+                        <td class="digital-label">Codility:</td>
+                        <td class="digital-value">{{ data.codility }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if data.codesignal %}
+                    <tr>
+                        <td class="digital-label">CodeSignal:</td>
+                        <td class="digital-value">{{ data.codesignal }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if data.kaggle %}
+                    <tr>
+                        <td class="digital-label">Kaggle:</td>
+                        <td class="digital-value">{{ data.kaggle }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if data.huggingface %}
+                    <tr>
+                        <td class="digital-label">HuggingFace:</td>
+                        <td class="digital-value">{{ data.huggingface }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if data.github %}
+                    <tr>
+                        <td class="digital-label">GitHub:</td>
+                        <td class="digital-value">{{ data.github }}</td>
+                    </tr>
+                    {% endif %}
+                    {# Other Platforms - displayed with their custom names #}
+                    {% if data.other_platforms and data.other_platforms|length > 0 %}
+                    {% for platform in data.other_platforms %}
+                    {% if platform.name and platform.url %}
+                    <tr>
+                        <td class="digital-label">{{ platform.name }}:</td>
+                        <td class="digital-value">{{ platform.url }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </table>
+                {% endif %}
+                
+                {# Technical Events - Bullet Points #}
+                {% if has_events %}
+                <div class="subsection-header" style="margin-top: 8px; font-weight: bold;">Technical Events Participated:</div>
+                <div class="bullet-list">
+                    {% for event in data.tech_events %}
+                    {% if event %}<div class="bullet-item">• {{ event }}</div>{% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                {# Community Associations #}
+                {% if has_communities %}
+                <div class="subsection-header" style="margin-top: 8px; font-weight: bold;">Community Associations:</div>
+                <div class="community-text">{{ data.community_associations }}</div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ========== ACHIEVEMENTS ========== -->
+        {% if data.achievements and data.achievements|length > 0 %}
+        <div class="section">
+            <div class="section-header">ACHIEVEMENTS</div>
+            <div class="section-content">
+                <div class="bullet-list">
+                    {% for achievement in data.achievements %}
+                    {% if achievement %}<div class="bullet-item">• {{ achievement }}</div>{% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ========== EXTRACURRICULAR ACTIVITIES ========== -->
+        {% if data.community_activities and data.community_activities|length > 0 %}
+        <div class="section">
+            <div class="section-header">EXTRACURRICULAR ACTIVITIES</div>
+            <div class="section-content">
+                <div class="bullet-list">
+                    {% for activity in data.community_activities %}
+                    {% if activity %}<div class="bullet-item">• {{ activity }}</div>{% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ========== LANGUAGES ========== -->
+        {% if data.languages and data.languages|length > 0 %}
+        <div class="section">
+            <div class="section-header">LANGUAGE PROFICIENCY</div>
+            <div class="section-content">
+                <table class="language-table" width="100%">
+                    <tr class="lang-header-row">
+                        <th width="40%">Language</th>
+                        <th width="20%">Speak</th>
+                        <th width="20%">Write</th>
+                        <th width="20%">Read</th>
+                    </tr>
+                    {% for lang in data.languages %}
+                    {% if lang.name %}
+                    <tr>
+                        <td class="lang-name">{{ lang.name }}</td>
+                        <td class="lang-ability">{% if 'Speak' in lang.abilities %}✓{% else %}—{% endif %}</td>
+                        <td class="lang-ability">{% if 'Write' in lang.abilities %}✓{% else %}—{% endif %}</td>
+                        <td class="lang-ability">{% if 'Read' in lang.abilities %}✓{% else %}—{% endif %}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</body>
+</html>
