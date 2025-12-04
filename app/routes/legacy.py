@@ -9,7 +9,9 @@ from .api import (
     get_suggestions, 
     parse_resume,
     format_natural_language,
-    generate_pdf
+    generate_pdf,
+    generate_career_objective,
+    generate_planned_skills
 )
 
 
@@ -48,6 +50,16 @@ def register_legacy_routes(app):
     @app.route('/generate_pdf', methods=['POST'])
     def legacy_generate_pdf():
         return generate_pdf()
+    
+    # Career objective generation
+    @app.route('/generate_career_objective', methods=['POST'])
+    def legacy_generate_career_objective():
+        return generate_career_objective()
+    
+    # Planned skills generation
+    @app.route('/generate_planned_skills', methods=['POST'])
+    def legacy_generate_planned_skills():
+        return generate_planned_skills()
     
     # Serve uploaded files
     @app.route('/uploads/<filename>')

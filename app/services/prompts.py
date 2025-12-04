@@ -429,3 +429,40 @@ CRITICAL: Generate a SPECIFIC career objective tailored to {dream_company} and {
 
 Return ONLY valid JSON, no other text."""
 }
+
+
+# Compact resume parsing prompt for when main prompt returns truncated response
+RESUME_PARSE_COMPACT_PROMPT = """Extract resume info into JSON. Be concise.
+
+RESUME:
+{text_sample}
+
+Return JSON:
+{{
+    "full_name": "",
+    "email": "",
+    "phone": "",
+    "address": "",
+    "linkedin": "",
+    "github": "",
+    "professional_summary": "2 sentences max",
+    "prog_languages": "comma separated",
+    "web_tech": "comma separated",
+    "databases": "comma separated",
+    "mobile_tech": "comma separated",
+    "other_tools": "comma separated",
+    "qualifications": [{{"degree":"","institution":"","year":"","score":""}}],
+    "internships": [{{"company":"","role":"","duration":"","bullets":["point1","point2"]}}],
+    "projects": [{{"name":"","tech":"","bullets":["point1","point2"]}}],
+    "certifications": [{{"title":"","source":"","date":""}}],
+    "experiences": [{{"company":"","role":"","duration":"","bullets":["point1"]}}],
+    "leetcode": "",
+    "gfg": "",
+    "hackerrank": ""
+}}
+
+Rules:
+- Use "" for missing data
+- Use [] for empty arrays
+- Max 2-3 bullets per entry
+- Return ONLY valid JSON"""

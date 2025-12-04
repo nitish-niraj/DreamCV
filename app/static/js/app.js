@@ -53,7 +53,7 @@ function initDreamDetailsValidation() {
     const companyInput = document.getElementById('dreamCompany');
     const roleInput = document.getElementById('dreamRole');
     const techInput = document.getElementById('dreamTech');
-    const proceedBtn = document.getElementById('proceedToStep2');
+    const proceedBtn = document.getElementById('btnProceedToStep2');
     
     const validateDreamDetails = () => {
         const cohort = cohortSelect?.value || '';

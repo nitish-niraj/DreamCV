@@ -32,8 +32,8 @@ class Config:
     
     # LLM settings
     LLM_TEMPERATURE = 0.7
-    LLM_MAX_TOKENS = 2000
-    LLM_TIMEOUT = 30
+    LLM_MAX_TOKENS = 4000
+    LLM_TIMEOUT = 60
 
 
 class DevelopmentConfig(Config):

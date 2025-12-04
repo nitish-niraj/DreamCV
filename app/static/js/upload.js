@@ -361,11 +361,92 @@ function autoFillFormFromResume(data) {
         if (typeof alignFormWithDreamDetails === 'function') {
             alignFormWithDreamDetails();
         }
+        
+        // Auto-generate planned certifications based on DREAM context
+        autoGeneratePlannedCertifications();
     }, 500);
     
     console.log('[DEBUG] Form auto-fill complete!');
     console.log('[DEBUG] Extracted:', extractedSections);
     console.log('[DEBUG] Remaining:', remainingSections);
+}
+
+/**
+ * Auto-generate planned certifications using AI based on DREAM context
+ * Called automatically after resume parsing
+ */
+function autoGeneratePlannedCertifications() {
+    const dreamCompany = document.querySelector('input[name="dream_company"]')?.value || '';
+    const targetRole = document.querySelector('input[name="target_role"]')?.value || '';
+    const targetTech = document.querySelector('input[name="target_technology"]')?.value || '';
+    
+    // Only generate if we have DREAM context
+    if (!dreamCompany && !targetRole) {
+        console.log('[DEBUG] No DREAM context, skipping planned certifications auto-generation');
+        return;
+    }
+    
+    // Check if field already has content
+    const plannedCertsField = document.getElementById('planned_certifications');
+    if (plannedCertsField && plannedCertsField.value.trim()) {
+        console.log('[DEBUG] Planned certifications already filled, skipping');
+        return;
+    }
+    
+    console.log('[DEBUG] Auto-generating planned certifications for:', dreamCompany);
+    
+    // Collect current skills and certs for context
+    const currentSkills = [
+        document.querySelector('input[name="prog_languages"]')?.value,
+        document.querySelector('input[name="web_tech"]')?.value,
+        document.querySelector('input[name="databases"]')?.value
+    ].filter(Boolean).join(', ');
+    
+    const existingCerts = [];
+    document.querySelectorAll('.certification-entry').forEach(entry => {
+        const title = entry.querySelector('[name="cert_title[]"]')?.value;
+        if (title) existingCerts.push(title);
+    });
+    
+    fetch('/api/generate_planned_skills', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            dream_company: dreamCompany,
+            target_role: targetRole,
+            target_technology: targetTech,
+            prog_languages: document.querySelector('input[name="prog_languages"]')?.value || '',
+            web_tech: document.querySelector('input[name="web_tech"]')?.value || '',
+            databases: document.querySelector('input[name="databases"]')?.value || ''
+        })
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success && result.planned_certifications) {
+            const certs = result.planned_certifications;
+            let formatted = '';
+            
+            if (Array.isArray(certs)) {
+                formatted = certs.map(cert => {
+                    if (typeof cert === 'object') {
+                        return `${cert.name || cert.title} (Expected: ${cert.expected_date || 'Q1 2025'})`;
+                    }
+                    return cert;
+                }).join('\n');
+            } else if (typeof certs === 'string') {
+                formatted = certs;
+            }
+            
+            if (plannedCertsField && formatted) {
+                plannedCertsField.value = formatted;
+                showNotification(`✨ AI suggested certifications for ${dreamCompany}!`, 'info');
+                updateLivePreview();
+            }
+        }
+    })
+    .catch(error => {
+        console.log('[DEBUG] Could not auto-generate planned certifications:', error);
+    });
 }
 
 /**

@@ -2,7 +2,7 @@
 Resume Parser Service - Handles resume parsing with AI
 """
 from .llm_service import llm_service
-from .prompts import RESUME_PARSE_PROMPT, RESUME_PARSE_PROMPT_WITH_CONTEXT, NATURAL_LANGUAGE_PROMPTS
+from .prompts import RESUME_PARSE_PROMPT, RESUME_PARSE_PROMPT_WITH_CONTEXT, RESUME_PARSE_COMPACT_PROMPT, NATURAL_LANGUAGE_PROMPTS
 
 
 class ResumeParserService:
@@ -23,8 +23,8 @@ class ResumeParserService:
         Returns:
             Dictionary with parsed resume data or None if failed
         """
-        # Limit text for API
-        text_sample = resume_text[:6000] if len(resume_text) > 6000 else resume_text
+        # Limit text for API - reduce to prevent token overflow
+        text_sample = resume_text[:4000] if len(resume_text) > 4000 else resume_text
         
         # Use context-aware prompt if DREAM context is provided
         if dream_context and (dream_context.get('cohort') or dream_context.get('dream_company')):
@@ -46,7 +46,7 @@ class ResumeParserService:
             
             if not result:
                 print("[ERROR] LLM returned no result")
-                return None
+                return self._try_compact_parsing(text_sample)
             
             print(f"[DEBUG] LLM result length: {len(result)}")
             
@@ -57,11 +57,41 @@ class ResumeParserService:
                 self._log_extraction_stats(parsed)
                 return parsed
             else:
-                print("[ERROR] Failed to parse JSON response")
-                return None
+                print("[WARN] Main prompt failed, trying compact prompt...")
+                return self._try_compact_parsing(text_sample)
                 
         except Exception as e:
             print(f"[ERROR] Exception in parse_resume: {e}")
+            return self._try_compact_parsing(text_sample)
+    
+    def _try_compact_parsing(self, text_sample: str) -> dict | None:
+        """
+        Try parsing with compact prompt as fallback
+        
+        Args:
+            text_sample: Resume text to parse
+            
+        Returns:
+            Parsed data or None
+        """
+        try:
+            print("[DEBUG] Attempting compact parsing...")
+            compact_prompt = RESUME_PARSE_COMPACT_PROMPT.format(text_sample=text_sample[:3000])
+            result = self.llm.call(compact_prompt)
+            
+            if result:
+                print(f"[DEBUG] Compact result length: {len(result)}")
+                parsed = self.llm.parse_json_response(result)
+                if parsed:
+                    print("[DEBUG] Compact parsing successful!")
+                    self._log_extraction_stats(parsed)
+                    return parsed
+            
+            print("[ERROR] Compact parsing also failed")
+            return None
+            
+        except Exception as e:
+            print(f"[ERROR] Compact parsing exception: {e}")
             return None
     
     def _log_extraction_stats(self, parsed: dict) -> None:
