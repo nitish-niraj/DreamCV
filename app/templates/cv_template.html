@@ -187,7 +187,7 @@
                     {% if exp.bullets and exp.bullets|length > 0 %}
                     <div class="bullet-list">
                         {% for bullet in exp.bullets %}
-                        {% if bullet %}<div class="bullet-item">• {{ bullet }}</div>{% endif %}
+                        {% if bullet %}<div class="bullet-item">- {{ bullet }}</div>{% endif %}
                         {% endfor %}
                     </div>
                     {% endif %}
@@ -216,7 +216,7 @@
                     {% if intern.bullets and intern.bullets|length > 0 %}
                     <div class="bullet-list">
                         {% for bullet in intern.bullets %}
-                        {% if bullet %}<div class="bullet-item">• {{ bullet }}</div>{% endif %}
+                        {% if bullet %}<div class="bullet-item">&#8226; {{ bullet }}</div>{% endif %}
                         {% endfor %}
                     </div>
                     {% endif %}
@@ -251,7 +251,7 @@
                     {% if proj.bullets and proj.bullets|length > 0 %}
                     <div class="bullet-list">
                         {% for bullet in proj.bullets %}
-                        {% if bullet %}<div class="bullet-item">• {{ bullet }}</div>{% endif %}
+                        {% if bullet %}<div class="bullet-item">&#8226; {{ bullet }}</div>{% endif %}
                         {% endfor %}
                     </div>
                     {% endif %}
@@ -310,7 +310,7 @@
                     {% if resp.bullets and resp.bullets|length > 0 %}
                     <div class="bullet-list">
                         {% for bullet in resp.bullets %}
-                        {% if bullet %}<div class="bullet-item">• {{ bullet }}</div>{% endif %}
+                        {% if bullet %}<div class="bullet-item">&#8226; {{ bullet }}</div>{% endif %}
                         {% endfor %}
                     </div>
                     {% endif %}
@@ -431,7 +431,7 @@
                 <div class="subsection-header" style="margin-top: 8px; font-weight: bold;">Technical Events Participated:</div>
                 <div class="bullet-list">
                     {% for event in data.tech_events %}
-                    {% if event %}<div class="bullet-item">• {{ event }}</div>{% endif %}
+                    {% if event %}<div class="bullet-item">- {{ event }}</div>{% endif %}
                     {% endfor %}
                 </div>
                 {% endif %}
@@ -453,7 +453,7 @@
             <div class="section-content">
                 <div class="bullet-list">
                     {% for achievement in data.achievements %}
-                    {% if achievement %}<div class="bullet-item">• {{ achievement }}</div>{% endif %}
+                    {% if achievement %}<div class="bullet-item">- {{ achievement }}</div>{% endif %}
                     {% endfor %}
                 </div>
             </div>
@@ -468,7 +468,7 @@
             <div class="section-content">
                 <div class="bullet-list">
                     {% for activity in data.community_activities %}
-                    {% if activity %}<div class="bullet-item">• {{ activity }}</div>{% endif %}
+                    {% if activity %}<div class="bullet-item">- {{ activity }}</div>{% endif %}
                     {% endfor %}
                 </div>
             </div>

@@ -2,11 +2,75 @@
 PDF Service - Handles CV PDF generation using xhtml2pdf
 """
 import os
+import re
 import base64
 from io import BytesIO
 from flask import render_template, current_app
 from xhtml2pdf import pisa
 from .styles import get_cv_styles
+
+
+def sanitize_text(text):
+    """
+    Sanitize text to replace Unicode characters that xhtml2pdf can't render.
+    This prevents square box (■) characters from appearing in PDFs.
+    """
+    if not isinstance(text, str):
+        return text
+    
+    # Map of problematic Unicode characters to safe ASCII replacements
+    replacements = {
+        '\u2022': '-',   # Bullet •
+        '\u2023': '-',   # Triangle bullet
+        '\u2043': '-',   # Hyphen bullet
+        '\u2219': '-',   # Bullet operator
+        '\u25CF': '-',   # Black circle
+        '\u25E6': '-',   # White bullet
+        '\u25AA': '-',   # Black small square
+        '\u25AB': '-',   # White small square
+        '\u2013': '-',   # En dash
+        '\u2014': '--',  # Em dash
+        '\u2018': "'",   # Left single quote
+        '\u2019': "'",   # Right single quote
+        '\u201C': '"',   # Left double quote
+        '\u201D': '"',   # Right double quote
+        '\u2026': '...', # Ellipsis
+        '\u00A0': ' ',   # Non-breaking space
+        '\u200B': '',    # Zero-width space
+        '\u200C': '',    # Zero-width non-joiner
+        '\u200D': '',    # Zero-width joiner
+        '\uFEFF': '',    # BOM
+        '\u2212': '-',   # Minus sign
+        '\u00B7': '-',   # Middle dot
+        '\u2192': '->',  # Right arrow
+        '\u2190': '<-',  # Left arrow
+        '\u2794': '->',  # Heavy arrow
+        '\u25B6': '>',   # Play button
+        '\u25B8': '>',   # Small play button
+        '\u2605': '*',   # Black star
+        '\u2606': '*',   # White star
+        '\u2713': '/',   # Check mark
+        '\u2714': '/',   # Heavy check mark
+        '\u2717': 'X',   # Ballot X
+        '\u2718': 'X',   # Heavy ballot X
+    }
+    
+    for unicode_char, replacement in replacements.items():
+        text = text.replace(unicode_char, replacement)
+    
+    return text
+
+
+def sanitize_data_recursive(data):
+    """Recursively sanitize all string values in a dictionary or list."""
+    if isinstance(data, str):
+        return sanitize_text(data)
+    elif isinstance(data, dict):
+        return {key: sanitize_data_recursive(value) for key, value in data.items()}
+    elif isinstance(data, list):
+        return [sanitize_data_recursive(item) for item in data]
+    else:
+        return data
 
 
 def link_callback(uri, rel):
@@ -38,6 +102,9 @@ class PDFService:
         try:
             # Preprocess data for template
             processed_data = self._preprocess_cv_data(cv_data)
+            
+            # Sanitize all text to remove problematic Unicode characters
+            processed_data = sanitize_data_recursive(processed_data)
             
             # Render HTML template
             html_content = render_template(

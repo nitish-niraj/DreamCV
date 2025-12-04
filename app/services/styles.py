@@ -1,6 +1,6 @@
 """
 CV Styles - CSS styles for PDF generation
-DREAM CV format with EB Garamond font, LaTeX-style formatting
+DREAM CV format with professional formatting
 Professional layout matching LaTeX tcolorbox style
 """
 
@@ -10,7 +10,7 @@ def get_cv_styles() -> str:
     Get CSS styles optimized for xhtml2pdf PDF generation
     
     DREAM CV design (LaTeX-inspired):
-    - EB Garamond font family for professional look
+    - Times New Roman font family for reliable PDF rendering
     - Section headers with horizontal rule separators
     - Blue tcolorbox-style DREAM Company section
     - Clean table layouts for skills and experience
@@ -31,7 +31,7 @@ def get_cv_styles() -> str:
     }
     
     body {
-        font-family: "EB Garamond", Garamond, "Times New Roman", Georgia, serif;
+        font-family: "Times New Roman", Times, Georgia, serif;
         font-size: 10pt;
         line-height: 1.25;
         color: #000;
