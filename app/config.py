@@ -28,7 +28,7 @@ class Config:
     # OpenRouter API settings
     OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY', '')
     OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1/chat/completions'
-    MODEL_NAME = os.getenv('MODEL_NAME', 'x-ai/grok-4.1-fast:free')
+    MODEL_NAME = os.getenv('MODEL_NAME', 'openai/gpt-oss-20b:free')
     
     # LLM settings
     LLM_TEMPERATURE = 0.7
