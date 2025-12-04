@@ -13,48 +13,54 @@
         <!-- ========== HEADER SECTION ========== -->
         <table class="header-table" width="100%">
             <tr>
-                <!-- Left side: Name, Title, Contact -->
+                <!-- Left side: Name and Contact Details -->
                 <td valign="top" class="header-left">
                     <div class="name">{{ data.full_name }}</div>
-                    {% if data.target_role or data.cohort %}
-                    <div class="professional-title">
-                        Aspiring {{ data.target_role or 'Professional' }}
-                        {% if data.cohort %} | {{ data.cohort }}{% endif %}
-                    </div>
-                    {% endif %}
                     
-                    <!-- Contact Details - Clean line format -->
+                    <!-- Contact Details - Inline format -->
                     <div class="contact-section">
-                        {% if data.phone %}<div class="contact-item">Phone: {{ data.phone }}</div>{% endif %}
-                        {% if data.email %}<div class="contact-item">Email: {{ data.email }}</div>{% endif %}
-                        {% if data.linkedin %}<div class="contact-item">LinkedIn: {{ data.linkedin }}</div>{% endif %}
-                        {% if data.github %}<div class="contact-item">GitHub: {{ data.github }}</div>{% endif %}
-                        {% if data.portfolio %}<div class="contact-item">Portfolio: {{ data.portfolio }}</div>{% endif %}
-                        {% if data.address %}<div class="contact-item">Address: {{ data.address }}</div>{% endif %}
+                        <div class="contact-line">
+                            {% if data.phone %}{{ data.phone }}{% endif %}
+                            {% if data.phone and data.email %}<span class="contact-separator">|</span>{% endif %}
+                            {% if data.email %}{{ data.email }}{% endif %}
+                            {% if (data.phone or data.email) and data.address %}<span class="contact-separator">|</span>{% endif %}
+                            {% if data.address %}{{ data.address }}{% endif %}
+                        </div>
+                        <div class="contact-line">
+                            {% if data.linkedin %}LinkedIn: {{ data.linkedin }}{% endif %}
+                            {% if data.linkedin and data.github %}<span class="contact-separator">|</span>{% endif %}
+                            {% if data.github %}GitHub: {{ data.github }}{% endif %}
+                        </div>
+                        {% if data.portfolio %}
+                        <div class="contact-line">Portfolio: {{ data.portfolio }}</div>
+                        {% endif %}
                     </div>
                 </td>
                 
                 <!-- Right side: Photo -->
                 {% if data.photo_data %}
-                <td width="3cm" valign="top" class="photo-cell">
+                <td width="2.8cm" valign="top" class="photo-cell">
                     <img src="{{ data.photo_data }}" class="profile-photo" alt="Photo">
                 </td>
                 {% endif %}
             </tr>
         </table>
 
-        <!-- ========== DREAM COMPANY SECTION (Mandatory) ========== -->
+        <!-- Horizontal Rule -->
+        <hr class="section-rule">
+
+        <!-- ========== DREAM COMPANY SECTION (Blue Box) ========== -->
         {% if data.dream_company or data.target_role or data.cohort %}
         <div class="section dream-section">
             <div class="section-header">DREAM COMPANY TARGET</div>
             <div class="section-content">
                 <table class="dream-table" width="100%">
                     <tr>
-                        {% if data.dream_company %}
-                        <td width="50%"><span class="dream-label">Dream Company:</span> <span class="dream-value">{{ data.dream_company }}</span></td>
-                        {% endif %}
                         {% if data.cohort %}
                         <td width="50%"><span class="dream-label">Target Cohort:</span> <span class="dream-value">{{ data.cohort }}</span></td>
+                        {% endif %}
+                        {% if data.dream_company %}
+                        <td width="50%"><span class="dream-label">Dream Company:</span> <span class="dream-value">{{ data.dream_company }}</span></td>
                         {% endif %}
                     </tr>
                     <tr>
@@ -77,6 +83,7 @@
 
         <!-- ========== CAREER OBJECTIVE ========== -->
         {% if data.professional_summary or data.dream_company or data.target_role %}
+        <hr class="section-rule">
         <div class="section">
             <div class="section-header">CAREER OBJECTIVE</div>
             <div class="section-content">
@@ -93,6 +100,7 @@
 
         <!-- ========== EDUCATION ========== -->
         {% if data.qualifications and data.qualifications|length > 0 %}
+        <hr class="section-rule">
         <div class="section">
             <div class="section-header">EDUCATION</div>
             <div class="section-content">
@@ -102,10 +110,10 @@
                     <table class="edu-table" width="100%">
                         <tr>
                             <td class="edu-degree">{{ qual.degree }}</td>
-                            <td class="edu-duration">[{{ qual.duration or qual.year }}]</td>
+                            <td class="edu-duration">{{ qual.duration or qual.year }}</td>
                         </tr>
                     </table>
-                    <div class="edu-institution">{{ qual.institution }}{% if qual.board %} | Board: {{ qual.board }}{% endif %}{% if qual.score %} | {{ qual.score }}{% endif %}</div>
+                    <div class="edu-institution">{{ qual.institution }}{% if qual.board %} | {{ qual.board }}{% endif %}{% if qual.score %} | {{ qual.score }}{% endif %}</div>
                 </div>
                 {% endif %}
                 {% endfor %}
@@ -115,6 +123,7 @@
 
         <!-- ========== TECHNICAL SKILLS ========== -->
         {% if data.prog_languages or data.web_tech or data.databases or data.mobile_tech or data.other_tools or data.planned_skills %}
+        <hr class="section-rule">
         <div class="section">
             <div class="section-header">TECHNICAL SKILLS</div>
             <div class="section-content">
@@ -162,6 +171,7 @@
 
         <!-- ========== WORK EXPERIENCE ========== -->
         {% if data.experiences and data.experiences|length > 0 %}
+        <hr class="section-rule">
         <div class="section">
             <div class="section-header">WORK EXPERIENCE</div>
             <div class="section-content">
@@ -171,7 +181,7 @@
                     <table class="entry-header-table" width="100%">
                         <tr>
                             <td><span class="entry-title">{{ exp.role }}</span> | <span class="entry-company">{{ exp.company }}</span></td>
-                            <td class="entry-duration">[{{ exp.duration }}]</td>
+                            <td class="entry-duration">{{ exp.duration }}</td>
                         </tr>
                     </table>
                     {% if exp.bullets and exp.bullets|length > 0 %}
@@ -190,6 +200,7 @@
 
         <!-- ========== INTERNSHIPS ========== -->
         {% if data.internships and data.internships|length > 0 %}
+        <hr class="section-rule">
         <div class="section">
             <div class="section-header">INTERNSHIPS</div>
             <div class="section-content">
@@ -199,7 +210,7 @@
                     <table class="entry-header-table" width="100%">
                         <tr>
                             <td><span class="entry-title">{{ intern.role or 'Intern' }}</span> | <span class="entry-company">{{ intern.company }}</span>{% if intern.mode %} <span class="entry-mode">({{ intern.mode }})</span>{% endif %}</td>
-                            <td class="entry-duration">[{{ intern.duration }}]</td>
+                            <td class="entry-duration">{{ intern.duration }}</td>
                         </tr>
                     </table>
                     {% if intern.bullets and intern.bullets|length > 0 %}
@@ -218,6 +229,7 @@
 
         <!-- ========== PROJECTS ========== -->
         {% if data.projects and data.projects|length > 0 %}
+        <hr class="section-rule">
         <div class="section">
             <div class="section-header">PROJECTS / APPLICATIONS DEVELOPED</div>
             <div class="section-content">
@@ -230,7 +242,7 @@
                                 <span class="entry-title">{{ proj.name }}</span>
                                 {% if proj.role %} | <span class="entry-role">{{ proj.role }}</span>{% endif %}
                             </td>
-                            <td class="entry-duration">{% if proj.duration %}[{{ proj.duration }}]{% endif %}</td>
+                            <td class="entry-duration">{% if proj.duration %}{{ proj.duration }}{% endif %}</td>
                         </tr>
                     </table>
                     {% if proj.tech %}
@@ -255,6 +267,7 @@
 
         <!-- ========== CERTIFICATIONS ========== -->
         {% if data.certifications and data.certifications|length > 0 %}
+        <hr class="section-rule">
         <div class="section">
             <div class="section-header">CERTIFICATIONS AND COURSES</div>
             <div class="section-content">
@@ -281,6 +294,7 @@
 
         <!-- ========== POSITIONS OF RESPONSIBILITY ========== -->
         {% if data.responsibilities and data.responsibilities|length > 0 %}
+        <hr class="section-rule">
         <div class="section">
             <div class="section-header">POSITIONS OF RESPONSIBILITY</div>
             <div class="section-content">
@@ -290,7 +304,7 @@
                     <table class="entry-header-table" width="100%">
                         <tr>
                             <td><span class="entry-title">{{ resp.role }}</span>{% if resp.organization %} | <span class="entry-company">{{ resp.organization }}</span>{% endif %}</td>
-                            <td class="entry-duration">{% if resp.duration %}[{{ resp.duration }}]{% endif %}</td>
+                            <td class="entry-duration">{% if resp.duration %}{{ resp.duration }}{% endif %}</td>
                         </tr>
                     </table>
                     {% if resp.bullets and resp.bullets|length > 0 %}
@@ -313,6 +327,7 @@
         {% set has_communities = data.community_associations %}
         
         {% if has_platforms or has_events or has_communities %}
+        <hr class="section-rule">
         <div class="section">
             <div class="section-header">DIGITAL EXISTENCE</div>
             <div class="section-content">
@@ -432,6 +447,7 @@
 
         <!-- ========== ACHIEVEMENTS ========== -->
         {% if data.achievements and data.achievements|length > 0 %}
+        <hr class="section-rule">
         <div class="section">
             <div class="section-header">ACHIEVEMENTS</div>
             <div class="section-content">
@@ -446,6 +462,7 @@
 
         <!-- ========== EXTRACURRICULAR ACTIVITIES ========== -->
         {% if data.community_activities and data.community_activities|length > 0 %}
+        <hr class="section-rule">
         <div class="section">
             <div class="section-header">EXTRACURRICULAR ACTIVITIES</div>
             <div class="section-content">
@@ -460,6 +477,7 @@
 
         <!-- ========== LANGUAGES ========== -->
         {% if data.languages and data.languages|length > 0 %}
+        <hr class="section-rule">
         <div class="section">
             <div class="section-header">LANGUAGE PROFICIENCY</div>
             <div class="section-content">

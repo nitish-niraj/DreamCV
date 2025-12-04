@@ -3,7 +3,7 @@ LLM Prompts - All prompt templates for AI interactions
 Optimized for ATS-friendly, professional resume generation
 """
 
-# Resume parsing prompt with improved formatting guidelines
+# Resume parsing prompt - standard version
 RESUME_PARSE_PROMPT = """You are an expert resume parser and career advisor. Extract ALL information from this resume text and format it professionally.
 
 RESUME TEXT TO PARSE:
@@ -168,6 +168,108 @@ CRITICAL INSTRUCTIONS:
 - Make bullet points achievement-focused with quantifiable results
 - Return ONLY valid JSON, no markdown, no explanations
 - Ensure URLs are complete (with https://)"""
+
+
+# Resume parsing prompt with DREAM context - tailored extraction
+RESUME_PARSE_PROMPT_WITH_CONTEXT = """You are an expert resume parser and career advisor. Extract ALL information from this resume text and format it professionally.
+
+IMPORTANT: The candidate is targeting a specific DREAM company/role. Tailor the extraction to highlight relevant skills and experiences.
+
+=== DREAM COMPANY CONTEXT ===
+- Target Cohort/Domain: {cohort}
+- Dream Company: {dream_company}
+- Target Role: {target_role}
+- Target Technology: {target_technology}
+
+RESUME TEXT TO PARSE:
+\"\"\"
+{text_sample}
+\"\"\"
+
+EXTRACTION AND FORMATTING RULES:
+
+1. PRIORITIZE skills and experiences relevant to the TARGET ROLE ({target_role}) and TARGET TECHNOLOGY ({target_technology})
+
+2. DATES/DURATIONS - Use consistent format:
+   - For ongoing roles: "Month Year - Present"
+   - For completed roles: "Month Year - Month Year"
+   - For education: "Year - Year"
+
+3. EDUCATION/QUALIFICATIONS: 
+   - Order: Highest degree first
+   - Include university/board, CGPA/percentage
+
+4. WORK EXPERIENCE & INTERNSHIPS:
+   - Highlight experiences relevant to {target_role}
+   - Create achievement-focused bullet points
+   - Emphasize achievements in {target_technology}
+   - Return bullets as ARRAY of 3-4 short strings
+
+5. CERTIFICATIONS & PROJECTS:
+   - Prioritize those relevant to {target_technology} and {target_role}
+   - Include links and technologies used
+
+6. SKILLS - Categorize with PRIORITY to target role:
+   - Put {target_technology}-related skills first
+
+7. BULLET POINTS FORMAT:
+   - MUST be returned as ARRAY of strings
+   - Start with strong action verbs
+   - Highlight achievements related to {target_role}
+
+Return a valid JSON object matching the standard schema with fields: full_name, email, phone, address, linkedin, github, portfolio, professional_summary, prog_languages, web_tech, databases, mobile_tech, other_tools, qualifications, experiences, internships, certifications, projects, responsibilities, languages, and all coding profile fields.
+
+CRITICAL: PRIORITIZE extraction of skills/experiences relevant to {dream_company} and {target_role}. NEVER include fake data - use empty string or empty array if not found. Return ONLY valid JSON."""
+
+
+# Planned Skills Generation Prompt - generates skills to learn based on DREAM target
+PLANNED_SKILLS_PROMPT = """You are a career advisor specializing in technology career paths. Based on the candidate's DREAM company target and current skills, suggest skills and certifications they should plan to acquire.
+
+=== DREAM COMPANY CONTEXT ===
+- Target Cohort/Domain: {cohort}
+- Dream Company: {dream_company}
+- Target Role: {target_role}
+- Target Technology Focus: {target_technology}
+
+=== CANDIDATE'S CURRENT SKILLS ===
+- Programming Languages: {current_languages}
+- Web Technologies: {current_web_tech}
+- Databases: {current_databases}
+- Mobile/Cloud: {current_mobile_tech}
+- Tools: {current_tools}
+
+=== TASK ===
+Generate a strategic list of skills and certifications the candidate should PLAN to learn to achieve their goal of becoming a {target_role} at {dream_company}.
+
+CONSIDER:
+1. What skills are commonly required for {target_role} at companies like {dream_company}?
+2. What certifications are valued in the {cohort} domain?
+3. What skills gaps exist between current skills and target role requirements?
+4. What emerging technologies should they learn?
+
+Return a JSON object with:
+{{
+    "planned_skills": {{
+        "programming_languages": ["Language 1 to learn", "Language 2 to learn"],
+        "frameworks_libraries": ["Framework 1", "Framework 2"],
+        "cloud_devops": ["AWS/Azure/GCP skills", "Docker/Kubernetes"],
+        "databases": ["Database to learn"],
+        "soft_skills": ["Communication", "Leadership"],
+        "domain_specific": ["Skills specific to {cohort}"]
+    }},
+    "planned_certifications": [
+        {{"title": "Certification Name", "provider": "Provider", "priority": "High/Medium/Low", "reason": "Why valuable for {target_role}"}}
+    ],
+    "learning_path": "A brief 2-3 sentence suggested learning path to reach their goal"
+}}
+
+GUIDELINES:
+- Suggest 2-4 items per skill category (not too many)
+- Prioritize certifications that {dream_company} typically values
+- Be specific to the {cohort} domain
+- Make recommendations achievable within 6-12 months
+
+Return ONLY valid JSON, no other text."""
 
 
 # Natural language formatting prompts

@@ -91,7 +91,7 @@ def get_suggestions():
 
 @api_bp.route('/parse_resume', methods=['POST'])
 def parse_resume():
-    """Parse uploaded resume file using AI"""
+    """Parse uploaded resume file using AI with DREAM context"""
     if 'resume' not in request.files:
         return jsonify({
             'success': False, 
@@ -112,6 +112,15 @@ def parse_resume():
             'error': 'Invalid file type. Use PDF, DOC, DOCX, or TXT'
         }), 400
     
+    # Get DREAM context if provided
+    dream_context = {}
+    dream_context_str = request.form.get('dream_context', '{}')
+    try:
+        import json
+        dream_context = json.loads(dream_context_str)
+    except:
+        dream_context = {}
+    
     try:
         # Extract text from file
         text = extract_text_from_file(file)
@@ -122,8 +131,8 @@ def parse_resume():
                 'error': 'Could not extract enough text from the file'
             }), 400
         
-        # Parse with AI
-        parsed_data = resume_parser.parse_resume(text)
+        # Parse with AI, passing DREAM context
+        parsed_data = resume_parser.parse_resume(text, dream_context)
         
         if parsed_data:
             return jsonify({'success': True, 'data': parsed_data})
@@ -232,6 +241,59 @@ def generate_career_objective():
             
     except Exception as e:
         print(f"[ERROR] Career objective generation error: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+@api_bp.route('/generate_planned_skills', methods=['POST'])
+def generate_planned_skills():
+    """Generate planned skills based on DREAM company and current skills"""
+    try:
+        data = request.json
+        
+        if not data:
+            return jsonify({
+                'success': False,
+                'error': 'No data provided'
+            }), 400
+        
+        # Extract dream context
+        dream_context = {
+            'cohort': data.get('cohort', ''),
+            'dream_company': data.get('dream_company', ''),
+            'target_role': data.get('target_role', ''),
+            'target_technology': data.get('target_technology', '')
+        }
+        
+        # Extract current skills
+        current_skills = {
+            'prog_languages': data.get('prog_languages', ''),
+            'web_tech': data.get('web_tech', ''),
+            'databases': data.get('databases', ''),
+            'mobile_tech': data.get('mobile_tech', ''),
+            'other_tools': data.get('other_tools', '')
+        }
+        
+        # Generate planned skills using LLM
+        result = llm_service.generate_planned_skills(dream_context, current_skills)
+        
+        if result.get('success'):
+            return jsonify({
+                'success': True, 
+                'planned_skills': result.get('planned_skills', {}),
+                'planned_certifications': result.get('planned_certifications', []),
+                'learning_path': result.get('learning_path', '')
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'error': result.get('error', 'Failed to generate planned skills')
+            }), 500
+            
+    except Exception as e:
+        print(f"[ERROR] Planned skills generation error: {e}")
         return jsonify({
             'success': False,
             'error': str(e)

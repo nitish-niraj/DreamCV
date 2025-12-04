@@ -2,7 +2,7 @@
 Resume Parser Service - Handles resume parsing with AI
 """
 from .llm_service import llm_service
-from .prompts import RESUME_PARSE_PROMPT, NATURAL_LANGUAGE_PROMPTS
+from .prompts import RESUME_PARSE_PROMPT, RESUME_PARSE_PROMPT_WITH_CONTEXT, NATURAL_LANGUAGE_PROMPTS
 
 
 class ResumeParserService:
@@ -11,19 +11,34 @@ class ResumeParserService:
     def __init__(self):
         self.llm = llm_service
     
-    def parse_resume(self, resume_text: str) -> dict | None:
+    def parse_resume(self, resume_text: str, dream_context: dict = None) -> dict | None:
         """
         Parse resume text and extract structured data using AI
+        Optionally uses DREAM context to tailor the extraction
         
         Args:
             resume_text: Extracted text from resume file
+            dream_context: Optional DREAM company context for tailored parsing
             
         Returns:
             Dictionary with parsed resume data or None if failed
         """
         # Limit text for API
         text_sample = resume_text[:6000] if len(resume_text) > 6000 else resume_text
-        prompt = RESUME_PARSE_PROMPT.format(text_sample=text_sample)
+        
+        # Use context-aware prompt if DREAM context is provided
+        if dream_context and (dream_context.get('cohort') or dream_context.get('dream_company')):
+            prompt = RESUME_PARSE_PROMPT_WITH_CONTEXT.format(
+                text_sample=text_sample,
+                cohort=dream_context.get('cohort', 'Not specified'),
+                dream_company=dream_context.get('dream_company', 'Not specified'),
+                target_role=dream_context.get('target_role', 'Not specified'),
+                target_technology=dream_context.get('target_technology', 'Not specified')
+            )
+            print(f"[DEBUG] Using DREAM context for parsing: {dream_context.get('dream_company')} - {dream_context.get('target_role')}")
+        else:
+            prompt = RESUME_PARSE_PROMPT.format(text_sample=text_sample)
+            print("[DEBUG] Parsing without DREAM context")
         
         try:
             print("[DEBUG] Calling LLM for resume parsing...")

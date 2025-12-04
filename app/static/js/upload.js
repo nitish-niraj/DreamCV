@@ -107,9 +107,13 @@ function handleResumeUpload(file) {
         }
     }, 500);
     
-    // Upload and parse
+    // Get DREAM context for tailored parsing
+    const dreamContext = typeof getDreamContext === 'function' ? getDreamContext() : {};
+    
+    // Upload and parse with DREAM context
     const formData = new FormData();
     formData.append('resume', file);
+    formData.append('dream_context', JSON.stringify(dreamContext));
     
     fetch('/parse_resume', {
         method: 'POST',
@@ -139,11 +143,11 @@ function handleResumeUpload(file) {
                 // Auto-fill form with parsed data
                 autoFillFormFromResume(data.data);
                 
-                showNotification('✨ Resume parsed successfully! AI has filled in your details.', 'success');
+                // Show dream-aligned message
+                const dreamCompany = dreamContext.dream_company || 'your dream company';
+                showNotification(`✨ Resume parsed and aligned with ${dreamCompany}! AI has filled in your details.`, 'success');
                 
-                // Scroll to form
-                document.getElementById('section1').scrollIntoView({ behavior: 'smooth' });
-                
+                // DON'T scroll - stay on step 2 so user can proceed
                 isUploading = false;
             }, 800);
         } else {

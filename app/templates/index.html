@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DREAM CV Generator</title>
+    <title>DREAM CV Generator | AI-Powered Resume Builder</title>
+    <meta name="description" content="Create professional, ATS-friendly CVs tailored to your dream company with AI assistance">
+    <meta name="author" content="Nitish Niraj">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
@@ -15,6 +20,10 @@
             <div class="container">
                 <h1><i class="fas fa-file-alt"></i> DREAM CV Generator</h1>
                 <p class="lead">Create your professional DREAM CV with AI assistance</p>
+                <div class="header-badges mt-2">
+                    <span class="ai-badge"><i class="fas fa-robot"></i> AI-Powered</span>
+                    <span class="ai-badge ms-2" style="background: linear-gradient(135deg, #10B981, #34D399);"><i class="fas fa-check-circle"></i> ATS-Friendly</span>
+                </div>
             </div>
         </header>
 
@@ -23,67 +32,177 @@
                 <!-- Left Panel - Form -->
                 <div class="col-lg-7">
                     <div class="form-container">
-                        <!-- AI-Powered Resume Upload Section -->
-                        <div class="ai-upload-section mb-4">
-                            <div class="ai-badge-header">
-                                <span class="ai-badge pulsing">🤖 AI-POWERED</span>
-                                <h4>Quick Start: Upload Your Existing Resume</h4>
+                        
+                        <!-- Step Wizard -->
+                        <div class="step-wizard" id="stepWizard">
+                            <div class="step active" data-step="1" onclick="goToStep(1)">
+                                <span class="step-number">1</span>
+                                <span class="step-title">DREAM Target</span>
                             </div>
-                            <div id="resumeDropZone" class="resume-drop-zone">
-                                <i class="fas fa-cloud-upload-alt fa-3x mb-3"></i>
-                                <h5>Drag & Drop Your Resume Here</h5>
-                                <p class="text-muted">or click to browse</p>
-                                <p class="small text-info"><strong>AI will automatically extract and fill in your details!</strong></p>
-                                <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx,.txt" hidden>
-                                <button type="button" class="btn btn-outline-primary mt-2" onclick="document.getElementById('resumeUpload').click()">
-                                    <i class="fas fa-file-upload"></i> Choose File
-                                </button>
+                            <div class="step-connector"></div>
+                            <div class="step" data-step="2" onclick="goToStep(2)">
+                                <span class="step-number">2</span>
+                                <span class="step-title">Upload Resume</span>
                             </div>
-                            <div id="uploadProgress" class="upload-progress" style="display: none;">
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
-                                </div>
-                                <p class="text-center mt-2 small"><i class="fas fa-robot"></i> AI is analyzing your resume...</p>
+                            <div class="step-connector"></div>
+                            <div class="step" data-step="3" onclick="goToStep(3)">
+                                <span class="step-number">3</span>
+                                <span class="step-title">Complete Profile</span>
                             </div>
-                            
-                            <!-- Extraction Status Panel -->
-                            <div id="extractionStatus" class="extraction-status" style="display: none;">
-                                <h6 class="mb-2"><i class="fas fa-clipboard-check"></i> Extraction Summary</h6>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="status-section extracted">
-                                            <strong><i class="fas fa-check-circle text-success"></i> Extracted:</strong>
-                                            <ul id="extractedSections" class="mb-0 small"></ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="status-section remaining">
-                                            <strong><i class="fas fa-exclamation-circle text-warning"></i> Needs Input:</strong>
-                                            <ul id="remainingSections" class="mb-0 small"></ul>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="step-connector"></div>
+                            <div class="step" data-step="4" onclick="goToStep(4)">
+                                <span class="step-number">4</span>
+                                <span class="step-title">Generate CV</span>
                             </div>
-                        </div>
-
-                        <div class="divider-or">
-                            <span>OR FILL MANUALLY</span>
                         </div>
 
                         <form id="cvForm" enctype="multipart/form-data">
-                            <!-- Progress Bar -->
-                            <div class="progress-container mb-4">
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                            
+                            <!-- ====== STEP 1: DREAM Company Details (FIRST - MANDATORY) ====== -->
+                            <div class="step-content" id="step1Content">
+                                <div class="form-section dream-first-section" id="sectionDream">
+                                    <h3 class="section-header">
+                                        <i class="fas fa-star"></i> Step 1: Define Your DREAM Company Target
+                                        <span class="badge bg-danger">Start Here</span>
+                                        <button type="button" class="info-btn tooltip-lg" data-tooltip="Your DREAM target shapes your entire CV! The AI will customize your Career Objective, align Technical Skills, and suggest Planned Skills based on this information. Think carefully about your ideal company and role.">?</button>
+                                    </h3>
+                                    <div class="contextual-hint">
+                                        <span class="hint-icon">💡</span>
+                                        <span class="hint-text">Pro Tip: Your DREAM Company details will shape your entire CV. The AI will tailor your Career Objective, Technical Skills, and Planned Skills based on this.</span>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-with-tooltip">
+                                                <label class="form-label">Target Cohort *</label>
+                                                <button type="button" class="info-btn" data-tooltip="Select your career path focus. This determines the skill categories and planned skills that will appear in your CV.">?</button>
+                                            </div>
+                                            <select class="form-select" name="cohort" id="dreamCohort" required>
+                                                <option value="">Select Cohort</option>
+                                                <option value="Full Stack Developer (Web/Mobile)">Full Stack Developer (Web/Mobile)</option>
+                                                <option value="AIML (Artificial Intelligence & Machine Learning)">AIML (Artificial Intelligence & Machine Learning)</option>
+                                                <option value="Data Analyst">Data Analyst</option>
+                                                <option value="Cyber Security">Cyber Security</option>
+                                                <option value="Quality Assurance & Testing">Quality Assurance & Testing</option>
+                                                <option value="Game Development">Game Development</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-with-tooltip">
+                                                <label class="form-label">Dream Company *</label>
+                                                <button type="button" class="info-btn tooltip-gold" data-tooltip="Enter your target company name. This helps AI tailor your CV language and focus areas to match company culture and requirements.">?</button>
+                                            </div>
+                                            <input type="text" class="form-control" name="dream_company" id="dreamCompany" placeholder="e.g., Google, Microsoft, Zoho, Amazon" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-with-tooltip">
+                                                <label class="form-label">Target Role *</label>
+                                                <button type="button" class="info-btn" data-tooltip="The specific job title you're applying for. Be specific - 'Software Engineer' vs 'Senior Backend Developer' makes a difference!">?</button>
+                                            </div>
+                                            <input type="text" class="form-control" name="target_role" id="dreamRole" placeholder="e.g., Software Engineer, Data Scientist, GenAI Engineer" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-with-tooltip">
+                                                <label class="form-label">Target Technology *</label>
+                                                <button type="button" class="info-btn" data-tooltip="Primary technology stack you want to work with. This helps highlight relevant skills and projects in your CV.">?</button>
+                                            </div>
+                                            <input type="text" class="form-control" name="target_technology" id="dreamTech" placeholder="e.g., Full Stack, AI/ML, Cloud, Generative AI">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="label-with-tooltip">
+                                            <label class="form-label">Expected Package (LPA)</label>
+                                            <button type="button" class="info-btn tooltip-success" data-tooltip="Optional: Your salary expectation. This won't appear on your CV but helps AI understand your career level for appropriate language.">?</button>
+                                        </div>
+                                        <input type="text" class="form-control" name="expected_package" placeholder="e.g., 12-15 LPA, 15-20 LPA">
+                                    </div>
+                                    
+                                    <div class="proceed-btn-container">
+                                        <button type="button" class="btn btn-proceed" id="proceedToStep2" onclick="proceedToStep2()" disabled>
+                                            <i class="fas fa-arrow-right"></i> Proceed to Resume Upload
+                                        </button>
+                                        <p class="text-muted mt-2 small"><i class="fas fa-lock"></i> Fill all required fields (*) to proceed</p>
+                                    </div>
                                 </div>
-                                <small class="text-muted">Complete all sections for the best CV</small>
                             </div>
+                            
+                            <!-- ====== STEP 2: Resume Upload (After DREAM Details) ====== -->
+                            <div class="step-content" id="step2Content" style="display: none;">
+                                <div class="ai-upload-section mb-4" id="resumeUploadSection">
+                                    <div class="ai-badge-header">
+                                        <span class="ai-badge pulsing">🤖 AI-POWERED</span>
+                                        <h4>Step 2: Upload Your Existing Resume</h4>
+                                    </div>
+                                    <div class="alert alert-info mb-3">
+                                        <i class="fas fa-magic"></i> <strong>AI will tailor your resume for:</strong> 
+                                        <span id="dreamTargetSummary" class="fw-bold"></span>
+                                    </div>
+                                    <div id="resumeDropZone" class="resume-drop-zone">
+                                        <i class="fas fa-cloud-upload-alt fa-3x mb-3"></i>
+                                        <h5>Drag & Drop Your Resume Here</h5>
+                                        <p class="text-muted">or click to browse</p>
+                                        <p class="small text-info"><strong>AI will extract your details and align them with your DREAM target!</strong></p>
+                                        <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx,.txt" hidden>
+                                        <button type="button" class="btn btn-outline-primary mt-2" onclick="document.getElementById('resumeUpload').click()">
+                                            <i class="fas fa-file-upload"></i> Choose File
+                                        </button>
+                                    </div>
+                                    <div id="uploadProgress" class="upload-progress" style="display: none;">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                                        </div>
+                                        <p class="text-center mt-2 small"><i class="fas fa-robot"></i> AI is analyzing your resume and aligning with your DREAM target...</p>
+                                    </div>
+                                    
+                                    <!-- Extraction Status Panel -->
+                                    <div id="extractionStatus" class="extraction-status" style="display: none;">
+                                        <h6 class="mb-2"><i class="fas fa-clipboard-check"></i> Extraction Summary</h6>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="status-section extracted">
+                                                    <strong><i class="fas fa-check-circle text-success"></i> Extracted:</strong>
+                                                    <ul id="extractedSections" class="mb-0 small"></ul>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="status-section remaining">
+                                                    <strong><i class="fas fa-exclamation-circle text-warning"></i> Needs Input:</strong>
+                                                    <ul id="remainingSections" class="mb-0 small"></ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="proceed-btn-container mt-3">
+                                        <button type="button" class="btn btn-proceed" onclick="proceedToStep3()">
+                                            <i class="fas fa-arrow-right"></i> Continue to Complete Profile
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary ms-2" onclick="proceedToStep3()">
+                                            Skip & Fill Manually
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- ====== STEP 3: Complete Profile (All Other Sections) ====== -->
+                            <div class="step-content" id="step3Content" style="display: none;">
+                            
+                                <!-- Progress Bar -->
+                                <div class="progress-container mb-4">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                    </div>
+                                    <small class="text-muted">Complete all sections for the best CV</small>
+                                </div>
 
-                            <!-- Section 1: Photo & Personal Details -->
-                            <div class="form-section" id="section1">
+                                <!-- Section 1: Photo & Personal Details -->
+                                <div class="form-section" id="section1">
                                 <h3 class="section-header">
                                     <i class="fas fa-user"></i> Personal Details
                                     <span class="badge bg-primary">Required</span>
+                                    <button type="button" class="info-btn tooltip-lg" data-tooltip="Essential contact information for recruiters. Keep it professional - use a work-appropriate email and ensure phone number is current.">?</button>
                                 </h3>
                                 
                                 <div class="row">
@@ -97,21 +216,31 @@
                                             </label>
                                             <input type="file" id="photoUpload" name="photo" accept="image/*" hidden>
                                             <input type="hidden" id="photoFilename" name="photo_filename">
+                                            <small class="text-muted d-block text-center mt-1">Professional headshot recommended</small>
                                         </div>
                                     </div>
                                     <div class="col-md-8">
                                         <div class="mb-3">
-                                            <label class="form-label">Full Name *</label>
-                                            <input type="text" class="form-control" name="full_name" required>
+                                            <div class="label-with-tooltip">
+                                                <label class="form-label">Full Name *</label>
+                                                <button type="button" class="info-btn" data-tooltip="Use your full legal name as it appears on official documents. This will be prominently displayed at the top of your CV.">?</button>
+                                            </div>
+                                            <input type="text" class="form-control" name="full_name" required placeholder="Enter your full name">
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
-                                                <label class="form-label">Email *</label>
-                                                <input type="email" class="form-control" name="email" required>
+                                                <div class="label-with-tooltip">
+                                                    <label class="form-label">Email *</label>
+                                                    <button type="button" class="info-btn" data-tooltip="Use a professional email address. Avoid nicknames or informal handles. firstname.lastname@email.com is ideal.">?</button>
+                                                </div>
+                                                <input type="email" class="form-control" name="email" required placeholder="your.email@example.com">
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label class="form-label">Phone *</label>
-                                                <input type="tel" class="form-control" name="phone" required>
+                                                <div class="label-with-tooltip">
+                                                    <label class="form-label">Phone *</label>
+                                                    <button type="button" class="info-btn" data-tooltip="Include country code if applying internationally. Ensure this number is always reachable during business hours.">?</button>
+                                                </div>
+                                                <input type="tel" class="form-control" name="phone" required placeholder="+91 XXXXX XXXXX">
                                             </div>
                                         </div>
                                     </div>
@@ -119,89 +248,57 @@
                                 
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label"><i class="fab fa-linkedin"></i> LinkedIn URL</label>
+                                        <div class="label-with-tooltip">
+                                            <label class="form-label">LinkedIn URL</label>
+                                            <button type="button" class="info-btn" data-tooltip="Your LinkedIn profile should be complete and match your CV. Recruiters often check LinkedIn for additional context.">?</button>
+                                        </div>
                                         <input type="url" class="form-control" name="linkedin" placeholder="https://linkedin.com/in/username">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label"><i class="fab fa-github"></i> GitHub URL</label>
+                                        <div class="label-with-tooltip">
+                                            <button type="button" class="info-btn" data-tooltip="Essential for technical roles! Showcase your coding projects. Ensure repos are well-documented with README files.">?</button>
+                                        </div>
                                         <input type="url" class="form-control" name="github" placeholder="https://github.com/username">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label"><i class="fas fa-globe"></i> Portfolio URL</label>
+                                        <label class="form-label"> Portfolio URL</label>
                                         <input type="url" class="form-control" name="portfolio" placeholder="https://yourportfolio.com">
                                     </div>
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label"><i class="fab fa-skype"></i> Skype ID</label>
-                                        <input type="text" class="form-control" name="skype">
+                                        <label class="form-label">Skype ID</label>
+                                        <input type="text" class="form-control" name="skype" placeholder="live:your.skype.id">
                                     </div>
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label"><i class="fas fa-map-marker-alt"></i> Address</label>
+                                        <label class="form-label">Address</label>
                                         <input type="text" class="form-control" name="address" placeholder="City, State">
                                     </div>
                                 </div>
                                 
                                 <!-- Professional Summary -->
                                 <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-file-alt"></i> Career Objective / Professional Summary</label>
+                                    <div class="label-with-tooltip">
+                                        <label class="form-label"><i class="fas fa-file-alt"></i> Career Objective / Professional Summary</label>
+                                        <button type="button" class="info-btn tooltip-gold highlight" data-tooltip="This is the FIRST thing recruiters read! AI can generate this based on your DREAM target. Keep it 2-3 sentences highlighting your key strengths and career goals.">?</button>
+                                    </div>
                                     <div class="input-group">
                                         <textarea class="form-control" name="professional_summary" id="professional_summary" rows="3" placeholder="Brief 2-3 sentence summary highlighting your key strengths, experience, and career objectives. This appears at the top of your CV."></textarea>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center mt-2">
-                                        <small class="text-muted">A compelling summary helps recruiters quickly understand your value proposition.</small>
-                                        <button type="button" class="btn btn-sm btn-outline-primary" id="generateCareerObjective" onclick="generateCareerObjective()">
+                                        <span class="ai-tip"><i class="fas fa-magic"></i> Let AI write this for you based on your DREAM target!</span>
+                                        <button type="button" class="btn btn-sm btn-ai-generate" id="generateCareerObjective" onclick="generateCareerObjective()">
                                             <i class="fas fa-magic"></i> AI Generate
                                         </button>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Section 2: DREAM Company -->
-                            <div class="form-section dream-section" id="section2">
-                                <h3 class="section-header">
-                                    <i class="fas fa-star"></i> DREAM Company Details
-                                    <span class="badge bg-warning text-dark">Important</span>
-                                </h3>
-                                
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Target Cohort *</label>
-                                        <select class="form-select" name="cohort" required>
-                                            <option value="">Select Cohort</option>
-                                            <option value="Full Stack Developer (Web/Mobile)">Full Stack Developer (Web/Mobile)</option>
-                                            <option value="AIML (Artificial Intelligence & Machine Learning)">AIML (Artificial Intelligence & Machine Learning)</option>
-                                            <option value="Data Analyst">Data Analyst</option>
-                                            <option value="Cyber Security">Cyber Security</option>
-                                            <option value="Quality Assurance & Testing">Quality Assurance & Testing</option>
-                                            <option value="Game Development">Game Development</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Dream Company *</label>
-                                        <input type="text" class="form-control" name="dream_company" placeholder="e.g., Google, Microsoft, Amazon" required>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Target Role *</label>
-                                        <input type="text" class="form-control" name="target_role" placeholder="e.g., Software Engineer, Data Scientist" required>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Target Technology *</label>
-                                        <input type="text" class="form-control" name="target_technology" placeholder="e.g., Full Stack, AI/ML, Cloud">
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Expected Package (LPA)</label>
-                                    <input type="text" class="form-control" name="expected_package" placeholder="e.g., 12-15 LPA">
-                                </div>
-                            </div>
-
-                            <!-- Section 3: Academic Qualification -->
-                            <div class="form-section" id="section3">
+                            <!-- Section 2: Academic Qualification -->
+                            <div class="form-section" id="section2">
                                 <h3 class="section-header">
                                     <i class="fas fa-graduation-cap"></i> Academic Qualification
+                                    <button type="button" class="info-btn" data-tooltip="List your education in reverse chronological order. Include degree, institution, and scores. Most recent first!">?</button>
                                 </h3>
                                 
                                 <div id="qualificationsList">
@@ -241,59 +338,81 @@
                                 </button>
                             </div>
 
-                            <!-- Section 4: Technical Skills -->
-                            <div class="form-section" id="section4">
+                            <!-- Section 3: Technical Skills -->
+                            <div class="form-section" id="section3">
                                 <h3 class="section-header">
                                     <i class="fas fa-code"></i> Technical Skills
                                     <span class="ai-badge mini">🤖 AI</span>
-                                    <button type="button" class="btn btn-sm btn-outline-info float-end" onclick="formatSection('technical_skills')">
-                                        <i class="fas fa-magic"></i> AI Format
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-outline-success float-end me-2" onclick="organizeSkillsForCohort()">
-                                        <i class="fas fa-bullseye"></i> Align to DREAM
-                                    </button>
+                                    <button type="button" class="info-btn tooltip-lg" data-tooltip="List your technical skills by category. Click 'Align to DREAM' to auto-organize skills based on your target cohort. AI Format will enhance the presentation.">?</button>
+                                    <div class="section-help">
+                                        <button type="button" class="btn btn-sm btn-outline-success" onclick="organizeSkillsForCohort()">
+                                            <i class="fas fa-bullseye"></i> Align to DREAM
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-info" onclick="formatSection('technical_skills')">
+                                            <i class="fas fa-magic"></i> AI Format
+                                        </button>
+                                    </div>
                                 </h3>
                                 
-                                <div class="alert alert-info py-2 mb-3" id="skillsHint">
-                                    <small><i class="fas fa-lightbulb"></i> <strong>Tip:</strong> Select your Target Cohort in DREAM Company section first, then click "Align to DREAM" to get skill categories tailored for your career path!</small>
+                                <div class="contextual-hint" id="skillsHint">
+                                    <span class="hint-icon">🎯</span>
+                                    <span class="hint-text"><strong>Tip:</strong> Click "Align to DREAM" to get skill categories tailored for your career path!</span>
                                 </div>
                                 
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label" id="skill_cat1_label">Programming Languages</label>
+                                        <div class="label-with-tooltip">
+                                            <label class="form-label" id="skill_cat1_label">Programming Languages</label>
+                                            <button type="button" class="info-btn" data-tooltip="List languages you're proficient in. Put strongest ones first. Include years of experience if significant.">?</button>
+                                        </div>
                                         <input type="text" class="form-control" name="prog_languages" id="prog_languages" placeholder="Python, Java, C++, JavaScript">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label" id="skill_cat2_label">Web Technologies</label>
+                                        <div class="label-with-tooltip">
+                                            <label class="form-label" id="skill_cat2_label">Web Technologies</label>
+                                            <button type="button" class="info-btn" data-tooltip="Include frameworks, libraries, and web-related tools. Both frontend and backend technologies.">?</button>
+                                        </div>
                                         <input type="text" class="form-control" name="web_tech" id="web_tech" placeholder="React, Node.js, HTML, CSS">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label" id="skill_cat3_label">Databases</label>
+                                        <div class="label-with-tooltip">
+                                            <label class="form-label" id="skill_cat3_label">Databases</label>
+                                            <button type="button" class="info-btn" data-tooltip="Database systems you've worked with - both SQL and NoSQL. Include ORMs if applicable.">?</button>
+                                        </div>
                                         <input type="text" class="form-control" name="databases" id="databases" placeholder="MySQL, MongoDB, PostgreSQL">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label" id="skill_cat4_label">Mobile Technologies</label>
+                                        <div class="label-with-tooltip">
+                                            <label class="form-label" id="skill_cat4_label">Mobile Technologies</label>
+                                            <button type="button" class="info-btn" data-tooltip="Mobile development frameworks and platforms. Native and cross-platform technologies.">?</button>
+                                        </div>
                                         <input type="text" class="form-control" name="mobile_tech" id="mobile_tech" placeholder="React Native, Flutter">
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label" id="skill_cat5_label">Other Tools & Technologies</label>
+                                    <div class="label-with-tooltip">
+                                        <label class="form-label" id="skill_cat5_label">Other Tools & Technologies</label>
+                                        <button type="button" class="info-btn" data-tooltip="DevOps tools, cloud platforms, version control, IDEs, and other relevant tools.">?</button>
+                                    </div>
                                     <input type="text" class="form-control" name="other_tools" id="other_tools" placeholder="Git, Docker, AWS, Linux">
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-lightbulb text-warning"></i> Planned Skills (To be learned for DREAM Company)</label>
+                                    <div class="label-with-tooltip">
+                                        <label class="form-label"><i class="fas fa-lightbulb text-warning"></i> Planned Skills (To be learned for DREAM Company)</label>
+                                        <button type="button" class="info-btn tooltip-gold highlight" data-tooltip="Skills you're actively learning or planning to learn. Shows initiative and alignment with your career goals. AI will suggest based on your DREAM target!">?</button>
+                                    </div>
                                     <input type="text" class="form-control" name="planned_skills" placeholder="e.g., Kubernetes, TensorFlow, Azure - Skills you plan to learn">
-                                    <small class="text-muted">Skills you're planning to learn that align with your dream company's requirements</small>
                                 </div>
                             </div>
 
-                            <!-- Section 5: Internships -->
-                            <div class="form-section" id="section5">
+                            <!-- Section 4: Internships -->
+                            <div class="form-section" id="section4">
                                 <h3 class="section-header">
                                     <i class="fas fa-building"></i> Internships
                                     <span class="badge bg-info">Professional Experience</span>
+                                    <button type="button" class="info-btn tooltip-lg" data-tooltip="List internships with bullet points highlighting responsibilities and achievements. Use action verbs and quantify impact when possible.">?</button>
                                 </h3>
                                 
                                 <div id="internshipsList">
@@ -350,8 +469,8 @@
                                 </button>
                             </div>
 
-                            <!-- Section 5b: Certifications -->
-                            <div class="form-section" id="section5b">
+                            <!-- Section 4b: Certifications -->
+                            <div class="form-section" id="section4b">
                                 <h3 class="section-header">
                                     <i class="fas fa-certificate"></i> Certifications / MOOCs
                                     <span class="badge bg-warning text-dark">Credentials</span>
@@ -402,17 +521,20 @@
                                 </div>
                             </div>
 
-                            <!-- Section 6: Projects -->
-                            <div class="form-section" id="section6">
+                            <!-- Section 5: Projects -->
+                            <div class="form-section" id="section5">
                                 <h3 class="section-header">
                                     <i class="fas fa-project-diagram"></i> Projects / Applications Development
                                     <span class="ai-badge mini">🤖 AI</span>
-                                    <button type="button" class="btn btn-sm btn-outline-info float-end ms-2" onclick="formatSection('projects')">
-                                        <i class="fas fa-magic"></i> AI Format
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-outline-success float-end" onclick="openNaturalLanguageModal('project')">
-                                        <i class="fas fa-comment-dots"></i> Describe in Your Words
-                                    </button>
+                                    <button type="button" class="info-btn tooltip-lg" data-tooltip="Showcase 2-4 impactful projects. Focus on projects relevant to your DREAM target. Include your role, technologies used, and quantifiable results.">?</button>
+                                    <div class="section-help">
+                                        <button type="button" class="btn btn-sm btn-outline-success" onclick="openNaturalLanguageModal('project')">
+                                            <i class="fas fa-comment-dots"></i> Describe in Your Words
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-info" onclick="formatSection('projects')">
+                                            <i class="fas fa-magic"></i> AI Format
+                                        </button>
+                                    </div>
                                 </h3>
                                 
                                 <div id="projectsList">
@@ -459,8 +581,8 @@
                                 </button>
                             </div>
 
-                            <!-- Section 7: Positions of Responsibility -->
-                            <div class="form-section" id="section7">
+                            <!-- Section 6: Positions of Responsibility -->
+                            <div class="form-section" id="section6">
                                 <h3 class="section-header">
                                     <i class="fas fa-users"></i> Positions of Responsibility
                                 </h3>
@@ -505,8 +627,8 @@
                                 </button>
                             </div>
 
-                            <!-- Section 8: Extra Curricular Activities -->
-                            <div class="form-section" id="section8">
+                            <!-- Section 7: Extra Curricular Activities -->
+                            <div class="form-section" id="section7">
                                 <h3 class="section-header">
                                     <i class="fas fa-trophy"></i> Extra Curricular Activities
                                 </h3>
@@ -553,8 +675,8 @@
                                 </div>
                             </div>
 
-                            <!-- Section 9: Language Proficiency -->
-                            <div class="form-section" id="section9">
+                            <!-- Section 8: Language Proficiency -->
+                            <div class="form-section" id="section8">
                                 <h3 class="section-header">
                                     <i class="fas fa-language"></i> Language Proficiency
                                 </h3>
@@ -585,8 +707,8 @@
                                 </button>
                             </div>
 
-                            <!-- Section 10: Work Experience -->
-                            <div class="form-section" id="section10">
+                            <!-- Section 9: Work Experience -->
+                            <div class="form-section" id="section9">
                                 <h3 class="section-header">
                                     <i class="fas fa-briefcase"></i> Work Experience
                                 </h3>
@@ -641,8 +763,8 @@
                                 </button>
                             </div>
 
-                            <!-- Section 11: Digital Existence -->
-                            <div class="form-section" id="section11">
+                            <!-- Section 10: Digital Existence -->
+                            <div class="form-section" id="section10">
                                 <h3 class="section-header">
                                     <i class="fas fa-globe"></i> Digital Existence
                                     <span class="badge bg-info">Coding Profiles</span>
@@ -774,9 +896,61 @@
                                     <i class="fas fa-robot"></i> Get AI Suggestions
                                     <span class="ai-badge mini ms-2">AI</span>
                                 </button>
-                                <button type="button" class="btn btn-success btn-lg" onclick="generatePDF()">
-                                    <i class="fas fa-file-pdf"></i> Generate PDF
+                                <button type="button" class="btn btn-success btn-lg" onclick="proceedToStep4()">
+                                    <i class="fas fa-arrow-right"></i> Preview & Generate
                                 </button>
+                            </div>
+                            
+                            </div><!-- End step3Content -->
+                            
+                            <!-- ====== STEP 4: Preview & Generate ====== -->
+                            <div class="step-content" id="step4Content" style="display: none;">
+                                <div class="form-section">
+                                    <h3 class="section-header">
+                                        <i class="fas fa-file-pdf"></i> Step 4: Generate Your DREAM CV
+                                        <span class="badge bg-success">Final Step</span>
+                                    </h3>
+                                    
+                                    <div class="alert alert-success mb-4">
+                                        <h5><i class="fas fa-check-circle"></i> Your CV is Ready!</h5>
+                                        <p class="mb-0">Review the preview on the right and click "Generate PDF" to download your DREAM CV.</p>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="card mb-3">
+                                                <div class="card-header bg-primary text-white">
+                                                    <i class="fas fa-bullseye"></i> DREAM Target Summary
+                                                </div>
+                                                <div class="card-body" id="dreamSummaryCard">
+                                                    <!-- Will be populated by JS -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card mb-3">
+                                                <div class="card-header bg-info text-white">
+                                                    <i class="fas fa-chart-bar"></i> CV Completion
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="progress mb-2" style="height: 25px;">
+                                                        <div class="progress-bar bg-success" id="finalProgressBar" role="progressbar" style="width: 0%">0%</div>
+                                                    </div>
+                                                    <small class="text-muted" id="sectionsCompleted">Sections completed: 0/10</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                                        <button type="button" class="btn btn-outline-secondary btn-lg" onclick="goToStep(3)">
+                                            <i class="fas fa-arrow-left"></i> Edit Profile
+                                        </button>
+                                        <button type="button" class="btn btn-success btn-lg px-5" onclick="generatePDF()">
+                                            <i class="fas fa-file-pdf"></i> Generate PDF
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -880,6 +1054,72 @@
         </div>
     </div>
 
+    <!-- About Modal -->
+    <div class="modal fade" id="aboutModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background: var(--gradient-dark); color: white;">
+                    <h5 class="modal-title">
+                        <i class="fas fa-info-circle"></i> About DREAM CV Generator
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="creator-avatar mb-3">
+                        <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 2rem; color: white;">
+                            <i class="fas fa-user-astronaut"></i>
+                        </div>
+                    </div>
+                    <h4 class="mb-1">Created by <strong style="color: var(--primary-color);">Nitish Niraj</strong></h4>
+                    <p class="text-muted mb-3">Full Stack Developer & AI Enthusiast</p>
+                    <p class="mb-4">An AI-powered CV generator that helps you create professional, ATS-friendly resumes tailored to your dream company.</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="https://github.com/nitish-niraj" target="_blank" class="btn btn-outline-dark">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        <a href="https://linkedin.com/in/nitish-niraj" target="_blank" class="btn btn-outline-primary">
+                            <i class="fab fa-linkedin"></i> LinkedIn
+                        </a>
+                    </div>
+                    <hr class="my-4">
+                    <p class="small text-muted mb-0">Version 1.0 | Built with Flask, Bootstrap & AI ❤️</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating About Button -->
+    <button class="fab-about" onclick="openAboutModal()" title="About this app">
+        <i class="fas fa-info"></i>
+    </button>
+
+    <!-- Footer with Developer Credit -->
+    <footer class="footer">
+        <div class="container">
+            <div class="creator-badge" onclick="openAboutModal()" style="cursor: pointer;">
+                <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-gold); display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-code" style="color: white;"></i>
+                </div>
+                <div class="text-start">
+                    <div class="creator-name">Nitish Niraj</div>
+                    <div class="creator-title">Developer & Creator</div>
+                </div>
+            </div>
+            <div class="social-links">
+                <a href="https://github.com/nitish-niraj" target="_blank" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://linkedin.com/in/nitish-niraj" target="_blank" title="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="mailto:nitishniraj@email.com" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+            <p class="mt-3">© 2024 DREAM CV Generator | AI-Powered Resume Builder</p>
+        </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- DREAM CV Generator JavaScript Modules -->
@@ -889,5 +1129,13 @@
     <script src="{{ url_for('static', filename='js/preview.js') }}"></script>
     <script src="{{ url_for('static', filename='js/api.js') }}"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    
+    <script>
+        // Open About Modal
+        function openAboutModal() {
+            const modal = new bootstrap.Modal(document.getElementById('aboutModal'));
+            modal.show();
+        }
+    </script>
 </body>
 </html>

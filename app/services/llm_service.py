@@ -255,6 +255,57 @@ Write concisely and specifically for the DREAM CV format."""
         except json.JSONDecodeError as e:
             print(f"[ERROR] JSON decode error: {e}")
             return None
+    
+    def generate_planned_skills(self, dream_context: dict, current_skills: dict) -> dict:
+        """
+        Generate recommended skills and certifications to learn based on DREAM target
+        
+        Args:
+            dream_context: Dictionary with cohort, dream_company, target_role, target_technology
+            current_skills: Dictionary with current skill categories
+            
+        Returns:
+            Dictionary with planned_skills, planned_certifications, learning_path
+        """
+        from .prompts import PLANNED_SKILLS_PROMPT
+        
+        prompt = PLANNED_SKILLS_PROMPT.format(
+            cohort=dream_context.get('cohort', 'Not specified'),
+            dream_company=dream_context.get('dream_company', 'Not specified'),
+            target_role=dream_context.get('target_role', 'Not specified'),
+            target_technology=dream_context.get('target_technology', 'Not specified'),
+            current_languages=current_skills.get('prog_languages', 'Not specified'),
+            current_web_tech=current_skills.get('web_tech', 'Not specified'),
+            current_databases=current_skills.get('databases', 'Not specified'),
+            current_mobile_tech=current_skills.get('mobile_tech', 'Not specified'),
+            current_tools=current_skills.get('other_tools', 'Not specified')
+        )
+        
+        system_prompt = """You are a career advisor specializing in technology career paths.
+Your task is to recommend skills and certifications for candidates to achieve their DREAM career goals.
+Be specific and practical. Consider what the target company actually values.
+Return ONLY valid JSON with no additional text or explanation."""
+        
+        result = self.call(prompt, system_prompt)
+        
+        if result:
+            parsed = self.parse_json_response(result)
+            if parsed:
+                return {
+                    'success': True,
+                    'planned_skills': parsed.get('planned_skills', {}),
+                    'planned_certifications': parsed.get('planned_certifications', []),
+                    'learning_path': parsed.get('learning_path', '')
+                }
+        
+        # Return empty structure on failure
+        return {
+            'success': False,
+            'error': 'Failed to generate planned skills',
+            'planned_skills': {},
+            'planned_certifications': [],
+            'learning_path': ''
+        }
 
 
 # Singleton instance
