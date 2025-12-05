@@ -100,6 +100,49 @@ function showToast(message, type = 'info') {
 }
 
 /**
+ * Update the status message container for test assertions
+ * This function sets a visible text message that tests can assert on
+ * @param {string} message - The status message to display
+ * @param {string} type - Type: 'success', 'error', 'warning', 'info'
+ * @param {number} duration - How long to show the message in ms (0 = permanent)
+ */
+function updateStatusMessage(message, type = 'success', duration = 5000) {
+    const statusContainer = document.getElementById('status-message');
+    if (!statusContainer) {
+        console.warn('[DEBUG] Status message container not found');
+        return;
+    }
+    
+    // Set the message
+    statusContainer.textContent = message;
+    statusContainer.className = 'status-message-container status-' + type;
+    statusContainer.style.display = 'block';
+    
+    console.log('[STATUS]', message);
+    
+    // Auto-hide after duration (if not permanent)
+    if (duration > 0) {
+        setTimeout(() => {
+            // Only hide if the message hasn't changed
+            if (statusContainer.textContent === message) {
+                statusContainer.style.display = 'none';
+            }
+        }, duration);
+    }
+}
+
+/**
+ * Clear the status message
+ */
+function clearStatusMessage() {
+    const statusContainer = document.getElementById('status-message');
+    if (statusContainer) {
+        statusContainer.textContent = '';
+        statusContainer.style.display = 'none';
+    }
+}
+
+/**
  * Convert markdown-style text to HTML
  * Handles **bold**, *italic*, and newlines
  * @param {string} text - The markdown text

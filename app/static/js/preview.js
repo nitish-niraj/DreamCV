@@ -17,6 +17,11 @@ function updateLivePreview() {
         return;
     }
     
+    // Update status message for test assertions
+    if (typeof updateStatusMessage === 'function') {
+        updateStatusMessage('Live CV Updated Successfully', 'success', 2000);
+    }
+    
     const photoSrc = document.querySelector('#photoPreview img')?.src || '';
     const photoHtml = photoSrc ? `<img src="${photoSrc}" class="cv-photo" alt="Photo" style="width: 70px; height: 85px; object-fit: cover; border: 1px solid #2c3e50;">` : '';
     

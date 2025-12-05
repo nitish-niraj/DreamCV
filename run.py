@@ -25,9 +25,12 @@ if __name__ == '__main__':
         print("=" * 50)
     
     # Start server - use 0.0.0.0 to accept external connections
+    # Use threaded=True for reliable static file serving during tests
     app.run(
         host='0.0.0.0',
         port=port,
-        debug=is_dev
+        debug=is_dev,
+        threaded=True,
+        use_reloader=is_dev
     )
 

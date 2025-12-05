@@ -3,6 +3,15 @@
  * Form sections, inputs, labels, dynamic entries
  */
 
+/* ===== FORM INPUT CLICKABILITY FIX ===== */
+/* Ensure all form controls are always clickable and above any tooltips */
+.form-control,
+.form-select {
+    position: relative;
+    z-index: 2;
+    pointer-events: auto;
+}
+
 /* ===== PLACEHOLDER STYLING ===== */
 ::placeholder {
     color: #adb5bd !important;

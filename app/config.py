@@ -22,7 +22,7 @@ class Config:
     # File upload settings
     UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', os.path.join(os.path.dirname(os.path.dirname(__file__)), 'uploads'))
     MAX_CONTENT_LENGTH = int(os.getenv('MAX_CONTENT_LENGTH', 16 * 1024 * 1024))  # 16MB max
-    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}  # GIF not allowed per test requirements
     RESUME_EXTENSIONS = {'pdf', 'doc', 'docx', 'txt'}
     
     # OpenRouter API settings

@@ -274,10 +274,24 @@
     display: flex;
     align-items: center;
     gap: 6px;
+    position: relative;
+    z-index: 1;
 }
 
 .label-with-tooltip .form-label {
     margin-bottom: 0;
+}
+
+/* Ensure info buttons don't block adjacent elements */
+.label-with-tooltip .info-btn {
+    position: relative;
+    z-index: auto;
+}
+
+/* Only elevate z-index on hover when tooltip is shown */
+.label-with-tooltip .info-btn:hover,
+.label-with-tooltip .info-btn:focus {
+    z-index: 1000;
 }
 
 /* ===== INLINE HELP TEXT ===== */

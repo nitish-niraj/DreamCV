@@ -174,13 +174,56 @@ You can configure different models in your `.env`:
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
+| `/health` | GET | Health check endpoint |
 | `/parse_resume` | POST | Parse uploaded resume with AI |
 | `/upload_photo` | POST | Upload profile photo |
 | `/generate_pdf` | POST | Generate CV PDF |
 | `/generate_career_objective` | POST | AI career objective |
+| `/generate_planned_skills` | POST | AI skill suggestions |
 | `/format_section` | POST | Format text with AI |
 
+All endpoints are available both with and without the `/api` prefix.
+
 For complete API documentation, see [API_DOCUMENTATION.md](./docs/API_DOCUMENTATION.md).
+
+---
+
+## 🧪 Testing
+
+### Running Tests
+
+```bash
+# Ensure server is running
+python run.py
+
+# Run integration tests
+cd testsprite_tests
+python TC001_*.py
+python TC002_*.py
+# ... etc
+```
+
+### Test Coverage
+
+| Test Case | Description |
+|-----------|-------------|
+| TC001 | Resume Parsing API - All file formats |
+| TC002 | Photo Upload API - Valid image formats |
+| TC003 | AI Career Objective Generation |
+| TC004 | Section Formatting API |
+| TC005 | PDF Generation API |
+| TC006 | Planned Skills Suggestion API |
+| TC007 | API Error Handling (JSON responses) |
+| TC008 | Environment Variable Configuration |
+
+### Health Check
+
+Verify the server is running:
+
+```bash
+curl http://localhost:5000/health
+# Response: {"success": true, "status": "healthy", "message": "DREAM CV Generator API is running"}
+```
 
 ---
 

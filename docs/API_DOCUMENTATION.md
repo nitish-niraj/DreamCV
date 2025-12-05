@@ -1,7 +1,7 @@
 # DREAM CV Generator - API Documentation
 
-> **Version:** 1.0.0  
-> **Last Updated:** December 3, 2025  
+> **Version:** 1.1.0  
+> **Last Updated:** December 6, 2025  
 > **License:** MIT
 
 ---
@@ -13,17 +13,20 @@
    - [Installation](#installation)
    - [Quick Start](#quick-start)
 3. [API Endpoints](#api-endpoints)
+   - [Health Check](#health-check)
    - [Resume Parsing](#resume-parsing)
    - [Photo Upload](#photo-upload)
    - [PDF Generation](#pdf-generation)
    - [AI Features](#ai-features)
-4. [Authentication](#authentication)
-5. [Request & Response Format](#request--response-format)
-6. [Error Handling](#error-handling)
-7. [Code Examples](#code-examples)
-8. [Troubleshooting](#troubleshooting)
-9. [Contributing](#contributing)
-10. [Support](#support)
+   - [Planned Skills](#planned-skills)
+4. [Endpoint URL Variants](#endpoint-url-variants)
+5. [Authentication](#authentication)
+6. [Request & Response Format](#request--response-format)
+7. [Error Handling](#error-handling)
+8. [Code Examples](#code-examples)
+9. [Troubleshooting](#troubleshooting)
+10. [Contributing](#contributing)
+11. [Support](#support)
 
 ---
 
@@ -104,8 +107,37 @@ print(parsed_data['data']['full_name'])
 ## API Endpoints
 
 ### Base URL
+
 ```
 http://127.0.0.1:5000
+```
+
+All endpoints are available both with and without the `/api` prefix for flexibility.
+
+---
+
+### Health Check
+
+Check if the API server is running and healthy.
+
+**Endpoints:** 
+- `GET /health`
+- `GET /api/health`
+
+#### Request Example
+
+```bash
+curl http://127.0.0.1:5000/health
+```
+
+#### Success Response (200 OK)
+
+```json
+{
+  "success": true,
+  "status": "healthy",
+  "message": "DREAM CV Generator API is running"
+}
 ```
 
 ---
@@ -397,6 +429,106 @@ Convert natural language descriptions into structured resume format.
 
 ---
 
+#### Generate Planned Skills
+
+Generate AI-powered skill suggestions based on cohort and dream company.
+
+**Endpoints:**
+- `POST /generate_planned_skills`
+- `POST /api/generate_planned_skills`
+- `POST /planned-skills/suggestions`
+- `POST /api/planned-skills/suggestions`
+
+**Content-Type:** `application/json`
+
+#### Request Body
+
+```json
+{
+  "cohort": "Full Stack Developer",
+  "dream_company": "Google",
+  "target_role": "Software Engineer",
+  "target_technology": "Cloud & DevOps",
+  "prog_languages": "Python, JavaScript",
+  "web_tech": "React, Node.js",
+  "databases": "PostgreSQL, MongoDB"
+}
+```
+
+#### Success Response (200 OK)
+
+```json
+{
+  "success": true,
+  "suggested_skills": ["Kubernetes", "Docker", "AWS", "GCP", "Terraform", "CI/CD"],
+  "planned_skills": {
+    "cloud": ["AWS", "GCP", "Azure"],
+    "devops": ["Docker", "Kubernetes", "Jenkins"]
+  },
+  "planned_certifications": ["AWS Solutions Architect", "GCP Professional Cloud Architect"],
+  "learning_path": "Start with Docker fundamentals, then move to Kubernetes..."
+}
+```
+
+---
+
+## Endpoint URL Variants
+
+For flexibility and backward compatibility, all endpoints are available in multiple URL formats:
+
+### Photo Upload Variants
+| URL Pattern | Description |
+|-------------|-------------|
+| `/api/upload_photo` | Primary API endpoint |
+| `/upload_photo` | Legacy route |
+| `/api/photo/upload` | Alternative format |
+| `/api/photo-upload` | Hyphenated format |
+| `/photo/upload` | Legacy alternative |
+
+### Resume Parsing Variants
+| URL Pattern | Description |
+|-------------|-------------|
+| `/api/parse_resume` | Primary API endpoint |
+| `/parse_resume` | Legacy route |
+| `/parse-resume` | Hyphenated format |
+| `/resume/parse` | Slash-separated format |
+
+### PDF Generation Variants
+| URL Pattern | Description |
+|-------------|-------------|
+| `/api/generate_pdf` | Primary API endpoint |
+| `/generate_pdf` | Legacy route |
+| `/api/pdf/generate` | Alternative format |
+| `/pdf/generate` | Slash-separated format |
+
+### Career Objective Variants
+| URL Pattern | Description |
+|-------------|-------------|
+| `/api/generate_career_objective` | Primary API endpoint |
+| `/generate_career_objective` | Legacy route |
+| `/api/career-objective` | Hyphenated format |
+| `/career-objective` | Legacy hyphenated |
+| `/career_objective` | Underscore format |
+
+### Section Formatting Variants
+| URL Pattern | Description |
+|-------------|-------------|
+| `/api/format_section` | Primary API endpoint |
+| `/format_section` | Legacy route |
+| `/api/format/section` | Slash-separated format |
+| `/format/section` | Legacy slash-separated |
+
+### Planned Skills Variants
+| URL Pattern | Description |
+|-------------|-------------|
+| `/api/generate_planned_skills` | Primary API endpoint |
+| `/generate_planned_skills` | Legacy route |
+| `/api/planned-skills/suggestions` | Alternative format |
+| `/planned-skills/suggestions` | Legacy alternative |
+| `/planned_skills` | Underscore format |
+
+---
+
 ## Authentication
 
 Currently, the DREAM CV Generator API does not require authentication for local development. All endpoints are publicly accessible when running locally.
@@ -411,16 +543,19 @@ Currently, the DREAM CV Generator API does not require authentication for local 
 
 | Endpoint | Request Type | Response Type |
 |----------|--------------|---------------|
+| `/health` | - | `application/json` |
 | `/parse_resume` | `multipart/form-data` | `application/json` |
 | `/upload_photo` | `multipart/form-data` | `application/json` |
 | `/generate_pdf` | `application/json` | `application/pdf` |
 | `/generate_career_objective` | `application/json` | `application/json` |
+| `/generate_planned_skills` | `application/json` | `application/json` |
 | `/format_section` | `application/json` | `application/json` |
 | `/format_natural_language` | `application/json` | `application/json` |
 
 ### Standard Response Structure
 
 **Success Response:**
+
 ```json
 {
   "success": true,
@@ -429,6 +564,7 @@ Currently, the DREAM CV Generator API does not require authentication for local 
 ```
 
 **Error Response:**
+
 ```json
 {
   "success": false,
@@ -440,16 +576,63 @@ Currently, the DREAM CV Generator API does not require authentication for local 
 
 ## Error Handling
 
+### JSON Error Responses
+
+All API endpoints return JSON error responses instead of HTML pages. This makes it easier to handle errors programmatically.
+
 ### HTTP Status Codes
 
 | Code | Status | Description |
 |------|--------|-------------|
 | 200 | OK | Request successful |
-| 400 | Bad Request | Invalid request parameters or file type |
+| 400 | Bad Request | Invalid request parameters, missing fields, or invalid file type |
 | 404 | Not Found | Endpoint not found |
+| 405 | Method Not Allowed | HTTP method not supported for this endpoint |
 | 500 | Internal Server Error | Server-side error (LLM failure, PDF generation error) |
 
-### Common Errors
+### Error Response Formats
+
+#### 400 Bad Request
+
+```json
+{
+  "success": false,
+  "error": "Bad request",
+  "message": "Invalid request details"
+}
+```
+
+#### 404 Not Found
+
+```json
+{
+  "success": false,
+  "error": "Endpoint not found",
+  "message": "The requested URL /api/unknown was not found on this server"
+}
+```
+
+#### 405 Method Not Allowed
+
+```json
+{
+  "success": false,
+  "error": "Method not allowed",
+  "message": "The method GET is not allowed for this endpoint"
+}
+```
+
+#### 500 Internal Server Error
+
+```json
+{
+  "success": false,
+  "error": "Internal server error",
+  "message": "An unexpected error occurred"
+}
+```
+
+### Common Application Errors
 
 #### File Upload Errors
 
@@ -463,7 +646,7 @@ Currently, the DREAM CV Generator API does not require authentication for local 
 ```json
 {
   "success": false,
-  "error": "Invalid file type. Use PDF, DOC, DOCX, or TXT"
+  "error": "Unsupported file type detected. Please upload a valid resume format."
 }
 ```
 

@@ -1,0 +1,149 @@
+{
+  "tech_stack": [
+    "Python",
+    "Flask",
+    "xhtml2pdf",
+    "OpenRouter API",
+    "PyPDF2",
+    "python-docx",
+    "Pillow",
+    "Bootstrap",
+    "JavaScript",
+    "HTML/CSS"
+  ],
+  "features": [
+    {
+      "name": "Resume Parsing",
+      "description": "AI-powered resume parsing that extracts structured data from uploaded PDF, DOCX, DOC, and TXT files. Supports DREAM context-aware parsing to tailor extraction based on target company and role.",
+      "files": [
+        "app/services/resume_parser.py",
+        "app/services/llm_service.py",
+        "app/services/prompts.py",
+        "app/utils/file_handlers.py",
+        "app/routes/api.py"
+      ]
+    },
+    {
+      "name": "PDF Generation",
+      "description": "Generates professional ATS-friendly PDF CVs from form data using xhtml2pdf. Includes Unicode sanitization, base64 image handling, and dynamic skill category labels based on cohort.",
+      "files": [
+        "app/services/pdf_service.py",
+        "app/services/styles.py",
+        "app/templates/cv_template.html",
+        "app/routes/api.py"
+      ]
+    },
+    {
+      "name": "LLM Service",
+      "description": "Service for interacting with OpenRouter LLM API. Handles career objective generation, section formatting, suggestions, and planned skills generation. Includes JSON parsing with repair for truncated responses.",
+      "files": [
+        "app/services/llm_service.py",
+        "app/services/prompts.py",
+        "app/config.py"
+      ]
+    },
+    {
+      "name": "Photo Upload",
+      "description": "Handles photo uploads for CV profile pictures. Converts images to base64 data URLs for in-memory use. Supports PNG, JPG, and JPEG formats.",
+      "files": [
+        "app/routes/api.py",
+        "app/utils/file_handlers.py",
+        "app/static/js/upload.js"
+      ]
+    },
+    {
+      "name": "Career Objective Generation",
+      "description": "AI-powered career objective generation that blends 50% dream company details with 50% resume content. Creates professional 2-3 line career objectives tailored to target role and company.",
+      "files": [
+        "app/services/llm_service.py",
+        "app/services/prompts.py",
+        "app/routes/api.py"
+      ]
+    },
+    {
+      "name": "Planned Skills Suggestion",
+      "description": "Generates recommended skills and certifications based on DREAM target (cohort, company, role, technology) and current skills. Provides learning path recommendations.",
+      "files": [
+        "app/services/llm_service.py",
+        "app/services/prompts.py",
+        "app/routes/api.py"
+      ]
+    },
+    {
+      "name": "Section Formatting",
+      "description": "AI-powered text formatting for CV sections. Improves language while maintaining original meaning, making content concise and impactful for 2-page CV format.",
+      "files": [
+        "app/services/llm_service.py",
+        "app/routes/api.py"
+      ]
+    },
+    {
+      "name": "File Text Extraction",
+      "description": "Extracts text content from various file formats including PDF, DOCX, DOC, and TXT. Uses PyPDF2 for PDFs and python-docx for Word documents.",
+      "files": [
+        "app/utils/file_handlers.py"
+      ]
+    },
+    {
+      "name": "API Routes",
+      "description": "RESTful API endpoints for CV operations including upload_photo, parse_resume, generate_pdf, generate_career_objective, generate_planned_skills, format_section, and get_suggestions. Includes alias routes for test compatibility.",
+      "files": [
+        "app/routes/api.py",
+        "app/routes/main.py",
+        "app/routes/legacy.py"
+      ]
+    },
+    {
+      "name": "Frontend Form",
+      "description": "Interactive multi-step form for CV creation with sections for personal details, DREAM company targeting, academic qualifications, technical skills, projects, internships, and certifications.",
+      "files": [
+        "app/templates/index.html",
+        "app/static/js/form.js",
+        "app/static/js/app.js",
+        "app/static/css/form.css",
+        "app/static/css/main.css"
+      ]
+    },
+    {
+      "name": "CV Preview",
+      "description": "Real-time preview of CV content as user fills the form. Displays formatted CV sections with proper styling.",
+      "files": [
+        "app/static/js/preview.js",
+        "app/static/css/preview.css",
+        "app/templates/index.html"
+      ]
+    },
+    {
+      "name": "API Client",
+      "description": "JavaScript client for making API calls to backend endpoints. Handles file uploads, form submissions, and error handling.",
+      "files": [
+        "app/static/js/api.js",
+        "app/static/js/utils.js"
+      ]
+    },
+    {
+      "name": "Configuration Management",
+      "description": "Environment-based configuration with support for development, production, and testing modes. Manages API keys, file upload settings, and LLM parameters.",
+      "files": [
+        "app/config.py",
+        "app/__init__.py"
+      ]
+    },
+    {
+      "name": "Error Handling",
+      "description": "Comprehensive error handling with JSON error responses for API endpoints. Handles 400, 404, 405, and 500 errors with appropriate JSON responses.",
+      "files": [
+        "app/__init__.py",
+        "app/routes/api.py"
+      ]
+    },
+    {
+      "name": "Health Check",
+      "description": "Health check endpoint for testing server availability and API status.",
+      "files": [
+        "app/__init__.py"
+      ]
+    }
+  ]
+}
+

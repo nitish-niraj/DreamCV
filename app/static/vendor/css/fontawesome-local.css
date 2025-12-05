@@ -1,0 +1,108 @@
+/*!
+ * Font Awesome Free 6.4.2 - Local version with relative webfonts paths
+ * Local webfonts reference for offline/test environment support
+ */
+
+@font-face {
+  font-family: 'Font Awesome 6 Free';
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: url("../webfonts/fa-solid-900.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: 'Font Awesome 6 Free';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("../webfonts/fa-regular-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: 'Font Awesome 6 Brands';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("../webfonts/fa-brands-400.woff2") format("woff2");
+}
+
+.fa, .fas, .far, .fab {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+}
+
+.fas, .fa-solid { font-family: 'Font Awesome 6 Free'; font-weight: 900; }
+.far, .fa-regular { font-family: 'Font Awesome 6 Free'; font-weight: 400; }
+.fab, .fa-brands { font-family: 'Font Awesome 6 Brands'; font-weight: 400; }
+
+/* Common icons used in the app */
+.fa-file-alt:before { content: "\f15c"; }
+.fa-robot:before { content: "\f544"; }
+.fa-check-circle:before { content: "\f058"; }
+.fa-star:before { content: "\f005"; }
+.fa-arrow-right:before { content: "\f061"; }
+.fa-lock:before { content: "\f023"; }
+.fa-cloud-upload-alt:before { content: "\f382"; }
+.fa-file-upload:before { content: "\f574"; }
+.fa-magic:before { content: "\f0d0"; }
+.fa-user:before { content: "\f007"; }
+.fa-camera:before { content: "\f030"; }
+.fa-envelope:before { content: "\f0e0"; }
+.fa-phone:before { content: "\f095"; }
+.fa-graduation-cap:before { content: "\f19d"; }
+.fa-briefcase:before { content: "\f0b1"; }
+.fa-code:before { content: "\f121"; }
+.fa-certificate:before { content: "\f0a3"; }
+.fa-trophy:before { content: "\f091"; }
+.fa-language:before { content: "\f1ab"; }
+.fa-users:before { content: "\f0c0"; }
+.fa-calendar-alt:before { content: "\f073"; }
+.fa-cog:before { content: "\f013"; }
+.fa-download:before { content: "\f019"; }
+.fa-spinner:before { content: "\f110"; }
+.fa-times:before { content: "\f00d"; }
+.fa-times-circle:before { content: "\f057"; }
+.fa-exclamation-triangle:before { content: "\f071"; }
+.fa-exclamation-circle:before { content: "\f06a"; }
+.fa-info-circle:before { content: "\f05a"; }
+.fa-plus:before { content: "\f067"; }
+.fa-minus:before { content: "\f068"; }
+.fa-trash:before { content: "\f1f8"; }
+.fa-edit:before { content: "\f044"; }
+.fa-eye:before { content: "\f06e"; }
+.fa-clipboard-check:before { content: "\f46c"; }
+.fa-lightbulb:before { content: "\f0eb"; }
+.fa-link:before { content: "\f0c1"; }
+.fa-github:before { content: "\f09b"; }
+.fa-linkedin:before { content: "\f0e1"; }
+.fa-linkedin-in:before { content: "\f0e1"; }
+.fa-globe:before { content: "\f0ac"; }
+.fa-laptop-code:before { content: "\f5fc"; }
+.fa-tools:before { content: "\f7d9"; }
+.fa-project-diagram:before { content: "\f542"; }
+.fa-sync:before { content: "\f021"; }
+.fa-save:before { content: "\f0c7"; }
+.fa-file-pdf:before { content: "\f1c1"; }
+.fa-print:before { content: "\f02f"; }
+
+/* Spin animation */
+.fa-spin {
+  animation: fa-spin 2s infinite linear;
+}
+
+@keyframes fa-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Size modifiers */
+.fa-2x { font-size: 2em; }
+.fa-3x { font-size: 3em; }
+.fa-4x { font-size: 4em; }
+.fa-5x { font-size: 5em; }

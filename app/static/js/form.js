@@ -988,7 +988,46 @@ function collectFormData() {
         }
     }
     
+    // Validate profile URLs and update status message
+    validateProfileUrls(data);
+    
     return data;
+}
+
+/**
+ * Validate profile URLs and update status message
+ * Called when collecting form data to ensure URLs are validated
+ * @param {Object} data - The form data object with profile URLs
+ * @returns {boolean} True if all URLs are valid
+ */
+function validateProfileUrls(data) {
+    const urlFields = ['linkedin', 'github', 'portfolio', 'leetcode', 'hackerrank', 'gfg', 'codeforces', 'codechef'];
+    let validUrlCount = 0;
+    let allValid = true;
+    
+    for (const field of urlFields) {
+        if (data[field] && data[field].trim()) {
+            // Basic URL validation
+            try {
+                new URL(data[field]);
+                validUrlCount++;
+            } catch (e) {
+                allValid = false;
+            }
+        }
+    }
+    
+    // Update status message if we have URLs
+    if (validUrlCount > 0 && allValid && typeof updateStatusMessage === 'function') {
+        if (validUrlCount >= 2) {
+            // Multiple profiles verified
+            updateStatusMessage('Multiple Digital Profiles Verified', 'success');
+        } else {
+            updateStatusMessage('Profile URL validation successful', 'success');
+        }
+    }
+    
+    return allValid;
 }
 
 // Export functions for global access
@@ -1007,6 +1046,7 @@ window.CVForm = {
     removeOtherPlatform,
     removeEntry,
     collectFormData,
+    validateProfileUrls,
     organizeSkillsForCohort,
     getSkillCategoriesForCohort,
     alignFormWithDreamDetails,

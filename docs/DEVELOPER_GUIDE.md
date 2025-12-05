@@ -206,12 +206,39 @@ def parse_resume():
 
 | Endpoint | Method | Handler | Description |
 |----------|--------|---------|-------------|
+| `/health` | GET | `app.health_check` | Health check endpoint |
 | `/` | GET | `main.index` | Render main page |
 | `/parse_resume` | POST | `api.parse_resume` | Parse uploaded resume |
 | `/upload_photo` | POST | `api.upload_photo` | Upload profile photo |
 | `/generate_pdf` | POST | `api.generate_pdf` | Generate CV PDF |
 | `/generate_career_objective` | POST | `api.generate_career_objective` | AI career objective |
+| `/generate_planned_skills` | POST | `api.generate_planned_skills` | AI skill suggestions |
 | `/format_section` | POST | `api.format_section` | Format text with AI |
+
+### URL Routing
+
+All endpoints are available in multiple URL formats for backward compatibility:
+
+- **With `/api` prefix**: `/api/parse_resume`, `/api/upload_photo`, etc.
+- **Without prefix (legacy)**: `/parse_resume`, `/upload_photo`, etc.
+- **Alternative formats**: `/career-objective`, `/planned-skills/suggestions`, etc.
+
+### Error Handling
+
+The application includes JSON error handlers for all HTTP error codes:
+
+```python
+# app/__init__.py
+@app.errorhandler(404)
+def not_found(error):
+    if request.path.startswith('/api') or request.is_json:
+        return jsonify({
+            'success': False,
+            'error': 'Endpoint not found',
+            'message': f'The requested URL {request.path} was not found'
+        }), 404
+    return error
+```
 
 ---
 
@@ -729,12 +756,19 @@ const PLANNED_SKILLS_BY_COHORT = {
 
 ## Testing
 
-### Running Tests
+### Test Environment Setup
 
 ```bash
 # Install test dependencies
-pip install pytest pytest-cov
+pip install pytest pytest-cov requests
 
+# Ensure the server is running for integration tests
+python run.py
+```
+
+### Running Tests
+
+```bash
 # Run all tests
 pytest
 
@@ -743,21 +777,96 @@ pytest --cov=app
 
 # Run specific test file
 pytest tests/test_api.py
+
+# Run with verbose output
+pytest -v
 ```
 
 ### Test Structure
 
-```
+```text
 tests/
 ├── __init__.py
-├── conftest.py          # Test fixtures
-├── test_api.py          # API endpoint tests
-├── test_llm_service.py  # LLM service tests
-├── test_pdf_service.py  # PDF generation tests
+├── conftest.py           # Test fixtures
+├── test_api.py           # API endpoint tests
+├── test_llm_service.py   # LLM service tests
+├── test_pdf_service.py   # PDF generation tests
 └── test_resume_parser.py # Resume parser tests
+
+testsprite_tests/         # Backend API integration tests
+├── TC001_*.py            # Resume parsing tests
+├── TC002_*.py            # Photo upload tests
+├── TC003_*.py            # Career objective tests
+├── TC004_*.py            # Section formatting tests
+├── TC005_*.py            # PDF generation tests
+├── TC006_*.py            # Planned skills tests
+├── TC007_*.py            # Error handling tests
+└── TC008_*.py            # Environment config tests
 ```
 
-### Example Test
+### API Integration Tests
+
+Integration tests verify the API endpoints work correctly:
+
+```python
+# Example: Test resume parsing API
+import requests
+
+BASE_URL = "http://localhost:5000"
+
+def test_resume_parsing_api():
+    """Test that resume parsing returns structured data."""
+    with open('test_resume.pdf', 'rb') as f:
+        response = requests.post(
+            f"{BASE_URL}/api/parse_resume",
+            files={'resume': f}
+        )
+    
+    assert response.status_code == 200
+    data = response.json()
+    assert data['success'] == True
+    assert 'data' in data
+    assert 'full_name' in data['data']
+
+def test_career_objective_generation():
+    """Test AI career objective generation."""
+    payload = {
+        "dream_company": "Google",
+        "target_role": "Software Engineer",
+        "technical_skills": "Python, JavaScript"
+    }
+    
+    response = requests.post(
+        f"{BASE_URL}/api/generate_career_objective",
+        json=payload
+    )
+    
+    assert response.status_code == 200
+    data = response.json()
+    assert data['success'] == True
+    assert 'career_objective' in data
+
+def test_health_endpoint():
+    """Test health check endpoint."""
+    response = requests.get(f"{BASE_URL}/health")
+    
+    assert response.status_code == 200
+    data = response.json()
+    assert data['success'] == True
+    assert data['status'] == 'healthy'
+
+def test_404_returns_json():
+    """Test that 404 errors return JSON, not HTML."""
+    response = requests.get(f"{BASE_URL}/api/nonexistent")
+    
+    assert response.status_code == 404
+    assert response.headers['Content-Type'] == 'application/json'
+    data = response.json()
+    assert data['success'] == False
+    assert 'error' in data
+```
+
+### Unit Tests
 
 ```python
 # tests/test_api.py
@@ -771,17 +880,52 @@ def client():
     with app.test_client() as client:
         yield client
 
+def test_health_check(client):
+    """Test health endpoint returns correct response."""
+    response = client.get('/health')
+    assert response.status_code == 200
+    assert response.json['success'] == True
+
 def test_parse_resume_no_file(client):
     """Test parse_resume endpoint without file."""
-    response = client.post('/parse_resume')
+    response = client.post('/api/parse_resume')
     assert response.status_code == 400
     assert response.json['success'] == False
 
 def test_parse_resume_invalid_type(client):
     """Test parse_resume with invalid file type."""
+    import io
     data = {'resume': (io.BytesIO(b'content'), 'test.xyz')}
-    response = client.post('/parse_resume', data=data)
+    response = client.post('/api/parse_resume', data=data)
     assert response.status_code == 400
+
+def test_photo_upload_no_file(client):
+    """Test photo upload without file."""
+    response = client.post('/api/upload_photo')
+    assert response.status_code == 400
+    assert 'error' in response.json
+
+def test_career_objective_no_data(client):
+    """Test career objective with no data."""
+    response = client.post(
+        '/api/generate_career_objective',
+        content_type='application/json',
+        data='{}'
+    )
+    # Should still work but with minimal output
+    assert response.status_code in [200, 400]
+```
+
+### Test Coverage
+
+Aim for at least 80% code coverage:
+
+```bash
+# Generate coverage report
+pytest --cov=app --cov-report=html
+
+# View report in browser
+open htmlcov/index.html
 ```
 
 ---
