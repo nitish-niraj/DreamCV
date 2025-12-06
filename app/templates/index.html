@@ -1,33 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DREAM CV Generator | AI-Powered Resume Builder</title>
-    <meta name="description" content="Create professional, ATS-friendly CVs tailored to your dream company with AI assistance">
+    <meta name="description"
+        content="Create professional, ATS-friendly CVs tailored to your dream company with AI assistance">
     <meta name="author" content="Nitish Niraj">
-    
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='favicon.png') }}">
+
     <!-- Local vendor CSS (primary) with CDN fallbacks -->
     <link rel="stylesheet" href="{{ url_for('static', filename='vendor/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/css/fontawesome.min.css') }}" onerror="this.onerror=null;this.href='{{ url_for('static', filename='vendor/css/fontawesome-local.css') }}'">
-    
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/css/fontawesome.min.css') }}"
+        onerror="this.onerror=null;this.href=&quot;{{ url_for('static', filename='vendor/css/fontawesome-local.css') }}&quot;">
+
     <!-- Google Fonts with fallback -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <!-- Application CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    
-    <!-- Fallback styles for missing fonts -->
-    <style>
-        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/modern-theme.css') }}">
+
 </head>
+
 <body>
+    <!-- Theme Toggle Button -->
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark/light theme" title="Toggle theme">
+        <i class="fas fa-sun" id="themeIcon"></i>
+    </button>
+
     <!-- Status Message Container for test assertions -->
-    <div id="status-message" class="status-message-container" style="display: none;" role="status" aria-live="polite"></div>
-    
+    <div id="status-message" class="status-message-container" style="display: none;" role="status" aria-live="polite">
+    </div>
+
     <div class="container-fluid">
         <!-- Header -->
         <header class="header-section">
@@ -36,7 +47,8 @@
                 <p class="lead">Create your professional DREAM CV with AI assistance</p>
                 <div class="header-badges mt-2">
                     <span class="ai-badge"><i class="fas fa-robot"></i> AI-Powered</span>
-                    <span class="ai-badge ms-2" style="background: linear-gradient(135deg, #10B981, #34D399);"><i class="fas fa-check-circle"></i> ATS-Friendly</span>
+                    <span class="ai-badge ms-2" style="background: linear-gradient(135deg, #10B981, #34D399);"><i
+                            class="fas fa-check-circle"></i> ATS-Friendly</span>
                 </div>
             </div>
         </header>
@@ -45,8 +57,8 @@
             <div class="row">
                 <!-- Left Panel - Form -->
                 <div class="col-lg-7">
-                    <div class="form-container">
-                        
+                    <div class="form-container glass-panel p-4">
+
                         <!-- Step Wizard -->
                         <div class="step-wizard" id="stepWizard">
                             <div class="step active" data-step="1" onclick="goToStep(1)">
@@ -71,77 +83,97 @@
                         </div>
 
                         <form id="cvForm" enctype="multipart/form-data">
-                            
+
                             <!-- ====== STEP 1: DREAM Company Details (FIRST - MANDATORY) ====== -->
                             <div class="step-content" id="step1Content">
                                 <div class="form-section dream-first-section" id="sectionDream">
                                     <h3 class="section-header">
                                         <i class="fas fa-star"></i> Step 1: Define Your DREAM Company Target
                                         <span class="badge bg-danger">Start Here</span>
-                                        <button type="button" class="info-btn tooltip-lg" data-tooltip="Your DREAM target shapes your entire CV! The AI will customize your Career Objective, align Technical Skills, and suggest Planned Skills based on this information. Think carefully about your ideal company and role.">?</button>
+                                        <button type="button" class="info-btn tooltip-lg"
+                                            data-tooltip="Your DREAM target shapes your entire CV! The AI will customize your Career Objective, align Technical Skills, and suggest Planned Skills based on this information. Think carefully about your ideal company and role.">?</button>
                                     </h3>
                                     <div class="contextual-hint">
                                         <span class="hint-icon">💡</span>
-                                        <span class="hint-text">Pro Tip: Your DREAM Company details will shape your entire CV. The AI will tailor your Career Objective, Technical Skills, and Planned Skills based on this.</span>
+                                        <span class="hint-text">Pro Tip: Your DREAM Company details will shape your
+                                            entire CV. The AI will tailor your Career Objective, Technical Skills, and
+                                            Planned Skills based on this.</span>
                                     </div>
-                                    
+
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <div class="label-with-tooltip">
                                                 <label class="form-label">Target Cohort *</label>
-                                                <button type="button" class="info-btn" data-tooltip="Select your career path focus. This determines the skill categories and planned skills that will appear in your CV.">?</button>
+                                                <button type="button" class="info-btn"
+                                                    data-tooltip="Select your career path focus. This determines the skill categories and planned skills that will appear in your CV.">?</button>
                                             </div>
                                             <select class="form-select" name="cohort" id="dreamCohort" required>
                                                 <option value="">Select Cohort</option>
-                                                <option value="Full Stack Developer (Web/Mobile)">Full Stack Developer (Web/Mobile)</option>
-                                                <option value="AIML (Artificial Intelligence & Machine Learning)">AIML (Artificial Intelligence & Machine Learning)</option>
+                                                <option value="Full Stack Developer (Web/Mobile)">Full Stack Developer
+                                                    (Web/Mobile)</option>
+                                                <option value="AIML (Artificial Intelligence & Machine Learning)">AIML
+                                                    (Artificial Intelligence & Machine Learning)</option>
                                                 <option value="Data Analyst">Data Analyst</option>
                                                 <option value="Cyber Security">Cyber Security</option>
-                                                <option value="Quality Assurance & Testing">Quality Assurance & Testing</option>
+                                                <option value="Quality Assurance & Testing">Quality Assurance & Testing
+                                                </option>
                                                 <option value="Game Development">Game Development</option>
                                             </select>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <div class="label-with-tooltip">
                                                 <label class="form-label">Dream Company *</label>
-                                                <button type="button" class="info-btn tooltip-gold" data-tooltip="Enter your target company name. This helps AI tailor your CV language and focus areas to match company culture and requirements.">?</button>
+                                                <button type="button" class="info-btn tooltip-gold"
+                                                    data-tooltip="Enter your target company name. This helps AI tailor your CV language and focus areas to match company culture and requirements.">?</button>
                                             </div>
-                                            <input type="text" class="form-control" name="dream_company" id="dreamCompany" placeholder="e.g., Google, Microsoft, Zoho, Amazon" required>
+                                            <input type="text" class="form-control" name="dream_company"
+                                                id="dreamCompany" placeholder="e.g., Google, Microsoft, Zoho, Amazon"
+                                                required>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <div class="label-with-tooltip">
                                                 <label class="form-label">Target Role *</label>
-                                                <button type="button" class="info-btn" data-tooltip="The specific job title you're applying for. Be specific - 'Software Engineer' vs 'Senior Backend Developer' makes a difference!">?</button>
+                                                <button type="button" class="info-btn"
+                                                    data-tooltip="The specific job title you're applying for. Be specific - 'Software Engineer' vs 'Senior Backend Developer' makes a difference!">?</button>
                                             </div>
-                                            <input type="text" class="form-control" name="target_role" id="dreamRole" placeholder="e.g., Software Engineer, Data Scientist, GenAI Engineer" required>
+                                            <input type="text" class="form-control" name="target_role" id="dreamRole"
+                                                placeholder="e.g., Software Engineer, Data Scientist, GenAI Engineer"
+                                                required>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <div class="label-with-tooltip">
                                                 <label class="form-label">Target Technology *</label>
-                                                <button type="button" class="info-btn" data-tooltip="Primary technology stack you want to work with. This helps highlight relevant skills and projects in your CV.">?</button>
+                                                <button type="button" class="info-btn"
+                                                    data-tooltip="Primary technology stack you want to work with. This helps highlight relevant skills and projects in your CV.">?</button>
                                             </div>
-                                            <input type="text" class="form-control" name="target_technology" id="dreamTech" placeholder="e.g., Full Stack, AI/ML, Cloud, Generative AI">
+                                            <input type="text" class="form-control" name="target_technology"
+                                                id="dreamTech"
+                                                placeholder="e.g., Full Stack, AI/ML, Cloud, Generative AI">
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <div class="label-with-tooltip">
                                             <label class="form-label">Expected Package (LPA)</label>
-                                            <button type="button" class="info-btn tooltip-success" data-tooltip="Optional: Your salary expectation. This won't appear on your CV but helps AI understand your career level for appropriate language.">?</button>
+                                            <button type="button" class="info-btn tooltip-success"
+                                                data-tooltip="Optional: Your salary expectation. This won't appear on your CV but helps AI understand your career level for appropriate language.">?</button>
                                         </div>
-                                        <input type="text" class="form-control" name="expected_package" placeholder="e.g., 12-15 LPA, 15-20 LPA">
+                                        <input type="text" class="form-control" name="expected_package"
+                                            placeholder="e.g., 12-15 LPA, 15-20 LPA">
                                     </div>
-                                    
+
                                     <div class="proceed-btn-container">
-                                        <button type="button" class="btn btn-proceed" id="btnProceedToStep2" onclick="proceedToStep2()" disabled>
+                                        <button type="button" class="btn btn-proceed" id="btnProceedToStep2"
+                                            onclick="proceedToStep2()" disabled>
                                             <i class="fas fa-arrow-right"></i> Proceed to Resume Upload
                                         </button>
-                                        <p class="text-muted mt-2 small"><i class="fas fa-lock"></i> Fill all required fields (*) to proceed</p>
+                                        <p class="text-muted mt-2 small"><i class="fas fa-lock"></i> Fill all required
+                                            fields (*) to proceed</p>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- ====== STEP 2: Resume Upload (After DREAM Details) ====== -->
                             <div class="step-content" id="step2Content" style="display: none;">
                                 <div class="ai-upload-section mb-4" id="resumeUploadSection">
@@ -150,59 +182,66 @@
                                         <h4>Step 2: Upload Your Existing Resume</h4>
                                     </div>
                                     <div class="alert alert-info mb-3">
-                                        <i class="fas fa-magic"></i> <strong>AI will tailor your resume for:</strong> 
+                                        <i class="fas fa-magic"></i> <strong>AI will tailor your resume for:</strong>
                                         <span id="dreamTargetSummary" class="fw-bold"></span>
                                     </div>
                                     <div id="resumeDropZone" class="resume-drop-zone">
                                         <i class="fas fa-cloud-upload-alt fa-3x mb-3"></i>
                                         <h5>Drag & Drop Your Resume Here</h5>
                                         <p class="text-muted">or click to browse</p>
-                                        <p class="small text-info"><strong>AI will extract your details and align them with your DREAM target!</strong></p>
+                                        <p class="small text-info"><strong>AI will extract your details and align them
+                                                with your DREAM target!</strong></p>
                                         <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx,.txt" hidden>
-                                        <button type="button" class="btn btn-outline-primary mt-2" onclick="document.getElementById('resumeUpload').click()">
+                                        <button type="button" class="btn btn-outline-primary mt-2"
+                                            onclick="document.getElementById('resumeUpload').click()">
                                             <i class="fas fa-file-upload"></i> Choose File
                                         </button>
                                     </div>
                                     <div id="uploadProgress" class="upload-progress" style="display: none;">
                                         <div class="progress">
-                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                                role="progressbar" style="width: 0%"></div>
                                         </div>
-                                        <p class="text-center mt-2 small"><i class="fas fa-robot"></i> AI is analyzing your resume and aligning with your DREAM target...</p>
+                                        <p class="text-center mt-2 small"><i class="fas fa-robot"></i> AI is analyzing
+                                            your resume and aligning with your DREAM target...</p>
                                     </div>
-                                    
+
                                     <!-- Extraction Status Panel -->
                                     <div id="extractionStatus" class="extraction-status" style="display: none;">
                                         <h6 class="mb-2"><i class="fas fa-clipboard-check"></i> Extraction Summary</h6>
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="status-section extracted">
-                                                    <strong><i class="fas fa-check-circle text-success"></i> Extracted:</strong>
+                                                    <strong><i class="fas fa-check-circle text-success"></i>
+                                                        Extracted:</strong>
                                                     <ul id="extractedSections" class="mb-0 small"></ul>
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="status-section remaining">
-                                                    <strong><i class="fas fa-exclamation-circle text-warning"></i> Needs Input:</strong>
+                                                    <strong><i class="fas fa-exclamation-circle text-warning"></i> Needs
+                                                        Input:</strong>
                                                     <ul id="remainingSections" class="mb-0 small"></ul>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="proceed-btn-container mt-3">
                                         <button type="button" class="btn btn-proceed" onclick="proceedToStep3()">
                                             <i class="fas fa-arrow-right"></i> Continue to Complete Profile
                                         </button>
-                                        <button type="button" class="btn btn-outline-secondary ms-2" onclick="proceedToStep3()">
+                                        <button type="button" class="btn btn-outline-secondary ms-2"
+                                            onclick="proceedToStep3()">
                                             Skip & Fill Manually
                                         </button>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- ====== STEP 3: Complete Profile (All Other Sections) ====== -->
                             <div class="step-content" id="step3Content" style="display: none;">
-                            
+
                                 <!-- Progress Bar -->
                                 <div class="progress-container mb-4">
                                     <div class="progress">
@@ -213,715 +252,846 @@
 
                                 <!-- Section 1: Photo & Personal Details -->
                                 <div class="form-section" id="section1">
-                                <h3 class="section-header">
-                                    <i class="fas fa-user"></i> Personal Details
-                                    <span class="badge bg-primary">Required</span>
-                                    <button type="button" class="info-btn tooltip-lg" data-tooltip="Essential contact information for recruiters. Keep it professional - use a work-appropriate email and ensure phone number is current.">?</button>
-                                </h3>
-                                
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="photo-upload-container">
-                                            <label for="photoUpload" class="photo-upload-label">
-                                                <div id="photoPreview">
-                                                    <i class="fas fa-camera"></i>
-                                                    <span>Upload Photo</span>
-                                                </div>
-                                            </label>
-                                            <input type="file" id="photoUpload" name="photo" accept="image/*" hidden>
-                                            <input type="hidden" id="photoFilename" name="photo_filename">
-                                            <small class="text-muted d-block text-center mt-1">Professional headshot recommended</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="mb-3">
-                                            <div class="label-with-tooltip">
-                                                <label class="form-label">Full Name *</label>
-                                                <button type="button" class="info-btn" data-tooltip="Use your full legal name as it appears on official documents. This will be prominently displayed at the top of your CV.">?</button>
-                                            </div>
-                                            <input type="text" class="form-control" name="full_name" required placeholder="Enter your full name">
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <div class="label-with-tooltip">
-                                                    <label class="form-label">Email *</label>
-                                                    <button type="button" class="info-btn" data-tooltip="Use a professional email address. Avoid nicknames or informal handles. firstname.lastname@email.com is ideal.">?</button>
-                                                </div>
-                                                <input type="email" class="form-control" name="email" required placeholder="your.email@example.com">
-                                            </div>
-                                            <div class="col-md-6 mb-3">
-                                                <div class="label-with-tooltip">
-                                                    <label class="form-label">Phone *</label>
-                                                    <button type="button" class="info-btn" data-tooltip="Include country code if applying internationally. Ensure this number is always reachable during business hours.">?</button>
-                                                </div>
-                                                <input type="tel" class="form-control" name="phone" required placeholder="+91 XXXXX XXXXX">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <div class="label-with-tooltip">
-                                            <label class="form-label">LinkedIn URL</label>
-                                            <button type="button" class="info-btn" data-tooltip="Your LinkedIn profile should be complete and match your CV. Recruiters often check LinkedIn for additional context.">?</button>
-                                        </div>
-                                        <input type="url" class="form-control" name="linkedin" placeholder="https://linkedin.com/in/username">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <div class="label-with-tooltip">
-                                            <button type="button" class="info-btn" data-tooltip="Essential for technical roles! Showcase your coding projects. Ensure repos are well-documented with README files.">?</button>
-                                        </div>
-                                        <input type="url" class="form-control" name="github" placeholder="https://github.com/username">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label"> Portfolio URL</label>
-                                        <input type="url" class="form-control" name="portfolio" placeholder="https://yourportfolio.com">
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">Skype ID</label>
-                                        <input type="text" class="form-control" name="skype" placeholder="live:your.skype.id">
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">Address</label>
-                                        <input type="text" class="form-control" name="address" placeholder="City, State">
-                                    </div>
-                                </div>
-                                
-                                <!-- Professional Summary -->
-                                <div class="mb-3">
-                                    <div class="label-with-tooltip">
-                                        <label class="form-label"><i class="fas fa-file-alt"></i> Career Objective / Professional Summary</label>
-                                        <button type="button" class="info-btn tooltip-gold highlight" data-tooltip="This is the FIRST thing recruiters read! AI can generate this based on your DREAM target. Keep it 2-3 sentences highlighting your key strengths and career goals.">?</button>
-                                    </div>
-                                    <div class="input-group">
-                                        <textarea class="form-control" name="professional_summary" id="professional_summary" rows="3" placeholder="Brief 2-3 sentence summary highlighting your key strengths, experience, and career objectives. This appears at the top of your CV."></textarea>
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center mt-2">
-                                        <span class="ai-tip"><i class="fas fa-magic"></i> Let AI write this for you based on your DREAM target!</span>
-                                        <button type="button" class="btn btn-sm btn-ai-generate" id="btnGenerateCareerObjective" onclick="generateCareerObjective()">
-                                            <i class="fas fa-magic"></i> AI Generate
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                                    <h3 class="section-header">
+                                        <i class="fas fa-user"></i> Personal Details
+                                        <span class="badge bg-primary">Required</span>
+                                        <button type="button" class="info-btn tooltip-lg"
+                                            data-tooltip="Essential contact information for recruiters. Keep it professional - use a work-appropriate email and ensure phone number is current.">?</button>
+                                    </h3>
 
-                            <!-- Section 2: Academic Qualification -->
-                            <div class="form-section" id="section2">
-                                <h3 class="section-header">
-                                    <i class="fas fa-graduation-cap"></i> Academic Qualification
-                                    <button type="button" class="info-btn" data-tooltip="List your education in reverse chronological order. Include degree, institution, and scores. Most recent first!">?</button>
-                                </h3>
-                                
-                                <div id="qualificationsList">
-                                    <div class="qualification-entry mb-3 p-3 border rounded">
-                                        <div class="row">
-                                            <div class="col-md-4 mb-2">
-                                                <label class="form-label">Degree/Level</label>
-                                                <input type="text" class="form-control" name="qual_degree[]" placeholder="e.g., B.Tech, 12th, 10th">
-                                            </div>
-                                            <div class="col-md-4 mb-2">
-                                                <label class="form-label">Institution</label>
-                                                <input type="text" class="form-control" name="qual_institution[]">
-                                            </div>
-                                            <div class="col-md-4 mb-2">
-                                                <label class="form-label">Board/University</label>
-                                                <input type="text" class="form-control" name="qual_board[]">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-4 mb-2">
-                                                <label class="form-label">Year of Passing</label>
-                                                <input type="text" class="form-control" name="qual_year[]" placeholder="2024">
-                                            </div>
-                                            <div class="col-md-4 mb-2">
-                                                <label class="form-label">Percentage/CGPA</label>
-                                                <input type="text" class="form-control" name="qual_score[]" placeholder="8.5 CGPA / 85%">
-                                            </div>
-                                            <div class="col-md-4 mb-2">
-                                                <label class="form-label">Duration</label>
-                                                <input type="text" class="form-control" name="qual_duration[]" placeholder="2020 - 2024">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="addQualification()">
-                                    <i class="fas fa-plus"></i> Add More Qualification
-                                </button>
-                            </div>
-
-                            <!-- Section 3: Technical Skills -->
-                            <div class="form-section" id="section3">
-                                <h3 class="section-header">
-                                    <i class="fas fa-code"></i> Technical Skills
-                                    <span class="ai-badge mini">🤖 AI</span>
-                                    <button type="button" class="info-btn tooltip-lg" data-tooltip="List your technical skills by category. Click 'Align to DREAM' to auto-organize skills based on your target cohort. AI Format will enhance the presentation.">?</button>
-                                    <div class="section-help">
-                                        <button type="button" class="btn btn-sm btn-outline-success" onclick="organizeSkillsForCohort()">
-                                            <i class="fas fa-bullseye"></i> Align to DREAM
-                                        </button>
-                                        <button type="button" class="btn btn-sm btn-outline-info" onclick="formatSection('technical_skills')">
-                                            <i class="fas fa-magic"></i> AI Format
-                                        </button>
-                                    </div>
-                                </h3>
-                                
-                                <div class="contextual-hint" id="skillsHint">
-                                    <span class="hint-icon">🎯</span>
-                                    <span class="hint-text"><strong>Tip:</strong> Click "Align to DREAM" to get skill categories tailored for your career path!</span>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <div class="label-with-tooltip">
-                                            <label class="form-label" id="skill_cat1_label">Programming Languages</label>
-                                            <button type="button" class="info-btn" data-tooltip="List languages you're proficient in. Put strongest ones first. Include years of experience if significant.">?</button>
-                                        </div>
-                                        <input type="text" class="form-control" name="prog_languages" id="prog_languages" placeholder="Python, Java, C++, JavaScript">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <div class="label-with-tooltip">
-                                            <label class="form-label" id="skill_cat2_label">Web Technologies</label>
-                                            <button type="button" class="info-btn" data-tooltip="Include frameworks, libraries, and web-related tools. Both frontend and backend technologies.">?</button>
-                                        </div>
-                                        <input type="text" class="form-control" name="web_tech" id="web_tech" placeholder="React, Node.js, HTML, CSS">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <div class="label-with-tooltip">
-                                            <label class="form-label" id="skill_cat3_label">Databases</label>
-                                            <button type="button" class="info-btn" data-tooltip="Database systems you've worked with - both SQL and NoSQL. Include ORMs if applicable.">?</button>
-                                        </div>
-                                        <input type="text" class="form-control" name="databases" id="databases" placeholder="MySQL, MongoDB, PostgreSQL">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <div class="label-with-tooltip">
-                                            <label class="form-label" id="skill_cat4_label">Mobile Technologies</label>
-                                            <button type="button" class="info-btn" data-tooltip="Mobile development frameworks and platforms. Native and cross-platform technologies.">?</button>
-                                        </div>
-                                        <input type="text" class="form-control" name="mobile_tech" id="mobile_tech" placeholder="React Native, Flutter">
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="label-with-tooltip">
-                                        <label class="form-label" id="skill_cat5_label">Other Tools & Technologies</label>
-                                        <button type="button" class="info-btn" data-tooltip="DevOps tools, cloud platforms, version control, IDEs, and other relevant tools.">?</button>
-                                    </div>
-                                    <input type="text" class="form-control" name="other_tools" id="other_tools" placeholder="Git, Docker, AWS, Linux">
-                                </div>
-                                <div class="mb-3">
-                                    <div class="label-with-tooltip">
-                                        <label class="form-label"><i class="fas fa-lightbulb text-warning"></i> Planned Skills (To be learned for DREAM Company)</label>
-                                        <button type="button" class="info-btn tooltip-gold highlight" data-tooltip="Skills you're actively learning or planning to learn. Shows initiative and alignment with your career goals. AI will suggest based on your DREAM target!">?</button>
-                                    </div>
-                                    <input type="text" class="form-control" name="planned_skills" placeholder="e.g., Kubernetes, TensorFlow, Azure - Skills you plan to learn">
-                                </div>
-                            </div>
-
-                            <!-- Section 4: Internships -->
-                            <div class="form-section" id="section4">
-                                <h3 class="section-header">
-                                    <i class="fas fa-building"></i> Internships
-                                    <span class="badge bg-info">Professional Experience</span>
-                                    <button type="button" class="info-btn tooltip-lg" data-tooltip="List internships with bullet points highlighting responsibilities and achievements. Use action verbs and quantify impact when possible.">?</button>
-                                </h3>
-                                
-                                <div id="internshipsList">
-                                    <div class="internship-entry mb-3 p-3 border rounded">
-                                        <div class="row">
-                                            <div class="col-md-6 mb-2">
-                                                <label class="form-label">Company Name</label>
-                                                <input type="text" class="form-control" name="intern_company[]" placeholder="Google, Microsoft, etc.">
-                                            </div>
-                                            <div class="col-md-6 mb-2">
-                                                <label class="form-label">Role/Position</label>
-                                                <input type="text" class="form-control" name="intern_role[]" placeholder="Software Engineering Intern">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6 mb-2">
-                                                <label class="form-label">Duration</label>
-                                                <input type="text" class="form-control" name="intern_duration[]" placeholder="Jan 2024 - Mar 2024">
-                                            </div>
-                                            <div class="col-md-6 mb-2">
-                                                <label class="form-label">Mode</label>
-                                                <select class="form-select" name="intern_mode[]">
-                                                    <option value="On-site">On-site</option>
-                                                    <option value="Remote">Remote</option>
-                                                    <option value="Hybrid">Hybrid</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="mb-2">
-                                            <label class="form-label">Key Points (3-4 bullet points)</label>
-                                            <div class="bullet-inputs">
-                                                <div class="input-group mb-1">
-                                                    <span class="input-group-text">•</span>
-                                                    <input type="text" class="form-control" name="intern_bullet1[]" placeholder="What you worked on / Main responsibility">
-                                                </div>
-                                                <div class="input-group mb-1">
-                                                    <span class="input-group-text">•</span>
-                                                    <input type="text" class="form-control" name="intern_bullet2[]" placeholder="Key achievement / Impact made">
-                                                </div>
-                                                <div class="input-group mb-1">
-                                                    <span class="input-group-text">•</span>
-                                                    <input type="text" class="form-control" name="intern_bullet3[]" placeholder="Technologies/Skills used">
-                                                </div>
-                                                <div class="input-group mb-1">
-                                                    <span class="input-group-text">•</span>
-                                                    <input type="text" class="form-control" name="intern_bullet4[]" placeholder="(Optional) Additional point">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="addInternship()">
-                                    <i class="fas fa-plus"></i> Add More Internship
-                                </button>
-                            </div>
-
-                            <!-- Section 4b: Certifications -->
-                            <div class="form-section" id="section4b">
-                                <h3 class="section-header">
-                                    <i class="fas fa-certificate"></i> Certifications / MOOCs
-                                    <span class="badge bg-warning text-dark">Credentials</span>
-                                </h3>
-                                
-                                <div id="certificationsList">
-                                    <div class="certification-entry mb-3 p-3 border rounded">
-                                        <div class="row">
-                                            <div class="col-md-6 mb-2">
-                                                <label class="form-label">Certification Title</label>
-                                                <input type="text" class="form-control" name="cert_title[]" placeholder="AWS Certified Developer, Machine Learning Specialization">
-                                            </div>
-                                            <div class="col-md-6 mb-2">
-                                                <label class="form-label">Issuing Organization</label>
-                                                <input type="text" class="form-control" name="cert_source[]" placeholder="AWS, Coursera, Udemy, NPTEL">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-4 mb-2">
-                                                <label class="form-label">Issue Date</label>
-                                                <input type="text" class="form-control" name="cert_date[]" placeholder="Mar 2024">
-                                            </div>
-                                            <div class="col-md-4 mb-2">
-                                                <label class="form-label">Credential ID</label>
-                                                <input type="text" class="form-control" name="cert_id[]" placeholder="ABC123XYZ">
-                                            </div>
-                                            <div class="col-md-4 mb-2">
-                                                <label class="form-label">Type</label>
-                                                <select class="form-select" name="cert_type[]">
-                                                    <option value="Certification">Certification</option>
-                                                    <option value="MOOC">MOOC</option>
-                                                    <option value="Training">Training</option>
-                                                    <option value="Workshop">Workshop</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="addCertification()">
-                                    <i class="fas fa-plus"></i> Add More Certification
-                                </button>
-                                
-                                <!-- Planned Certifications -->
-                                <div class="mt-3 p-3 border rounded bg-light">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <label class="form-label mb-0"><i class="fas fa-calendar-alt text-primary"></i> <strong>Planned Certifications</strong> (Aligned with Dream Company)</label>
-                                        <button type="button" class="btn btn-sm btn-ai-generate" id="btnGeneratePlannedCerts" onclick="generatePlannedCertifications()">
-                                            <i class="fas fa-magic"></i> AI Suggest
-                                        </button>
-                                    </div>
-                                    <textarea class="form-control" name="planned_certifications" id="planned_certifications" rows="2" placeholder="e.g., AWS Solutions Architect (Expected: Dec 2024), Google Cloud Professional (Expected: Mar 2025)"></textarea>
-                                    <small class="text-muted">Certifications you plan to obtain that align with your dream company's requirements</small>
-                                </div>
-                            </div>
-
-                            <!-- Section 5: Projects -->
-                            <div class="form-section" id="section5">
-                                <h3 class="section-header">
-                                    <i class="fas fa-project-diagram"></i> Projects / Applications Development
-                                    <span class="ai-badge mini">🤖 AI</span>
-                                    <button type="button" class="info-btn tooltip-lg" data-tooltip="Showcase 2-4 impactful projects. Focus on projects relevant to your DREAM target. Include your role, technologies used, and quantifiable results.">?</button>
-                                    <div class="section-help">
-                                        <button type="button" class="btn btn-sm btn-outline-success" onclick="openNaturalLanguageModal('project')">
-                                            <i class="fas fa-comment-dots"></i> Describe in Your Words
-                                        </button>
-                                        <button type="button" class="btn btn-sm btn-outline-info" onclick="formatSection('projects')">
-                                            <i class="fas fa-magic"></i> AI Format
-                                        </button>
-                                    </div>
-                                </h3>
-                                
-                                <div id="projectsList">
-                                    <div class="project-entry mb-3 p-3 border rounded">
-                                        <div class="row">
-                                            <div class="col-md-6 mb-2">
-                                                <label class="form-label">Project Name</label>
-                                                <input type="text" class="form-control" name="proj_name[]">
-                                            </div>
-                                            <div class="col-md-6 mb-2">
-                                                <label class="form-label">Your Role</label>
-                                                <input type="text" class="form-control" name="proj_role[]" placeholder="Team Lead, Developer">
-                                            </div>
-                                        </div>
-                                        <div class="mb-2">
-                                            <label class="form-label">Project Highlights (3-4 bullet points)</label>
-                                            <div class="bullet-inputs">
-                                                <div class="input-group mb-1">
-                                                    <span class="input-group-text">•</span>
-                                                    <input type="text" class="form-control" name="proj_bullet1[]" placeholder="What the project does / Problem it solves">
-                                                </div>
-                                                <div class="input-group mb-1">
-                                                    <span class="input-group-text">•</span>
-                                                    <input type="text" class="form-control" name="proj_bullet2[]" placeholder="Your contribution / Key feature you built">
-                                                </div>
-                                                <div class="input-group mb-1">
-                                                    <span class="input-group-text">•</span>
-                                                    <input type="text" class="form-control" name="proj_bullet3[]" placeholder="Impact / Users / Results achieved">
-                                                </div>
-                                                <div class="input-group mb-1">
-                                                    <span class="input-group-text">•</span>
-                                                    <input type="text" class="form-control" name="proj_bullet4[]" placeholder="(Optional) Additional highlight">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-2">
-                                            <label class="form-label">Technologies Used</label>
-                                            <input type="text" class="form-control" name="proj_tech[]" placeholder="React, Node.js, MongoDB">
-                                        </div>
-                                    </div>
-                                </div>
-                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="addProject()">
-                                    <i class="fas fa-plus"></i> Add More Project
-                                </button>
-                            </div>
-
-                            <!-- Section 6: Positions of Responsibility -->
-                            <div class="form-section" id="section6">
-                                <h3 class="section-header">
-                                    <i class="fas fa-users"></i> Positions of Responsibility
-                                </h3>
-                                
-                                <div id="responsibilitiesList">
-                                    <div class="responsibility-entry mb-3 p-3 border rounded">
-                                        <div class="row">
-                                            <div class="col-md-4 mb-2">
-                                                <label class="form-label">Role/Position</label>
-                                                <input type="text" class="form-control" name="resp_role[]" placeholder="Technical Lead, Club President">
-                                            </div>
-                                            <div class="col-md-4 mb-2">
-                                                <label class="form-label">Organization</label>
-                                                <input type="text" class="form-control" name="resp_org[]" placeholder="Coding Club, IEEE Student Branch">
-                                            </div>
-                                            <div class="col-md-4 mb-2">
-                                                <label class="form-label">Duration</label>
-                                                <input type="text" class="form-control" name="resp_duration[]" placeholder="Aug 2023 - Present">
-                                            </div>
-                                        </div>
-                                        <div class="mb-2">
-                                            <label class="form-label">Key Contributions (2-3 bullet points)</label>
-                                            <div class="bullet-inputs">
-                                                <div class="input-group mb-1">
-                                                    <span class="input-group-text">•</span>
-                                                    <input type="text" class="form-control" name="resp_bullet1[]" placeholder="Main responsibility / What you led">
-                                                </div>
-                                                <div class="input-group mb-1">
-                                                    <span class="input-group-text">•</span>
-                                                    <input type="text" class="form-control" name="resp_bullet2[]" placeholder="Achievement / Impact made">
-                                                </div>
-                                                <div class="input-group mb-1">
-                                                    <span class="input-group-text">•</span>
-                                                    <input type="text" class="form-control" name="resp_bullet3[]" placeholder="(Optional) Additional contribution">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="addResponsibility()">
-                                    <i class="fas fa-plus"></i> Add More
-                                </button>
-                            </div>
-
-                            <!-- Section 7: Extra Curricular Activities -->
-                            <div class="form-section" id="section7">
-                                <h3 class="section-header">
-                                    <i class="fas fa-trophy"></i> Extra Curricular Activities
-                                </h3>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label">Community Activities (Bullet Points)</label>
-                                    <div class="bullet-inputs" id="communityActivitiesList">
-                                        <div class="input-group mb-1">
-                                            <span class="input-group-text">•</span>
-                                            <input type="text" class="form-control" name="community_activity[]" placeholder="NSS Volunteer - 100+ hours of community service">
-                                        </div>
-                                        <div class="input-group mb-1">
-                                            <span class="input-group-text">•</span>
-                                            <input type="text" class="form-control" name="community_activity[]" placeholder="Tech Club Member - Organized coding workshops">
-                                        </div>
-                                        <div class="input-group mb-1">
-                                            <span class="input-group-text">•</span>
-                                            <input type="text" class="form-control" name="community_activity[]" placeholder="(Optional) Another activity">
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm mt-1" onclick="addCommunityActivity()">
-                                        <i class="fas fa-plus"></i> Add More
-                                    </button>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Achievements (Bullet Points)</label>
-                                    <div class="bullet-inputs" id="achievementsList">
-                                        <div class="input-group mb-1">
-                                            <span class="input-group-text">•</span>
-                                            <input type="text" class="form-control" name="achievement[]" placeholder="1st Place in University Hackathon 2024">
-                                        </div>
-                                        <div class="input-group mb-1">
-                                            <span class="input-group-text">•</span>
-                                            <input type="text" class="form-control" name="achievement[]" placeholder="Sports Achievement / Academic Award">
-                                        </div>
-                                        <div class="input-group mb-1">
-                                            <span class="input-group-text">•</span>
-                                            <input type="text" class="form-control" name="achievement[]" placeholder="(Optional) Another achievement">
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm mt-1" onclick="addAchievement()">
-                                        <i class="fas fa-plus"></i> Add More
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Section 8: Language Proficiency -->
-                            <div class="form-section" id="section8">
-                                <h3 class="section-header">
-                                    <i class="fas fa-language"></i> Language Proficiency
-                                </h3>
-                                
-                                <div id="languagesList">
-                                    <div class="language-entry mb-2 row">
+                                    <div class="row">
                                         <div class="col-md-4">
-                                            <input type="text" class="form-control" name="lang_name[]" placeholder="Language">
+                                            <div class="photo-upload-container">
+                                                <label for="photoUpload" class="photo-upload-label">
+                                                    <div id="photoPreview">
+                                                        <i class="fas fa-camera"></i>
+                                                        <span>Upload Photo</span>
+                                                    </div>
+                                                </label>
+                                                <input type="file" id="photoUpload" name="photo" accept="image/*"
+                                                    hidden>
+                                                <input type="hidden" id="photoFilename" name="photo_filename">
+                                                <small class="text-muted d-block text-center mt-1">Professional headshot
+                                                    recommended</small>
+                                            </div>
                                         </div>
                                         <div class="col-md-8">
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="checkbox" name="lang_speak[]" value="1">
-                                                <label class="form-check-label">Speak</label>
+                                            <div class="mb-3">
+                                                <div class="label-with-tooltip">
+                                                    <label class="form-label">Full Name *</label>
+                                                    <button type="button" class="info-btn"
+                                                        data-tooltip="Use your full legal name as it appears on official documents. This will be prominently displayed at the top of your CV.">?</button>
+                                                </div>
+                                                <input type="text" class="form-control" name="full_name" required
+                                                    placeholder="Enter your full name">
                                             </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="checkbox" name="lang_write[]" value="1">
-                                                <label class="form-check-label">Write</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="checkbox" name="lang_read[]" value="1">
-                                                <label class="form-check-label">Read</label>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="label-with-tooltip">
+                                                        <label class="form-label">Email *</label>
+                                                        <button type="button" class="info-btn"
+                                                            data-tooltip="Use a professional email address. Avoid nicknames or informal handles. firstname.lastname@email.com is ideal.">?</button>
+                                                    </div>
+                                                    <input type="email" class="form-control" name="email" required
+                                                        placeholder="your.email@example.com">
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="label-with-tooltip">
+                                                        <label class="form-label">Phone *</label>
+                                                        <button type="button" class="info-btn"
+                                                            data-tooltip="Include country code if applying internationally. Ensure this number is always reachable during business hours.">?</button>
+                                                    </div>
+                                                    <input type="tel" class="form-control" name="phone" required
+                                                        placeholder="+91 XXXXX XXXXX">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <button type="button" class="btn btn-outline-primary btn-sm mt-2" onclick="addLanguage()">
-                                    <i class="fas fa-plus"></i> Add More Language
-                                </button>
-                            </div>
 
-                            <!-- Section 9: Work Experience -->
-                            <div class="form-section" id="section9">
-                                <h3 class="section-header">
-                                    <i class="fas fa-briefcase"></i> Work Experience
-                                </h3>
-                                
-                                <div id="experiencesList">
-                                    <div class="experience-entry mb-3 p-3 border rounded">
-                                        <div class="row">
-                                            <div class="col-md-6 mb-2">
-                                                <label class="form-label">Company</label>
-                                                <input type="text" class="form-control" name="exp_company[]">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-with-tooltip">
+                                                <label class="form-label">LinkedIn URL</label>
+                                                <button type="button" class="info-btn"
+                                                    data-tooltip="Your LinkedIn profile should be complete and match your CV. Recruiters often check LinkedIn for additional context.">?</button>
                                             </div>
-                                            <div class="col-md-6 mb-2">
-                                                <label class="form-label">Role</label>
-                                                <input type="text" class="form-control" name="exp_role[]">
-                                            </div>
+                                            <input type="url" class="form-control" name="linkedin"
+                                                placeholder="https://linkedin.com/in/username">
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-6 mb-2">
-                                                <label class="form-label">Duration</label>
-                                                <input type="text" class="form-control" name="exp_duration[]" placeholder="Jun 2023 - Dec 2023">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-with-tooltip">
+                                                <button type="button" class="info-btn"
+                                                    data-tooltip="Essential for technical roles! Showcase your coding projects. Ensure repos are well-documented with README files.">?</button>
                                             </div>
-                                            <div class="col-md-6 mb-2">
-                                                <label class="form-label">Salary Package</label>
-                                                <input type="text" class="form-control" name="exp_salary[]" placeholder="5 LPA">
-                                            </div>
-                                        </div>
-                                        <div class="mb-2">
-                                            <label class="form-label">Key Responsibilities (3-4 bullet points)</label>
-                                            <div class="bullet-inputs">
-                                                <div class="input-group mb-1">
-                                                    <span class="input-group-text">•</span>
-                                                    <input type="text" class="form-control" name="exp_bullet1[]" placeholder="Main role / Daily responsibilities">
-                                                </div>
-                                                <div class="input-group mb-1">
-                                                    <span class="input-group-text">•</span>
-                                                    <input type="text" class="form-control" name="exp_bullet2[]" placeholder="Key project / Achievement">
-                                                </div>
-                                                <div class="input-group mb-1">
-                                                    <span class="input-group-text">•</span>
-                                                    <input type="text" class="form-control" name="exp_bullet3[]" placeholder="Impact / Results delivered">
-                                                </div>
-                                                <div class="input-group mb-1">
-                                                    <span class="input-group-text">•</span>
-                                                    <input type="text" class="form-control" name="exp_bullet4[]" placeholder="(Optional) Additional responsibility">
-                                                </div>
-                                            </div>
+                                            <input type="url" class="form-control" name="github"
+                                                placeholder="https://github.com/username">
                                         </div>
                                     </div>
-                                </div>
-                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="addExperience()">
-                                    <i class="fas fa-plus"></i> Add More Experience
-                                </button>
-                            </div>
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label"> Portfolio URL</label>
+                                            <input type="url" class="form-control" name="portfolio"
+                                                placeholder="https://yourportfolio.com">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Skype ID</label>
+                                            <input type="text" class="form-control" name="skype"
+                                                placeholder="live:your.skype.id">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Address</label>
+                                            <input type="text" class="form-control" name="address"
+                                                placeholder="City, State">
+                                        </div>
+                                    </div>
 
-                            <!-- Section 10: Digital Existence -->
-                            <div class="form-section" id="section10">
-                                <h3 class="section-header">
-                                    <i class="fas fa-globe"></i> Digital Existence
-                                    <span class="badge bg-info">Coding Profiles</span>
-                                </h3>
-                                
-                                <p class="text-muted small mb-3"><i class="fas fa-info-circle"></i> Only fill the platforms you have. Empty fields won't appear in your PDF.</p>
-                                
-                                <!-- Row 1: LeetCode, GFG, InterviewBit -->
-                                <div class="row">
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label"><i class="fas fa-code"></i> LeetCode</label>
-                                        <input type="url" class="form-control" name="leetcode" placeholder="https://leetcode.com/username">
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label"><i class="fas fa-code"></i> GeeksforGeeks (GFG)</label>
-                                        <input type="url" class="form-control" name="gfg" placeholder="https://geeksforgeeks.org/user/username">
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label"><i class="fas fa-code"></i> InterviewBit</label>
-                                        <input type="url" class="form-control" name="interviewbit" placeholder="https://interviewbit.com/profile/username">
-                                    </div>
-                                </div>
-                                
-                                <!-- Row 2: Codeforces, CodeChef, AtCoder -->
-                                <div class="row">
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label"><i class="fas fa-code"></i> Codeforces</label>
-                                        <input type="url" class="form-control" name="codeforces" placeholder="https://codeforces.com/profile/username">
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label"><i class="fas fa-code"></i> CodeChef</label>
-                                        <input type="url" class="form-control" name="codechef" placeholder="https://codechef.com/users/username">
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label"><i class="fas fa-code"></i> AtCoder</label>
-                                        <input type="url" class="form-control" name="atcoder" placeholder="https://atcoder.jp/users/username">
+                                    <!-- Professional Summary -->
+                                    <div class="mb-3">
+                                        <div class="label-with-tooltip">
+                                            <label class="form-label"><i class="fas fa-file-alt"></i> Career Objective /
+                                                Professional Summary</label>
+                                            <button type="button" class="info-btn tooltip-gold highlight"
+                                                data-tooltip="This is the FIRST thing recruiters read! AI can generate this based on your DREAM target. Keep it 2-3 sentences highlighting your key strengths and career goals.">?</button>
+                                        </div>
+                                        <div class="input-group">
+                                            <textarea class="form-control" name="professional_summary"
+                                                id="professional_summary" rows="3"
+                                                placeholder="Brief 2-3 sentence summary highlighting your key strengths, experience, and career objectives. This appears at the top of your CV."></textarea>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <span class="ai-tip"><i class="fas fa-magic"></i> Let AI write this for you
+                                                based on your DREAM target!</span>
+                                            <button type="button" class="btn btn-sm btn-ai-generate"
+                                                id="btnGenerateCareerObjective" onclick="generateCareerObjective()">
+                                                <i class="fas fa-magic"></i> AI Generate
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                                
-                                <!-- Row 3: HackerRank, HackerEarth, Codility -->
-                                <div class="row">
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label"><i class="fas fa-code"></i> HackerRank</label>
-                                        <input type="url" class="form-control" name="hackerrank" placeholder="https://hackerrank.com/username">
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label"><i class="fas fa-code"></i> HackerEarth</label>
-                                        <input type="url" class="form-control" name="hackerearth" placeholder="https://hackerearth.com/@username">
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label"><i class="fas fa-code"></i> Codility</label>
-                                        <input type="url" class="form-control" name="codility" placeholder="https://app.codility.com/programmers/profile/username">
-                                    </div>
-                                </div>
-                                
-                                <!-- Row 4: CodeSignal, Kaggle, HuggingFace -->
-                                <div class="row">
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label"><i class="fas fa-code"></i> CodeSignal</label>
-                                        <input type="url" class="form-control" name="codesignal" placeholder="https://app.codesignal.com/profile/username">
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label"><i class="fas fa-database"></i> Kaggle</label>
-                                        <input type="url" class="form-control" name="kaggle" placeholder="https://kaggle.com/username">
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label"><i class="fas fa-robot"></i> HuggingFace</label>
-                                        <input type="url" class="form-control" name="huggingface" placeholder="https://huggingface.co/username">
-                                    </div>
-                                </div>
-                                
-                                <!-- Other Platforms (Custom) -->
-                                <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-plus-circle"></i> Other Platforms</label>
-                                    <div id="otherPlatformsList">
-                                        <div class="other-platform-entry row mb-2">
-                                            <div class="col-md-4">
-                                                <input type="text" class="form-control" name="other_platform_name[]" placeholder="Platform Name (e.g., Google Colab)">
+
+                                <!-- Section 2: Academic Qualification -->
+                                <div class="form-section" id="section2">
+                                    <h3 class="section-header">
+                                        <i class="fas fa-graduation-cap"></i> Academic Qualification
+                                        <button type="button" class="info-btn"
+                                            data-tooltip="List your education in reverse chronological order. Include degree, institution, and scores. Most recent first!">?</button>
+                                    </h3>
+
+                                    <div id="qualificationsList">
+                                        <div class="qualification-entry mb-3 p-3 border rounded">
+                                            <div class="row">
+                                                <div class="col-md-4 mb-2">
+                                                    <label class="form-label">Degree/Level</label>
+                                                    <input type="text" class="form-control" name="qual_degree[]"
+                                                        placeholder="e.g., B.Tech, 12th, 10th">
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <label class="form-label">Institution</label>
+                                                    <input type="text" class="form-control" name="qual_institution[]">
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <label class="form-label">Board/University</label>
+                                                    <input type="text" class="form-control" name="qual_board[]">
+                                                </div>
                                             </div>
-                                            <div class="col-md-7">
-                                                <input type="url" class="form-control" name="other_platform_url[]" placeholder="https://platform-url.com/username">
-                                            </div>
-                                            <div class="col-md-1">
-                                                <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeOtherPlatform(this)" style="display:none;">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
+                                            <div class="row">
+                                                <div class="col-md-4 mb-2">
+                                                    <label class="form-label">Year of Passing</label>
+                                                    <input type="text" class="form-control" name="qual_year[]"
+                                                        placeholder="2024">
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <label class="form-label">Percentage/CGPA</label>
+                                                    <input type="text" class="form-control" name="qual_score[]"
+                                                        placeholder="8.5 CGPA / 85%">
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <label class="form-label">Duration</label>
+                                                    <input type="text" class="form-control" name="qual_duration[]"
+                                                        placeholder="2020 - 2024">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm mt-1" onclick="addOtherPlatform()">
-                                        <i class="fas fa-plus"></i> Add Another Platform
+                                    <button type="button" class="btn btn-outline-primary btn-sm"
+                                        onclick="addQualification()">
+                                        <i class="fas fa-plus"></i> Add More Qualification
                                     </button>
                                 </div>
-                                
-                                <hr>
-                                
-                                <!-- Technical Events -->
-                                <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-calendar-alt"></i> Technical Events Participated (Bullet Points)</label>
-                                    <div class="bullet-inputs" id="techEventsList">
-                                        <div class="input-group mb-1">
-                                            <span class="input-group-text">•</span>
-                                            <input type="text" class="form-control" name="tech_event[]" placeholder="Smart India Hackathon 2024 - Finalist">
+
+                                <!-- Section 3: Technical Skills -->
+                                <div class="form-section" id="section3">
+                                    <h3 class="section-header">
+                                        <i class="fas fa-code"></i> Technical Skills
+                                        <span class="ai-badge mini">🤖 AI</span>
+                                        <button type="button" class="info-btn tooltip-lg"
+                                            data-tooltip="List your technical skills by category. Click 'Align to DREAM' to auto-organize skills based on your target cohort. AI Format will enhance the presentation.">?</button>
+                                        <div class="section-help">
+                                            <button type="button" class="btn btn-sm btn-outline-success"
+                                                onclick="organizeSkillsForCohort()">
+                                                <i class="fas fa-bullseye"></i> Align to DREAM
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-info"
+                                                onclick="formatSection('technical_skills')">
+                                                <i class="fas fa-magic"></i> AI Format
+                                            </button>
                                         </div>
-                                        <div class="input-group mb-1">
-                                            <span class="input-group-text">•</span>
-                                            <input type="text" class="form-control" name="tech_event[]" placeholder="Google Code Jam 2024 - Participant">
+                                    </h3>
+
+                                    <div class="contextual-hint" id="skillsHint">
+                                        <span class="hint-icon">🎯</span>
+                                        <span class="hint-text"><strong>Tip:</strong> Click "Align to DREAM" to get
+                                            skill categories tailored for your career path!</span>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-with-tooltip">
+                                                <label class="form-label" id="skill_cat1_label">Programming
+                                                    Languages</label>
+                                                <button type="button" class="info-btn"
+                                                    data-tooltip="List languages you're proficient in. Put strongest ones first. Include years of experience if significant.">?</button>
+                                            </div>
+                                            <input type="text" class="form-control" name="prog_languages"
+                                                id="prog_languages" placeholder="Python, Java, C++, JavaScript">
                                         </div>
-                                        <div class="input-group mb-1">
-                                            <span class="input-group-text">•</span>
-                                            <input type="text" class="form-control" name="tech_event[]" placeholder="(Optional) Another event">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-with-tooltip">
+                                                <label class="form-label" id="skill_cat2_label">Web Technologies</label>
+                                                <button type="button" class="info-btn"
+                                                    data-tooltip="Include frameworks, libraries, and web-related tools. Both frontend and backend technologies.">?</button>
+                                            </div>
+                                            <input type="text" class="form-control" name="web_tech" id="web_tech"
+                                                placeholder="React, Node.js, HTML, CSS">
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm mt-1" onclick="addTechEvent()">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-with-tooltip">
+                                                <label class="form-label" id="skill_cat3_label">Databases</label>
+                                                <button type="button" class="info-btn"
+                                                    data-tooltip="Database systems you've worked with - both SQL and NoSQL. Include ORMs if applicable.">?</button>
+                                            </div>
+                                            <input type="text" class="form-control" name="databases" id="databases"
+                                                placeholder="MySQL, MongoDB, PostgreSQL">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="label-with-tooltip">
+                                                <label class="form-label" id="skill_cat4_label">Mobile
+                                                    Technologies</label>
+                                                <button type="button" class="info-btn"
+                                                    data-tooltip="Mobile development frameworks and platforms. Native and cross-platform technologies.">?</button>
+                                            </div>
+                                            <input type="text" class="form-control" name="mobile_tech" id="mobile_tech"
+                                                placeholder="React Native, Flutter">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="label-with-tooltip">
+                                            <label class="form-label" id="skill_cat5_label">Other Tools &
+                                                Technologies</label>
+                                            <button type="button" class="info-btn"
+                                                data-tooltip="DevOps tools, cloud platforms, version control, IDEs, and other relevant tools.">?</button>
+                                        </div>
+                                        <input type="text" class="form-control" name="other_tools" id="other_tools"
+                                            placeholder="Git, Docker, AWS, Linux">
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="label-with-tooltip">
+                                            <label class="form-label"><i class="fas fa-lightbulb text-warning"></i>
+                                                Planned Skills (To be learned for DREAM Company)</label>
+                                            <button type="button" class="info-btn tooltip-gold highlight"
+                                                data-tooltip="Skills you're actively learning or planning to learn. Shows initiative and alignment with your career goals. AI will suggest based on your DREAM target!">?</button>
+                                        </div>
+                                        <input type="text" class="form-control" name="planned_skills"
+                                            placeholder="e.g., Kubernetes, TensorFlow, Azure - Skills you plan to learn">
+                                    </div>
+                                </div>
+
+                                <!-- Section 4: Internships -->
+                                <div class="form-section" id="section4">
+                                    <h3 class="section-header">
+                                        <i class="fas fa-building"></i> Internships
+                                        <span class="badge bg-info">Professional Experience</span>
+                                        <button type="button" class="info-btn tooltip-lg"
+                                            data-tooltip="List internships with bullet points highlighting responsibilities and achievements. Use action verbs and quantify impact when possible.">?</button>
+                                    </h3>
+
+                                    <div id="internshipsList">
+                                        <div class="internship-entry mb-3 p-3 border rounded">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-2">
+                                                    <label class="form-label">Company Name</label>
+                                                    <input type="text" class="form-control" name="intern_company[]"
+                                                        placeholder="Google, Microsoft, etc.">
+                                                </div>
+                                                <div class="col-md-6 mb-2">
+                                                    <label class="form-label">Role/Position</label>
+                                                    <input type="text" class="form-control" name="intern_role[]"
+                                                        placeholder="Software Engineering Intern">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-2">
+                                                    <label class="form-label">Duration</label>
+                                                    <input type="text" class="form-control" name="intern_duration[]"
+                                                        placeholder="Jan 2024 - Mar 2024">
+                                                </div>
+                                                <div class="col-md-6 mb-2">
+                                                    <label class="form-label">Mode</label>
+                                                    <select class="form-select" name="intern_mode[]">
+                                                        <option value="On-site">On-site</option>
+                                                        <option value="Remote">Remote</option>
+                                                        <option value="Hybrid">Hybrid</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label class="form-label">Key Points (3-4 bullet points)</label>
+                                                <div class="bullet-inputs">
+                                                    <div class="input-group mb-1">
+                                                        <span class="input-group-text">•</span>
+                                                        <input type="text" class="form-control" name="intern_bullet1[]"
+                                                            placeholder="What you worked on / Main responsibility">
+                                                    </div>
+                                                    <div class="input-group mb-1">
+                                                        <span class="input-group-text">•</span>
+                                                        <input type="text" class="form-control" name="intern_bullet2[]"
+                                                            placeholder="Key achievement / Impact made">
+                                                    </div>
+                                                    <div class="input-group mb-1">
+                                                        <span class="input-group-text">•</span>
+                                                        <input type="text" class="form-control" name="intern_bullet3[]"
+                                                            placeholder="Technologies/Skills used">
+                                                    </div>
+                                                    <div class="input-group mb-1">
+                                                        <span class="input-group-text">•</span>
+                                                        <input type="text" class="form-control" name="intern_bullet4[]"
+                                                            placeholder="(Optional) Additional point">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-primary btn-sm"
+                                        onclick="addInternship()">
+                                        <i class="fas fa-plus"></i> Add More Internship
+                                    </button>
+                                </div>
+
+                                <!-- Section 4b: Certifications -->
+                                <div class="form-section" id="section4b">
+                                    <h3 class="section-header">
+                                        <i class="fas fa-certificate"></i> Certifications / MOOCs
+                                        <span class="badge bg-warning text-dark">Credentials</span>
+                                    </h3>
+
+                                    <div id="certificationsList">
+                                        <div class="certification-entry mb-3 p-3 border rounded">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-2">
+                                                    <label class="form-label">Certification Title</label>
+                                                    <input type="text" class="form-control" name="cert_title[]"
+                                                        placeholder="AWS Certified Developer, Machine Learning Specialization">
+                                                </div>
+                                                <div class="col-md-6 mb-2">
+                                                    <label class="form-label">Issuing Organization</label>
+                                                    <input type="text" class="form-control" name="cert_source[]"
+                                                        placeholder="AWS, Coursera, Udemy, NPTEL">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 mb-2">
+                                                    <label class="form-label">Issue Date</label>
+                                                    <input type="text" class="form-control" name="cert_date[]"
+                                                        placeholder="Mar 2024">
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <label class="form-label">Credential ID</label>
+                                                    <input type="text" class="form-control" name="cert_id[]"
+                                                        placeholder="ABC123XYZ">
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <label class="form-label">Type</label>
+                                                    <select class="form-select" name="cert_type[]">
+                                                        <option value="Certification">Certification</option>
+                                                        <option value="MOOC">MOOC</option>
+                                                        <option value="Training">Training</option>
+                                                        <option value="Workshop">Workshop</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-primary btn-sm"
+                                        onclick="addCertification()">
+                                        <i class="fas fa-plus"></i> Add More Certification
+                                    </button>
+
+                                    <!-- Planned Certifications -->
+                                    <div class="mt-3 p-3 border rounded bg-light">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <label class="form-label mb-0"><i
+                                                    class="fas fa-calendar-alt text-primary"></i> <strong>Planned
+                                                    Certifications</strong> (Aligned with Dream Company)</label>
+                                            <button type="button" class="btn btn-sm btn-ai-generate"
+                                                id="btnGeneratePlannedCerts" onclick="generatePlannedCertifications()">
+                                                <i class="fas fa-magic"></i> AI Suggest
+                                            </button>
+                                        </div>
+                                        <textarea class="form-control" name="planned_certifications"
+                                            id="planned_certifications" rows="2"
+                                            placeholder="e.g., AWS Solutions Architect (Expected: Dec 2024), Google Cloud Professional (Expected: Mar 2025)"></textarea>
+                                        <small class="text-muted">Certifications you plan to obtain that align with your
+                                            dream company's requirements</small>
+                                    </div>
+                                </div>
+
+                                <!-- Section 5: Projects -->
+                                <div class="form-section" id="section5">
+                                    <h3 class="section-header">
+                                        <i class="fas fa-project-diagram"></i> Projects / Applications Development
+                                        <span class="ai-badge mini">🤖 AI</span>
+                                        <button type="button" class="info-btn tooltip-lg"
+                                            data-tooltip="Showcase 2-4 impactful projects. Focus on projects relevant to your DREAM target. Include your role, technologies used, and quantifiable results.">?</button>
+                                        <div class="section-help">
+                                            <button type="button" class="btn btn-sm btn-outline-success"
+                                                onclick="openNaturalLanguageModal('project')">
+                                                <i class="fas fa-comment-dots"></i> Describe in Your Words
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-info"
+                                                onclick="formatSection('projects')">
+                                                <i class="fas fa-magic"></i> AI Format
+                                            </button>
+                                        </div>
+                                    </h3>
+
+                                    <div id="projectsList">
+                                        <div class="project-entry mb-3 p-3 border rounded">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-2">
+                                                    <label class="form-label">Project Name</label>
+                                                    <input type="text" class="form-control" name="proj_name[]">
+                                                </div>
+                                                <div class="col-md-6 mb-2">
+                                                    <label class="form-label">Your Role</label>
+                                                    <input type="text" class="form-control" name="proj_role[]"
+                                                        placeholder="Team Lead, Developer">
+                                                </div>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label class="form-label">Project Highlights (3-4 bullet points)</label>
+                                                <div class="bullet-inputs">
+                                                    <div class="input-group mb-1">
+                                                        <span class="input-group-text">•</span>
+                                                        <input type="text" class="form-control" name="proj_bullet1[]"
+                                                            placeholder="What the project does / Problem it solves">
+                                                    </div>
+                                                    <div class="input-group mb-1">
+                                                        <span class="input-group-text">•</span>
+                                                        <input type="text" class="form-control" name="proj_bullet2[]"
+                                                            placeholder="Your contribution / Key feature you built">
+                                                    </div>
+                                                    <div class="input-group mb-1">
+                                                        <span class="input-group-text">•</span>
+                                                        <input type="text" class="form-control" name="proj_bullet3[]"
+                                                            placeholder="Impact / Users / Results achieved">
+                                                    </div>
+                                                    <div class="input-group mb-1">
+                                                        <span class="input-group-text">•</span>
+                                                        <input type="text" class="form-control" name="proj_bullet4[]"
+                                                            placeholder="(Optional) Additional highlight">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label class="form-label">Technologies Used</label>
+                                                <input type="text" class="form-control" name="proj_tech[]"
+                                                    placeholder="React, Node.js, MongoDB">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="addProject()">
+                                        <i class="fas fa-plus"></i> Add More Project
+                                    </button>
+                                </div>
+
+                                <!-- Section 6: Positions of Responsibility -->
+                                <div class="form-section" id="section6">
+                                    <h3 class="section-header">
+                                        <i class="fas fa-users"></i> Positions of Responsibility
+                                    </h3>
+
+                                    <div id="responsibilitiesList">
+                                        <div class="responsibility-entry mb-3 p-3 border rounded">
+                                            <div class="row">
+                                                <div class="col-md-4 mb-2">
+                                                    <label class="form-label">Role/Position</label>
+                                                    <input type="text" class="form-control" name="resp_role[]"
+                                                        placeholder="Technical Lead, Club President">
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <label class="form-label">Organization</label>
+                                                    <input type="text" class="form-control" name="resp_org[]"
+                                                        placeholder="Coding Club, IEEE Student Branch">
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <label class="form-label">Duration</label>
+                                                    <input type="text" class="form-control" name="resp_duration[]"
+                                                        placeholder="Aug 2023 - Present">
+                                                </div>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label class="form-label">Key Contributions (2-3 bullet points)</label>
+                                                <div class="bullet-inputs">
+                                                    <div class="input-group mb-1">
+                                                        <span class="input-group-text">•</span>
+                                                        <input type="text" class="form-control" name="resp_bullet1[]"
+                                                            placeholder="Main responsibility / What you led">
+                                                    </div>
+                                                    <div class="input-group mb-1">
+                                                        <span class="input-group-text">•</span>
+                                                        <input type="text" class="form-control" name="resp_bullet2[]"
+                                                            placeholder="Achievement / Impact made">
+                                                    </div>
+                                                    <div class="input-group mb-1">
+                                                        <span class="input-group-text">•</span>
+                                                        <input type="text" class="form-control" name="resp_bullet3[]"
+                                                            placeholder="(Optional) Additional contribution">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-primary btn-sm"
+                                        onclick="addResponsibility()">
                                         <i class="fas fa-plus"></i> Add More
                                     </button>
                                 </div>
-                                
-                                <!-- Community Associations -->
-                                <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-users"></i> Community Associations</label>
-                                    <textarea class="form-control" name="community_associations" rows="2" placeholder="Google Developer Student Club, Microsoft Learn Ambassador, IEEE Student Member"></textarea>
-                                </div>
-                            </div>
 
-                            <!-- Action Buttons -->
-                            <div class="action-buttons mt-4">
-                                <button type="button" class="btn btn-info btn-lg" onclick="getSuggestions()">
-                                    <i class="fas fa-robot"></i> Get AI Suggestions
-                                    <span class="ai-badge mini ms-2">AI</span>
-                                </button>
-                                <button type="button" class="btn btn-success btn-lg" onclick="proceedToStep4()">
-                                    <i class="fas fa-arrow-right"></i> Preview & Generate
-                                </button>
-                            </div>
-                            
+                                <!-- Section 7: Extra Curricular Activities -->
+                                <div class="form-section" id="section7">
+                                    <h3 class="section-header">
+                                        <i class="fas fa-trophy"></i> Extra Curricular Activities
+                                    </h3>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Community Activities (Bullet Points)</label>
+                                        <div class="bullet-inputs" id="communityActivitiesList">
+                                            <div class="input-group mb-1">
+                                                <span class="input-group-text">•</span>
+                                                <input type="text" class="form-control" name="community_activity[]"
+                                                    placeholder="NSS Volunteer - 100+ hours of community service">
+                                            </div>
+                                            <div class="input-group mb-1">
+                                                <span class="input-group-text">•</span>
+                                                <input type="text" class="form-control" name="community_activity[]"
+                                                    placeholder="Tech Club Member - Organized coding workshops">
+                                            </div>
+                                            <div class="input-group mb-1">
+                                                <span class="input-group-text">•</span>
+                                                <input type="text" class="form-control" name="community_activity[]"
+                                                    placeholder="(Optional) Another activity">
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm mt-1"
+                                            onclick="addCommunityActivity()">
+                                            <i class="fas fa-plus"></i> Add More
+                                        </button>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Achievements (Bullet Points)</label>
+                                        <div class="bullet-inputs" id="achievementsList">
+                                            <div class="input-group mb-1">
+                                                <span class="input-group-text">•</span>
+                                                <input type="text" class="form-control" name="achievement[]"
+                                                    placeholder="1st Place in University Hackathon 2024">
+                                            </div>
+                                            <div class="input-group mb-1">
+                                                <span class="input-group-text">•</span>
+                                                <input type="text" class="form-control" name="achievement[]"
+                                                    placeholder="Sports Achievement / Academic Award">
+                                            </div>
+                                            <div class="input-group mb-1">
+                                                <span class="input-group-text">•</span>
+                                                <input type="text" class="form-control" name="achievement[]"
+                                                    placeholder="(Optional) Another achievement">
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm mt-1"
+                                            onclick="addAchievement()">
+                                            <i class="fas fa-plus"></i> Add More
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Section 8: Language Proficiency -->
+                                <div class="form-section" id="section8">
+                                    <h3 class="section-header">
+                                        <i class="fas fa-language"></i> Language Proficiency
+                                    </h3>
+
+                                    <div id="languagesList">
+                                        <div class="language-entry mb-2 row">
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" name="lang_name[]"
+                                                    placeholder="Language">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" name="lang_speak[]"
+                                                        value="1">
+                                                    <label class="form-check-label">Speak</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" name="lang_write[]"
+                                                        value="1">
+                                                    <label class="form-check-label">Write</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" name="lang_read[]"
+                                                        value="1">
+                                                    <label class="form-check-label">Read</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-primary btn-sm mt-2"
+                                        onclick="addLanguage()">
+                                        <i class="fas fa-plus"></i> Add More Language
+                                    </button>
+                                </div>
+
+                                <!-- Section 9: Work Experience -->
+                                <div class="form-section" id="section9">
+                                    <h3 class="section-header">
+                                        <i class="fas fa-briefcase"></i> Work Experience
+                                    </h3>
+
+                                    <div id="experiencesList">
+                                        <div class="experience-entry mb-3 p-3 border rounded">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-2">
+                                                    <label class="form-label">Company</label>
+                                                    <input type="text" class="form-control" name="exp_company[]">
+                                                </div>
+                                                <div class="col-md-6 mb-2">
+                                                    <label class="form-label">Role</label>
+                                                    <input type="text" class="form-control" name="exp_role[]">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-2">
+                                                    <label class="form-label">Duration</label>
+                                                    <input type="text" class="form-control" name="exp_duration[]"
+                                                        placeholder="Jun 2023 - Dec 2023">
+                                                </div>
+                                                <div class="col-md-6 mb-2">
+                                                    <label class="form-label">Salary Package</label>
+                                                    <input type="text" class="form-control" name="exp_salary[]"
+                                                        placeholder="5 LPA">
+                                                </div>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label class="form-label">Key Responsibilities (3-4 bullet
+                                                    points)</label>
+                                                <div class="bullet-inputs">
+                                                    <div class="input-group mb-1">
+                                                        <span class="input-group-text">•</span>
+                                                        <input type="text" class="form-control" name="exp_bullet1[]"
+                                                            placeholder="Main role / Daily responsibilities">
+                                                    </div>
+                                                    <div class="input-group mb-1">
+                                                        <span class="input-group-text">•</span>
+                                                        <input type="text" class="form-control" name="exp_bullet2[]"
+                                                            placeholder="Key project / Achievement">
+                                                    </div>
+                                                    <div class="input-group mb-1">
+                                                        <span class="input-group-text">•</span>
+                                                        <input type="text" class="form-control" name="exp_bullet3[]"
+                                                            placeholder="Impact / Results delivered">
+                                                    </div>
+                                                    <div class="input-group mb-1">
+                                                        <span class="input-group-text">•</span>
+                                                        <input type="text" class="form-control" name="exp_bullet4[]"
+                                                            placeholder="(Optional) Additional responsibility">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-primary btn-sm"
+                                        onclick="addExperience()">
+                                        <i class="fas fa-plus"></i> Add More Experience
+                                    </button>
+                                </div>
+
+                                <!-- Section 10: Digital Existence -->
+                                <div class="form-section" id="section10">
+                                    <h3 class="section-header">
+                                        <i class="fas fa-globe"></i> Digital Existence
+                                        <span class="badge bg-info">Coding Profiles</span>
+                                    </h3>
+
+                                    <p class="text-muted small mb-3"><i class="fas fa-info-circle"></i> Only fill the
+                                        platforms you have. Empty fields won't appear in your PDF.</p>
+
+                                    <!-- Row 1: LeetCode, GFG, InterviewBit -->
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label"><i class="fas fa-code"></i> LeetCode</label>
+                                            <input type="url" class="form-control" name="leetcode"
+                                                placeholder="https://leetcode.com/username">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label"><i class="fas fa-code"></i> GeeksforGeeks
+                                                (GFG)</label>
+                                            <input type="url" class="form-control" name="gfg"
+                                                placeholder="https://geeksforgeeks.org/user/username">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label"><i class="fas fa-code"></i> InterviewBit</label>
+                                            <input type="url" class="form-control" name="interviewbit"
+                                                placeholder="https://interviewbit.com/profile/username">
+                                        </div>
+                                    </div>
+
+                                    <!-- Row 2: Codeforces, CodeChef, AtCoder -->
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label"><i class="fas fa-code"></i> Codeforces</label>
+                                            <input type="url" class="form-control" name="codeforces"
+                                                placeholder="https://codeforces.com/profile/username">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label"><i class="fas fa-code"></i> CodeChef</label>
+                                            <input type="url" class="form-control" name="codechef"
+                                                placeholder="https://codechef.com/users/username">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label"><i class="fas fa-code"></i> AtCoder</label>
+                                            <input type="url" class="form-control" name="atcoder"
+                                                placeholder="https://atcoder.jp/users/username">
+                                        </div>
+                                    </div>
+
+                                    <!-- Row 3: HackerRank, HackerEarth, Codility -->
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label"><i class="fas fa-code"></i> HackerRank</label>
+                                            <input type="url" class="form-control" name="hackerrank"
+                                                placeholder="https://hackerrank.com/username">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label"><i class="fas fa-code"></i> HackerEarth</label>
+                                            <input type="url" class="form-control" name="hackerearth"
+                                                placeholder="https://hackerearth.com/@username">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label"><i class="fas fa-code"></i> Codility</label>
+                                            <input type="url" class="form-control" name="codility"
+                                                placeholder="https://app.codility.com/programmers/profile/username">
+                                        </div>
+                                    </div>
+
+                                    <!-- Row 4: CodeSignal, Kaggle, HuggingFace -->
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label"><i class="fas fa-code"></i> CodeSignal</label>
+                                            <input type="url" class="form-control" name="codesignal"
+                                                placeholder="https://app.codesignal.com/profile/username">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label"><i class="fas fa-database"></i> Kaggle</label>
+                                            <input type="url" class="form-control" name="kaggle"
+                                                placeholder="https://kaggle.com/username">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label"><i class="fas fa-robot"></i> HuggingFace</label>
+                                            <input type="url" class="form-control" name="huggingface"
+                                                placeholder="https://huggingface.co/username">
+                                        </div>
+                                    </div>
+
+                                    <!-- Other Platforms (Custom) -->
+                                    <div class="mb-3">
+                                        <label class="form-label"><i class="fas fa-plus-circle"></i> Other
+                                            Platforms</label>
+                                        <div id="otherPlatformsList">
+                                            <div class="other-platform-entry row mb-2">
+                                                <div class="col-md-4">
+                                                    <input type="text" class="form-control" name="other_platform_name[]"
+                                                        placeholder="Platform Name (e.g., Google Colab)">
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="url" class="form-control" name="other_platform_url[]"
+                                                        placeholder="https://platform-url.com/username">
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <button type="button" class="btn btn-outline-danger btn-sm"
+                                                        onclick="removeOtherPlatform(this)" style="display:none;">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm mt-1"
+                                            onclick="addOtherPlatform()">
+                                            <i class="fas fa-plus"></i> Add Another Platform
+                                        </button>
+                                    </div>
+
+                                    <hr>
+
+                                    <!-- Technical Events -->
+                                    <div class="mb-3">
+                                        <label class="form-label"><i class="fas fa-calendar-alt"></i> Technical Events
+                                            Participated (Bullet Points)</label>
+                                        <div class="bullet-inputs" id="techEventsList">
+                                            <div class="input-group mb-1">
+                                                <span class="input-group-text">•</span>
+                                                <input type="text" class="form-control" name="tech_event[]"
+                                                    placeholder="Smart India Hackathon 2024 - Finalist">
+                                            </div>
+                                            <div class="input-group mb-1">
+                                                <span class="input-group-text">•</span>
+                                                <input type="text" class="form-control" name="tech_event[]"
+                                                    placeholder="Google Code Jam 2024 - Participant">
+                                            </div>
+                                            <div class="input-group mb-1">
+                                                <span class="input-group-text">•</span>
+                                                <input type="text" class="form-control" name="tech_event[]"
+                                                    placeholder="(Optional) Another event">
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm mt-1"
+                                            onclick="addTechEvent()">
+                                            <i class="fas fa-plus"></i> Add More
+                                        </button>
+                                    </div>
+
+                                    <!-- Community Associations -->
+                                    <div class="mb-3">
+                                        <label class="form-label"><i class="fas fa-users"></i> Community
+                                            Associations</label>
+                                        <textarea class="form-control" name="community_associations" rows="2"
+                                            placeholder="Google Developer Student Club, Microsoft Learn Ambassador, IEEE Student Member"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div class="action-buttons mt-4">
+                                    <button type="button" class="btn btn-info btn-lg" onclick="getSuggestions()">
+                                        <i class="fas fa-robot"></i> Get AI Suggestions
+                                        <span class="ai-badge mini ms-2">AI</span>
+                                    </button>
+                                    <button type="button" class="btn btn-success btn-lg" onclick="proceedToStep4()">
+                                        <i class="fas fa-arrow-right"></i> Preview & Generate
+                                    </button>
+                                </div>
+
                             </div><!-- End step3Content -->
-                            
+
                             <!-- ====== STEP 4: Preview & Generate ====== -->
                             <div class="step-content" id="step4Content" style="display: none;">
                                 <div class="form-section">
@@ -929,12 +1099,13 @@
                                         <i class="fas fa-file-pdf"></i> Step 4: Generate Your DREAM CV
                                         <span class="badge bg-success">Final Step</span>
                                     </h3>
-                                    
+
                                     <div class="alert alert-success mb-4">
                                         <h5><i class="fas fa-check-circle"></i> Your CV is Ready!</h5>
-                                        <p class="mb-0">Review the preview on the right and click "Generate PDF" to download your DREAM CV.</p>
+                                        <p class="mb-0">Review the preview on the right and click "Generate PDF" to
+                                            download your DREAM CV.</p>
                                     </div>
-                                    
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="card mb-3">
@@ -953,19 +1124,23 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="progress mb-2" style="height: 25px;">
-                                                        <div class="progress-bar bg-success" id="finalProgressBar" role="progressbar" style="width: 0%">0%</div>
+                                                        <div class="progress-bar bg-success" id="finalProgressBar"
+                                                            role="progressbar" style="width: 0%">0%</div>
                                                     </div>
-                                                    <small class="text-muted" id="sectionsCompleted">Sections completed: 0/10</small>
+                                                    <small class="text-muted" id="sectionsCompleted">Sections completed:
+                                                        0/10</small>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
-                                        <button type="button" class="btn btn-outline-secondary btn-lg" onclick="goToStep(3)">
+                                        <button type="button" class="btn btn-outline-secondary btn-lg"
+                                            onclick="goToStep(3)">
                                             <i class="fas fa-arrow-left"></i> Edit Profile
                                         </button>
-                                        <button type="button" class="btn btn-success btn-lg px-5" onclick="generatePDF()">
+                                        <button type="button" class="btn btn-success btn-lg px-5"
+                                            onclick="generatePDF()">
                                             <i class="fas fa-file-pdf"></i> Generate PDF
                                         </button>
                                     </div>
@@ -988,13 +1163,15 @@
                                     <h6><i class="fas fa-info-circle"></i> Where AI Helps You:</h6>
                                     <ul class="ai-feature-list">
                                         <li><i class="fas fa-check-circle"></i> Resume parsing & auto-fill</li>
-                                        <li><i class="fas fa-check-circle"></i> Natural language project descriptions</li>
+                                        <li><i class="fas fa-check-circle"></i> Natural language project descriptions
+                                        </li>
                                         <li><i class="fas fa-check-circle"></i> Section formatting & improvement</li>
                                         <li><i class="fas fa-check-circle"></i> Personalized CV suggestions</li>
                                     </ul>
                                 </div>
                                 <hr>
-                                <p class="text-muted">Fill in your DREAM company details and click "Get AI Suggestions" to receive personalized recommendations.</p>
+                                <p class="text-muted">Fill in your DREAM company details and click "Get AI Suggestions"
+                                    to receive personalized recommendations.</p>
                             </div>
                         </div>
 
@@ -1042,10 +1219,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-info">
-                        <i class="fas fa-info-circle"></i> <strong>Describe in your own words!</strong> 
+                        <i class="fas fa-info-circle"></i> <strong>Describe in your own words!</strong>
                         The AI will automatically format it into professional resume language.
                     </div>
-                    
+
                     <div class="mb-3">
                         <label class="form-label fw-bold">What type of entry are you adding?</label>
                         <select class="form-select" id="nlSectionType">
@@ -1055,10 +1232,10 @@
                             <option value="skill">Skills</option>
                         </select>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label class="form-label fw-bold">Describe it in your own words:</label>
-                        <textarea class="form-control" id="nlUserInput" rows="6" 
+                        <textarea class="form-control" id="nlUserInput" rows="6"
                             placeholder="Example: I made a website for my college fest where students could register online. I used React for frontend and Node.js for backend. Around 500 students registered through it."></textarea>
                         <small class="text-muted">Be as casual as you like - AI will make it professional!</small>
                     </div>
@@ -1085,13 +1262,15 @@
                 </div>
                 <div class="modal-body text-center py-4">
                     <div class="creator-avatar mb-3">
-                        <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 2rem; color: white;">
+                        <div
+                            style="width: 80px; height: 80px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 2rem; color: white;">
                             <i class="fas fa-user-astronaut"></i>
                         </div>
                     </div>
                     <h4 class="mb-1">Created by <strong style="color: var(--primary-color);">Nitish Niraj</strong></h4>
                     <p class="text-muted mb-3">Full Stack Developer & AI Enthusiast</p>
-                    <p class="mb-4">An AI-powered CV generator that helps you create professional, ATS-friendly resumes tailored to your dream company.</p>
+                    <p class="mb-4">An AI-powered CV generator that helps you create professional, ATS-friendly resumes
+                        tailored to your dream company.</p>
                     <div class="d-flex justify-content-center gap-3">
                         <a href="https://github.com/nitish-niraj" target="_blank" class="btn btn-outline-dark">
                             <i class="fab fa-github"></i> GitHub
@@ -1116,7 +1295,8 @@
     <footer class="footer">
         <div class="container">
             <div class="creator-badge" onclick="openAboutModal()" style="cursor: pointer;">
-                <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-gold); display: flex; align-items: center; justify-content: center;">
+                <div
+                    style="width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-gold); display: flex; align-items: center; justify-content: center;">
                     <i class="fas fa-code" style="color: white;"></i>
                 </div>
                 <div class="text-start">
@@ -1141,7 +1321,7 @@
 
     <!-- Local vendor JS (primary) -->
     <script src="{{ url_for('static', filename='vendor/js/bootstrap.bundle.min.js') }}"></script>
-    
+
     <!-- DREAM CV Generator JavaScript Modules -->
     <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
     <script src="{{ url_for('static', filename='js/form.js') }}"></script>
@@ -1149,13 +1329,50 @@
     <script src="{{ url_for('static', filename='js/preview.js') }}"></script>
     <script src="{{ url_for('static', filename='js/api.js') }}"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-    
+
     <script>
         // Open About Modal
         function openAboutModal() {
             const modal = new bootstrap.Modal(document.getElementById('aboutModal'));
             modal.show();
         }
+
+        // ===== THEME TOGGLE FUNCTIONALITY =====
+        (function () {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const html = document.documentElement;
+
+            // Get saved theme or default to light
+            const savedTheme = localStorage.getItem('theme') || 'light';
+
+            // Apply saved theme on page load
+            if (savedTheme === 'dark') {
+                html.setAttribute('data-theme', 'dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+
+            // Toggle theme on button click
+            themeToggle.addEventListener('click', function () {
+                const currentTheme = html.getAttribute('data-theme');
+
+                if (currentTheme === 'dark') {
+                    // Switch to light
+                    html.removeAttribute('data-theme');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    // Switch to dark
+                    html.setAttribute('data-theme', 'dark');
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'dark');
+                }
+            });
+        })();
     </script>
 </body>
+
 </html>
